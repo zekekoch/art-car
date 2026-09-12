@@ -35,10 +35,10 @@ function solveAngle(s,travel,k){const f=t=>steeringPoint(s,t,k).distanceTo(rackP
  const expected=travel/6;roots.sort((a,b)=>Math.abs(a-expected)-Math.abs(b-expected));return roots.length?{theta:roots[0],error:Math.abs(f(roots[0])),valid:true}:{...best,valid:false};}
 function state(input={}){const k=input.kneel||0,travel=input.rack||0;const solutions=[-1,1].map(s=>({s,...solveAngle(s,travel,k)}));const R=cfg.tireD/2;
  const rpm=5*.44704/(Math.PI*cfg.tireD*.0254)*60;const torque=(input.mass||2000)*9.80665*(input.crr||.06)*(R*.0254)/4;
- return{k,travel,solutions,rpm,torque,bagH:cfg.bagH-k*cfg.motionRatio,clearance:cfg.packBottom-k,rodLengths:[rodLength(-1),rodLength(1)]};}
+ return{k,travel,explode:input.explode||0,solutions,rpm,torque,bagH:cfg.bagH-k*cfg.motionRatio,clearance:cfg.packBottom-k,rodLengths:[rodLength(-1),rodLength(1)]};}
 function build(input={}){
  const q=state(input),g=new T.Group();g.name='ART_CAR_DRIVETRAIN_INCHES';const anchors={},collisionBoxes=[],wheels=[];let seq=0;
- function mat(color,extra={}){return new T.MeshStandardMaterial({color,metalness:.25,roughness:.55,...extra})}const mats={};for(const key in colors)mats[key]=mat(colors[key]);mats.tire.metalness=0;mats.tire.roughness=.95;
+ function mat(color,extra={}){return new T.MeshStandardMaterial({color:new T.Color(color).convertSRGBToLinear(),metalness:.25,roughness:.55,...extra})}const mats={};for(const key in colors)mats[key]=mat(colors[key]);mats.tire.metalness=0;mats.tire.roughness=.95;
  function mesh(parent,geo,key,cat,name){const m=new T.Mesh(geo,mats[key]);m.name=(name||cat)+'_'+(++seq);m.userData={part:cat,process:key};m.castShadow=m.receiveShadow=true;parent.add(m);return m}
  function box(parent,p,size,key,cat,name){const m=mesh(parent,new T.BoxGeometry(...size),key,cat,name);m.position.set(...p);return m}
  function cyl(parent,p,r,h,axis,key,cat,name,n=32){const m=mesh(parent,new T.CylinderGeometry(r,r,h,n),key,cat,name);m.position.set(...p);if(axis==='z')m.rotation.x=Math.PI/2;if(axis==='x')m.rotation.z=Math.PI/2;return m}
