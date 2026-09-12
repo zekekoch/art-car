@@ -1,0 +1,630 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chassis Frame</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #101216; --panel: #181b21; --panel-2: #1f232b; --line: #2b3039;
+    --ink: #ece7dc; --muted: #8e939c; --accent: #b78cff; --accent-2: #62d4c8;
+    --warn: #f0b35c; --bad: #e0655a; --steel: #a7adb6; --sled: #4f8fd6;
+    --sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+    --cond: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; overflow: hidden; }
+  #app { display: grid; grid-template-columns: 310px 1fr; height: 100vh; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); padding: 18px 18px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+  h1 { font-family: var(--cond); font-weight: 600; font-size: 26px; letter-spacing: .01em; margin: 0; line-height: 1; }
+  h1 small { display: block; font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: 0; }
+  h2 { font-family: var(--cond); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 8px; }
+  .ctl { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; margin-bottom: 8px; }
+  .ctl label { font-size: 13px; }
+  .ctl output { font-family: var(--cond); font-size: 15px; font-variant-numeric: tabular-nums; color: var(--accent-2); min-width: 44px; text-align: right; }
+  .ctl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
+  .ctl input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toggles label { display: inline-flex; align-items: center; gap: 6px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 5px 9px; font-size: 13px; cursor: pointer; }
+  .toggles input { accent-color: var(--accent); margin: 0; }
+  .views { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  button { font-family: var(--cond); font-size: 14px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 7px 4px; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button.on { border-color: var(--accent); color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .readout { display: grid; grid-template-columns: 1fr auto; gap: 5px 10px; font-size: 13px; margin: 0; }
+  .readout dt { color: var(--muted); margin: 0; }
+  .readout dd { margin: 0; font-family: var(--cond); font-size: 16px; font-variant-numeric: tabular-nums; text-align: right; }
+  .readout dd.warn { color: var(--warn); }
+  .readout dd.bad { color: var(--bad); }
+  .readout dt.sub { font-size: 11px; padding-left: 10px; }
+  .readout dd.sub { font-size: 13px; color: var(--muted); }
+  .legend { display: flex; gap: 10px 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .note { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 0; }
+  #stage { position: relative; min-width: 0; background: var(--bg); }
+  #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  #hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  @media (max-width: 720px) {
+    #app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    aside { border-right: 0; border-bottom: 1px solid var(--line); max-height: 45vh; }
+  }
+</style></head><body>
+
+<div id="app">
+  <aside>
+    <h1>Chassis frame<small>54" × 120" steel ladder · single-shaft hub motors on trailing arms · six pods · aluminium roof, rectangle or petals · inches</small></h1>
+
+    <section>
+      <h2>Views</h2>
+      <div class="views">
+        <button id="vIso" type="button">Iso</button>
+        <button id="vTop" type="button">Top</button>
+        <button id="vSide" type="button">Side</button>
+        <button id="vNose" type="button">Nose</button>
+        <button id="vFront" type="button">Front corner</button>
+        <button id="vRear" type="button">Rear corner</button>
+        <button id="vSteer" type="button">Steering</button>
+        <button id="vUnder" type="button">Under</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Show</h2>
+      <div class="toggles">
+        <label><input type="checkbox" id="showCorners" checked> corners</label>
+        <label><input type="checkbox" id="showSteering" checked> steering</label>
+        <label><input type="checkbox" id="showPods" checked> pods</label>
+        <label><input type="checkbox" id="showRiders" checked> riders</label>
+        <label><input type="checkbox" id="showRoof" checked> roof</label>
+        <label><input type="checkbox" id="showSolar" checked> solar</label>
+        <label><input type="checkbox" id="showSled" checked> battery sled</label>
+        <label><input type="checkbox" id="showDeck"> deck plate</label>
+        <label><input type="checkbox" id="showTrailer"> trailer</label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Frame</h2>
+      <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">8</output><input type="range" id="railInset" min="0" max="12" step="0.5" value="8"></div>
+      <div class="ctl"><label for="railH">Side rail height (2" wide tube)</label><output for="railH">4</output><input type="range" id="railH" min="2" max="6" step="0.5" value="4"></div>
+      <div class="ctl"><label for="sleeveLen">Receiver sleeve length (2½" sq)</label><output for="sleeveLen">16</output><input type="range" id="sleeveLen" min="10" max="24" step="1" value="16"></div>
+      <div class="ctl"><label for="armSpacing">Pod arm spacing (sleeve centres)</label><output for="armSpacing">12</output><input type="range" id="armSpacing" min="8" max="20" step="1" value="12"></div>
+      <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="sleeveTop" checked> receivers on top of the rail (arms clear the tires)</label></div>
+    </section>
+
+    <section>
+      <h2>Pods</h2>
+      <div class="ctl"><label for="podX">Side pods, distance from centre (end pods follow, tangent)</label><output for="podX">33</output><input type="range" id="podX" min="24" max="40" step="0.5" value="33"></div>
+      <div class="ctl"><label for="bump">Suspension bump travel to allow for</label><output for="bump">3</output><input type="range" id="bump" min="0" max="6" step="0.5" value="3"></div>
+    </section>
+
+    <section>
+      <h2>Wheel / motor</h2>
+      <div class="ctl"><label for="wheelX">Axle distance from centre</label><output for="wheelX">42.5</output><input type="range" id="wheelX" min="30" max="54" step="0.5" value="42.5"></div>
+      <div class="ctl"><label for="track">Track (hub centre to hub centre)</label><output for="track">43</output><input type="range" id="track" min="36" max="52" step="0.5" value="43"></div>
+      <div class="ctl"><label for="wheelD">Tire outside diameter (ATV 20×10-10 / 22×11-10)</label><output for="wheelD">20</output><input type="range" id="wheelD" min="18" max="26" step="0.5" value="20"></div>
+      <div class="ctl"><label for="tireW">Tire width</label><output for="tireW">10</output><input type="range" id="tireW" min="3" max="12" step="0.5" value="10"></div>
+    </section>
+
+    <section>
+      <h2>Trailing arm / air spring</h2>
+      <div class="ctl"><label for="armLen">Arm length, pivot to axle</label><output for="armLen">16</output><input type="range" id="armLen" min="8" max="22" step="0.5" value="16"></div>
+      <div class="ctl"><label for="pivotSpan">Pivot bearing spacing</label><output for="pivotSpan">10</output><input type="range" id="pivotSpan" min="4" max="14" step="0.5" value="10"></div>
+      <div class="ctl"><label for="springOff">Spring position, from axle toward pivot</label><output for="springOff">6</output><input type="range" id="springOff" min="0" max="14" step="0.5" value="6"></div>
+      <div class="ctl"><label for="springD">Spring diameter</label><output for="springD">6</output><input type="range" id="springD" min="4" max="8" step="0.25" value="6"></div>
+    </section>
+
+    <section>
+      <h2>Steering</h2>
+      <div class="ctl"><label for="kpOff">Kingpin inboard of tire face (spindle length)</label><output for="kpOff">5</output><input type="range" id="kpOff" min="2.5" max="9" step="0.5" value="5"></div>
+      <div class="ctl"><label for="steer">Steer angle (mean of both wheels)</label><output for="steer">0</output><input type="range" id="steer" min="-30" max="30" step="1" value="0"></div>
+    </section>
+
+    <section>
+      <h2>Roof</h2>
+      <div class="views" style="grid-template-columns:1fr 1fr;margin-bottom:10px">
+        <button id="rsRect" type="button" class="on">Rectangle</button>
+        <button id="rsPetals" type="button">Petals</button>
+      </div>
+      <div class="ctl"><label for="roofH">Roof height above ground</label><output for="roofH">84</output><input type="range" id="roofH" min="72" max="100" step="1" value="84"></div>
+      <div class="ctl"><label for="roofOver">Rectangle: overhang past the deck</label><output for="roofOver">38</output><input type="range" id="roofOver" min="0" max="48" step="1" value="38"></div>
+      <div class="ctl"><label for="petalOver">Petals: overhang past the pod rim</label><output for="petalOver">6</output><input type="range" id="petalOver" min="0" max="16" step="1" value="6"></div>
+      <div class="ctl"><label for="postX">Rectangle posts, distance from centre (length)</label><output for="postX">52</output><input type="range" id="postX" min="20" max="56" step="1" value="52"></div>
+      <div class="ctl"><label for="postZ">Rectangle posts, distance from centre (width)</label><output for="postZ">19</output><input type="range" id="postZ" min="8" max="26" step="1" value="19"></div>
+    </section>
+
+    <section>
+      <h2>Corner loads</h2>
+      <div class="ctl"><label for="cornerLoad">Vertical load on one corner</label><output for="cornerLoad">600</output><input type="range" id="cornerLoad" min="300" max="1500" step="50" value="600"></div>
+      <div class="ctl"><label for="sideLoad">Side load at the contact patch</label><output for="sideLoad">400</output><input type="range" id="sideLoad" min="100" max="1000" step="50" value="400"></div>
+    </section>
+
+    <section>
+      <h2>Readout</h2>
+      <dl class="readout" id="readout"></dl>
+    </section>
+
+    <section>
+      <h2>Legend</h2>
+      <div class="legend">
+        <span><i style="background:#a7adb6"></i>frame</span>
+        <span><i style="background:#b78cff"></i>receiver sleeves</span>
+        <span><i style="background:#62d4c8"></i>trailing arms</span>
+        <span><i style="background:#e0655a"></i>air springs</span>
+        <span><i style="background:#f0b35c"></i>steering</span>
+        <span><i style="background:#d9dde3"></i>hub motors</span>
+        <span><i style="background:#4f8fd6"></i>battery sled</span>
+        <span><i style="background:#8a7350"></i>pods</span>
+      </div>
+      <p class="note" style="margin-top:10px">Corners use single-shaft (ATV / golf-cart style) hub motors bolted to a spindle, so every arm is single-sided on a wide pivot. Fronts end in a kingpin; a rack ahead of the axle drives tie rods; the column runs under the driver pod to a wheel, with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow the numbers in podcar_model.py and loveseat.md. Everything else is a proposal to argue with.</p>
+    </section>
+  </aside>
+
+  <div id="stage">
+    <div id="hint">drag to orbit · wheel to zoom · shift-drag to pan</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const D2R = Math.PI / 180;
+  // ---- parameters (real inches; X = length, +X front; Y = up; Z = across, +Z right) ----
+  const P = {
+    deckL: 120, deckW: 54, deckH: 24,
+    railW: 2, railH: 4, crossH: 3, railInset: 8,
+    sleeve: 2.5, sleeveLen: 16,
+    podX: 33, podZ: 27, podR: 24, endPodX: 64, armSpacing: 12, sleeveTop: true, bump: 3,
+    podWallH: 25, podWallSpan: 220, seatH: 17, seatSpan: 200, riderSpread: 38,
+    wheelX: 42.5, track: 43, wheelD: 20, tireW: 10, hubD: 10, hubW: 5,
+    armLen: 16, springOff: 6, springD: 6, pivotSpan: 10,
+    kpOff: 5, steer: 0, steerArm: 7, ackermann: 15,
+    roofH: 84, roofOver: 38, postX: 52, postZ: 19, panelLb: 10, petalOver: 6, roofStyle: 'rect',
+    sledL: 46, sledW: 21, sledH: 9, sledLb: 475, podLb: 120,
+    cornerLoad: 600, sideLoad: 400,
+    showCorners: true, showSteering: true, showPods: true, showRiders: true, showRoof: true, showSolar: true,
+    showSled: true, showDeck: false, showTrailer: false,
+  };
+  const SLIDERS = ['railInset', 'railH', 'sleeveLen', 'armSpacing', 'podX', 'bump', 'wheelX', 'track', 'wheelD', 'tireW', 'armLen', 'pivotSpan', 'springOff', 'springD', 'kpOff', 'steer', 'roofH', 'roofOver', 'petalOver', 'postX', 'postZ', 'cornerLoad', 'sideLoad'];
+  const TOGGLES = ['sleeveTop', 'showCorners', 'showSteering', 'showPods', 'showRiders', 'showRoof', 'showSolar', 'showSled', 'showDeck', 'showTrailer'];
+
+  // ---- scene ----
+  const stage = $('stage');
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  stage.appendChild(renderer.domElement);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x101216);
+  scene.fog = new THREE.Fog(0x101216, 600, 1400);
+  const camera = new THREE.PerspectiveCamera(38, 1, 1, 4000);
+
+  scene.add(new THREE.HemisphereLight(0xdfe6f2, 0x2a2420, 0.75));
+  const sun = new THREE.DirectionalLight(0xfff2dc, 0.95);
+  sun.position.set(160, 260, 110);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  const sc = sun.shadow.camera; sc.left = -180; sc.right = 180; sc.top = 180; sc.bottom = -180; sc.near = 10; sc.far = 900;
+  scene.add(sun);
+  const fill = new THREE.DirectionalLight(0xbfd4ff, 0.3); fill.position.set(-120, 80, -160); scene.add(fill);
+
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshStandardMaterial({ color: 0x1b1a1c, roughness: 1 }));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  const grid = new THREE.GridHelper(480, 40, 0x2f3238, 0x23262c); grid.position.y = 0.05; scene.add(grid);
+
+  const std = (color, extra) => new THREE.MeshStandardMaterial(Object.assign({ color, metalness: 0.4, roughness: 0.5 }, extra || {}));
+  const M = {
+    steel: std(0xa7adb6, { metalness: 0.55, roughness: 0.45 }), steel2: std(0x8e949d, { metalness: 0.55 }),
+    sleeve: std(0xb78cff, { metalness: 0.3 }), arm: std(0x62d4c8, { metalness: 0.3 }),
+    spring: std(0xe0655a, { metalness: 0, roughness: 0.75 }), springCap: std(0x3a3f47, { metalness: 0.6 }),
+    steer: std(0xf0b35c, { metalness: 0.5 }), disconnect: std(0xe0655a, { metalness: 0.2 }),
+    tire: std(0x24262b, { metalness: 0, roughness: 0.95 }), hub: std(0xd9dde3, { metalness: 0.7, roughness: 0.3 }), hubRing: std(0x5c6470, { metalness: 0.7 }),
+    sled: std(0x4f8fd6, { metalness: 0.1, transparent: true, opacity: 0.85 }),
+    deck: std(0x6d7480, { transparent: true, opacity: 0.25, side: THREE.DoubleSide }),
+    pod: std(0x6e5a3a, { metalness: 0, roughness: 0.8 }), podWall: std(0x8a7350, { metalness: 0, roughness: 0.8, transparent: true, opacity: 0.85, side: THREE.DoubleSide }),
+    seat: std(0x3d4a5c, { metalness: 0, roughness: 0.9 }),
+    riderA: std(0x4f8fd6, { metalness: 0, roughness: 0.8 }), riderB: std(0xe0655a, { metalness: 0, roughness: 0.8 }),
+    roof: std(0xc9c2b4, { metalness: 0, roughness: 0.7, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+    solar: std(0x1d2a4a, { metalness: 0.6, roughness: 0.3 }),
+    post: std(0x9aa1ab, { metalness: 0.55, roughness: 0.45 }),
+    trailerLine: new THREE.LineDashedMaterial({ color: 0x8e939c, dashSize: 3, gapSize: 2, transparent: true, opacity: 0.7 }),
+  };
+
+  let root = null, DRY = false;                            // DRY: tally lengths without adding meshes
+  const steel = { lengths: {} };
+  const tally = (k, len) => { if (k) steel.lengths[k] = (steel.lengths[k] || 0) + len; };
+  function box(cx, cy, cz, lx, ly, lz, mat, key) {
+    if (DRY) { tally(key, Math.max(lx, ly, lz)); return null; }
+    const m = new THREE.Mesh(new THREE.BoxGeometry(lx, ly, lz), mat);
+    m.position.set(cx, cy, cz); m.castShadow = m.receiveShadow = true; root.add(m);
+    tally(key, Math.max(lx, ly, lz)); return m;
+  }
+  function cyl(cx, cy, cz, r, len, axis, mat, seg, key) {
+    if (DRY) { tally(key, len); return null; }
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, seg || 36), mat);
+    if (axis === 'x') m.rotation.z = Math.PI / 2; else if (axis === 'z') m.rotation.x = Math.PI / 2;
+    m.position.set(cx, cy, cz); m.castShadow = m.receiveShadow = true; root.add(m);
+    tally(key, len); return m;
+  }
+  function bar(a, b, r, mat, key) {                        // cylinder from point a to point b
+    const va = new THREE.Vector3(...a), vb = new THREE.Vector3(...b);
+    const d = new THREE.Vector3().subVectors(vb, va), len = d.length();
+    if (DRY) { tally(key, len); return null; }
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 20), mat);
+    m.position.copy(va).addScaledVector(d, 0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+    m.castShadow = m.receiveShadow = true; root.add(m);
+    tally(key, len); return m;
+  }
+  function sector(cx, cz, rIn, rOut, a0, a1, y0, h, mat) {   // annular sector in plan, extruded up from y0
+    const sh = new THREE.Shape(); const n = 40;
+    for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n; const x = rOut * Math.cos(a), z = rOut * Math.sin(a); i ? sh.lineTo(x, -z) : sh.moveTo(x, -z); }
+    for (let i = n; i >= 0; i--) { const a = a0 + (a1 - a0) * i / n; sh.lineTo(rIn * Math.cos(a), -rIn * Math.sin(a)); }
+    sh.closePath();
+    const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: h, bevelEnabled: false }), mat);
+    m.rotation.x = -Math.PI / 2; m.position.set(cx, y0, cz); m.castShadow = m.receiveShadow = true; root.add(m);
+    return m;
+  }
+  function loop(pts, mat) {
+    const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(...p)));
+    const l = new THREE.LineLoop(g, mat); l.computeLineDistances(); root.add(l); return l;
+  }
+
+  const lbft = (a, b, t, rho) => (2 * t * (a + b) - 4 * t * t) * (rho || 0.2836) * 12 * 0.93;   // rho: steel 0.2836, aluminium 0.0975 lb/in³
+  const SECTIONS = {
+    rail: { name: '2×4×0.120 side rails', w: lbft(2, 4, 0.12) }, end: { name: '2×4×0.120 end rails', w: lbft(2, 4, 0.12) },
+    cross: { name: '2×3×0.120 cross members', w: lbft(2, 3, 0.12) }, string: { name: '2×3×0.120 stringers', w: lbft(2, 3, 0.12) },
+    sleeve: { name: '2½×2½×0.188 receivers', w: lbft(2.5, 2.5, 0.188) }, arm: { name: '2×3×0.188 trailing arms', w: lbft(2, 3, 0.188) },
+    post: { name: '2×2×0.125 6061 posts + 3×3 mast', w: lbft(2, 2, 0.125, 0.0975) }, roof: { name: '2×2×0.095 6061 roof frame', w: lbft(2, 2, 0.095, 0.0975) }, petal: { name: '1½×0.095 6061 petal members', w: lbft(1.5, 1.5, 0.095, 0.0975) },
+  };
+  const FRAME_KEYS = ['rail', 'end', 'cross', 'string', 'sleeve', 'arm'], ROOF_KEYS = ['post', 'roof', 'petal'];
+
+  function build() {
+    if (root) scene.remove(root);
+    root = new THREE.Group(); scene.add(root);
+    steel.lengths = {};
+
+    const L = P.deckL, W = P.deckW, top = P.deckH, rh = P.railH, rw = P.railW, ch = P.crossH;
+    const railZ = W / 2 - P.railInset - rw / 2, railY = top - rh / 2, crossY = top - ch / 2, railBottom = top - rh;
+    const inner = 2 * railZ - rw, endX = L / 2 - rw / 2;
+    const sleeveY = P.sleeveTop ? top + P.sleeve / 2 : top - rh / 2;             // receiver centreline
+    const podFloor = P.sleeveTop ? top + P.sleeve : top;                           // pod floor rides on the arms
+    P.endPodX = P.podX + Math.sqrt(Math.max(0, (2 * P.podR) ** 2 - P.podZ ** 2));  // end pods tangent to the side pods
+
+    // ---- ladder ----
+    for (const s of [-1, 1]) box(0, railY, s * railZ, L - 2 * rw, rh, rw, M.steel, 'rail');
+    for (const e of [-1, 1]) box(e * endX, railY, 0, rw, rh, 2 * railZ + rw, M.steel, 'end');
+    const stations = [], sleeveXs = [P.podX - P.armSpacing / 2, P.podX + P.armSpacing / 2];
+    for (const e of [-1, 1]) for (const sx of sleeveXs) {
+      const x = e * sx;
+      for (const s of [-1, 1]) box(x, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeve, P.sleeveLen, M.sleeve, 'sleeve');
+      stations.push(x - e * (P.sleeve / 2 + rw / 2));
+    }
+    const endCrossX = L / 2 - P.sleeveLen - rw / 2;
+    for (const e of [-1, 1]) {
+      for (const s of [-1, 1]) box(e * (L / 2 - P.sleeveLen / 2), sleeveY, s * P.armSpacing / 2, P.sleeveLen, P.sleeve, P.sleeve, M.sleeve, 'sleeve');
+      stations.push(e * endCrossX);
+    }
+    for (const cx of stations) box(cx, crossY, 0, rw, ch, inner, M.steel2, 'cross');
+    for (const s of [-1, 1]) box(0, crossY, s * (P.sledW / 2 + 1), 2 * endCrossX - rw, ch, rw, M.steel2, 'string');
+
+    // ---- corners: single-sided trailing arms on wide pivots, single-shaft hub motors ----
+    const axleY = P.wheelD / 2, R = axleY, armH = 3, armW = 2;
+    const tireIn = P.track / 2 - P.tireW / 2, tireOut = P.track / 2 + P.tireW / 2;
+    const zArmR = tireIn - 2;                 // rear arm leg, just inboard of the motor flange
+    const zKp = tireIn - P.kpOff;             // front kingpin
+    const pivotX = P.wheelX + P.armLen;
+    const geo = { railZ, railBottom, tireIn, tireOut, axleY, zArmR, zKp, pivotX, lock: 0, sleeveY, podFloor };
+
+    function pivot(e, s, zOuter) {            // frame side: shaft + hangers + outrigger; the arm's cross tube spans pivotSpan inboard of zOuter
+      const px = e * pivotX, zi = zOuter - P.pivotSpan, zc = s * (zi + zOuter) / 2;
+      cyl(px, axleY, zc, 0.6, P.pivotSpan + 4, 'z', M.hub, 20);
+      for (const z of [zi - 1.5, zOuter + 1.5]) box(px, (railBottom + axleY - 1.5) / 2, s * z, 4, railBottom - axleY + 1.5, 0.375, M.steel2);
+      cyl(px, axleY, zc, 1.25, P.pivotSpan, 'z', M.arm, 24);
+      box(px, crossY, s * (railZ + W / 2) / 2, rw, ch, W / 2 - railZ, M.steel2, 'cross');
+    }
+    function armLeg(e, s, z) { box(e * (pivotX + P.wheelX) / 2, axleY, s * z, P.armLen + 3, armH, armW, M.arm, 'arm'); }
+    function spring(e, s, z) {
+      const sx = e * (P.wheelX + P.springOff), sBottom = axleY + armH / 2, sTop = railBottom, sh = sTop - sBottom;
+      if (sh <= 0.5) return;
+      cyl(sx, (sBottom + sTop) / 2, s * z, P.springD / 2, sh - 1, 'y', M.spring, 32);
+      cyl(sx, sBottom + 0.25, s * z, P.springD / 2 + 0.3, 0.5, 'y', M.springCap, 32);
+      cyl(sx, sTop - 0.25, s * z, P.springD / 2 + 0.3, 0.5, 'y', M.springCap, 32);
+      box(sx, sTop - 0.25, s * z, P.springD + 1.5, 0.5, P.springD + 1.5, M.steel2);
+    }
+    function wheel(g, x, y, z, s) {           // motor + tire; single shaft and flange face inboard
+      const c = (r, len, mat, dz) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 48), mat); m.rotation.x = Math.PI / 2; m.position.set(x, y, z + (dz || 0)); m.castShadow = m.receiveShadow = true; g.add(m); };
+      c(P.hubD / 2, P.hubW, M.hub); c(P.hubD / 2 + 0.6, 1.2, M.hubRing); c(R, P.tireW, M.tire);
+      c(2.2, P.tireW / 2 + 1, M.hub, -s * (P.tireW / 4 + 0.5));
+    }
+    const steerArmEnds = [];
+    if (P.showCorners) for (const e of [-1, 1]) for (const s of [-1, 1]) {
+      const ax = e * P.wheelX, az = s * P.track / 2;
+      if (e === -1) {
+        pivot(e, s, zArmR); armLeg(e, s, zArmR);
+        box(e * pivotX, axleY, s * (zArmR - P.pivotSpan / 2), 2, armH, P.pivotSpan, M.arm, 'arm');          // arm's own cross member (L-arm)
+        box(ax, axleY, s * (zArmR + tireIn - 1) / 2, 5, 5, tireIn - 1 - zArmR + 1, M.steel2);            // spindle block, arm → motor flange
+        wheel(root, ax, axleY, az, s);
+        spring(e, s, zArmR - 2);
+      } else {
+        pivot(e, s, zKp); armLeg(e, s, zKp); armLeg(e, s, zKp - P.pivotSpan);                             // A-arm: two legs, both inboard of the tire
+        box(ax, axleY, s * (zKp - P.pivotSpan / 2), 2, armH, P.pivotSpan, M.arm, 'arm');                  // tip cross member carrying the kingpin
+        for (const y of [axleY + 4.5, axleY - 4.5]) box(ax, y, s * zKp, 4, 0.5, 3, M.arm);               // kingpin ears
+        cyl(ax, axleY, s * zKp, 0.8, 11, 'y', M.steel2, 20);                                             // kingpin
+        const k = new THREE.Group(); k.position.set(ax, axleY, s * zKp); k.rotation.y = P.steer * D2R; root.add(k);
+        const kb = (dx, dy, dz, lx, ly, lz, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(lx, ly, lz), mat); m.position.set(dx, dy, dz); m.castShadow = m.receiveShadow = true; k.add(m); };
+        kb(0, 0, s * (tireIn - 1 - zKp) / 2, 4, 6, tireIn - 1 - zKp, M.steel2);                        // spindle: kingpin boss → motor flange
+        kb(0, 0, 0, 3.5, 7.5, 3.5, M.steel2);                                                            // kingpin boss
+        const sa = P.steerArm, aa = P.ackermann * D2R, ex = sa * Math.cos(aa), ez = -s * sa * Math.sin(aa);
+        const armM = new THREE.Mesh(new THREE.BoxGeometry(sa, 1, 1.2), M.steer); armM.position.set(ex / 2, -1.5, ez / 2); armM.rotation.y = s * aa; k.add(armM);
+        wheel(k, 0, 0, az - s * zKp, s);
+        const th = P.steer * D2R;                                                                        // arm end in world coords after steering
+        steerArmEnds.push([ax + ex * Math.cos(th) + ez * Math.sin(th), axleY - 1.5, s * zKp - ex * Math.sin(th) + ez * Math.cos(th), s]);
+        spring(e, s, zKp - P.pivotSpan / 2);
+      }
+    }
+    // steering lock: the tire's inner front corner sweeping into the arm leg at zKp (2" wide)
+    { let lock = 0; for (let t = 0; t <= 40; t += 0.5) { const z = -R * Math.sin(t * D2R) + (tireIn - zKp) * Math.cos(t * D2R); if (z - 1 < 0.25) break; lock = t; } geo.lock = lock; }
+
+    // ---- steering: rack ahead of the axle, tie rods, column to the driver pod ----
+    if (P.showCorners && P.showSteering) {
+      const rackX = P.wheelX + P.steerArm * Math.cos(P.ackermann * D2R), rackY = axleY - 1.5, rackHalf = 8;
+      const travel = (steerArmEnds[0][2] + steerArmEnds[1][2]) / 2;                                     // mean sideways shift of the arm ends
+      box(rackX, rackY, 0, 3, 3, 6, M.steer);                                                            // pinion housing, fixed to the frame
+      box(rackX, rackY, travel, 1.5, 1.5, 2 * rackHalf + 6, M.steer);                                    // rack bar, slides
+      for (const [x, y, z, s] of steerArmEnds) bar([rackX, rackY, s * rackHalf + travel], [x, y, z], 0.5, M.steer);   // tie rods
+      const dz = 9, wheelP = [P.endPodX + 6, podFloor + 28, dz], j1 = [L / 2 + 1, top - 1.5, dz], j0 = [rackX + 2, rackY + 2, dz];
+      bar(j0, j1, 0.6, M.steer); bar(j1, wheelP, 0.6, M.steer);
+      for (const p of [j0, j1]) { const u = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), M.steel2); u.position.set(...p); root.add(u); }
+      const dir = new THREE.Vector3(wheelP[0] - j1[0], wheelP[1] - j1[1], 0).normalize();
+      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+      const dc = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.4, 10, 24), M.disconnect); dc.position.set(j1[0] + dir.x * 3, j1[1] + dir.y * 3, dz); dc.quaternion.copy(q); root.add(dc);
+      const sw = new THREE.Mesh(new THREE.TorusGeometry(6.5, 0.6, 12, 40), M.steer); sw.position.set(...wheelP); sw.quaternion.copy(q); root.add(sw);
+      const perp = new THREE.Vector3(-dir.y, dir.x, 0);
+      for (const a of [90, 210, 330]) { const v = perp.clone().multiplyScalar(Math.cos(a * D2R)).add(new THREE.Vector3(0, 0, Math.sin(a * D2R))); bar(wheelP, [wheelP[0] + 6.5 * v.x, wheelP[1] + 6.5 * v.y, wheelP[2] + 6.5 * v.z], 0.4, M.steer); }
+    }
+
+    // ---- pods ----
+    const pods = [
+      { x: -P.endPodX, z: 0, dir: 180 }, { x: -P.podX, z: -P.podZ, dir: -90 }, { x: -P.podX, z: P.podZ, dir: 90 },
+      { x: P.podX, z: -P.podZ, dir: -90 }, { x: P.podX, z: P.podZ, dir: 90 }, { x: P.endPodX, z: 0, dir: 180 },
+    ];
+    if (P.showPods) for (const pd of pods) {
+      const a = pd.dir * D2R, span = P.podWallSpan * D2R, sspan = P.seatSpan * D2R;
+      cyl(pd.x, podFloor + 0.5, pd.z, P.podR, 1, 'y', M.pod, 64);
+      sector(pd.x, pd.z, P.podR - 1, P.podR, a - span / 2, a + span / 2, podFloor + 1, P.podWallH, M.podWall);
+      sector(pd.x, pd.z, P.podR - 20, P.podR - 1, a - sspan / 2, a + sspan / 2, podFloor + P.seatH - 3, 3, M.seat);
+      const endPod = pd.z === 0, dirx = Math.sign(pd.x), dirz = Math.sign(pd.z);
+      for (const q of [-1, 1]) {
+        if (endPod) box(pd.x - dirx * (P.podR * 0.3 + 2), sleeveY, q * P.armSpacing / 2, P.sleeveLen + P.podR * 0.6 + 4, 2, 2, M.steel2);
+        else box(pd.x + q * P.armSpacing / 2, sleeveY, pd.z - dirz * (P.podR * 0.3 + 2), 2, 2, P.sleeveLen + P.podR * 0.6 + 4, M.steel2);
+      }
+      if (P.showRiders) for (const q of [-1, 1]) {
+        const ra = a + q * P.riderSpread * D2R, rr = P.podR - 9;
+        const rx = pd.x + rr * Math.cos(ra), rz = pd.z + rr * Math.sin(ra);
+        const fx = -Math.cos(a), fz = -Math.sin(a), mat = q < 0 ? M.riderA : M.riderB, sy = podFloor + P.seatH;
+        const torso = cyl(rx, sy + 11, rz, 5.5, 22, 'y', mat, 20); torso.scale.z = 0.6;
+        const head = new THREE.Mesh(new THREE.SphereGeometry(3.6, 20, 14), mat); head.position.set(rx, sy + 26.5, rz); head.castShadow = true; root.add(head);
+        box(rx + fx * 8, sy + 1.5, rz + fz * 8, Math.abs(fx) * 16 + Math.abs(fz) * 9, 5, Math.abs(fz) * 16 + Math.abs(fx) * 9, mat);
+        box(rx + fx * 16, sy - 7, rz + fz * 16, Math.abs(fx) * 4 + Math.abs(fz) * 9, 16, Math.abs(fz) * 4 + Math.abs(fx) * 9, mat);
+      }
+    }
+
+    // ---- roof: two styles, both measured every build so the readout can compare them ----
+    const roofStats = {};
+    function roofRect(dry) {
+      const rl = L + 2 * P.roofOver, rwid = W + 2 * P.roofOver, ry = P.roofH, rt = 2;
+      DRY = dry; const t0 = steel.lengths; steel.lengths = {};
+      for (const e of [-1, 1]) for (const s of [-1, 1]) box(e * P.postX, (top + ry) / 2, s * P.postZ, 2, ry - top, 2, M.post, 'post');
+      box(0, (crossY + ry) / 2, 0, 3, ry - crossY, 3, M.post, 'post');
+      for (const s of [-1, 1]) box(0, ry - rt / 2, s * (rwid / 2 - rt / 2), rl, rt, rt, M.post, 'roof');
+      for (const e of [-1, 1]) box(e * (rl / 2 - rt / 2), ry - rt / 2, 0, rt, rt, rwid, M.post, 'roof');
+      for (const e of [-1, 1]) box(e * P.postX, ry - rt / 2, 0, rt, rt, rwid, M.post, 'roof');
+      for (const s of [-1, 1]) box(0, ry - rt / 2, s * P.postZ, rl, rt, rt, M.post, 'roof');
+      for (const e of [-1, 1]) for (const s of [-1, 1]) {
+        bar([e * P.postX, ry - 18, s * P.postZ], [e * (P.postX + 14), ry - 1.5, s * P.postZ], 0.75, M.post, 'roof');
+        bar([e * P.postX, ry - 18, s * P.postZ], [e * P.postX, ry - 1.5, s * (P.postZ + 14)], 0.75, M.post, 'roof');
+      }
+      if (!dry) { box(0, ry + 0.25, 0, rl, 0.5, rwid, M.roof); if (P.showSolar) for (const e of [-1, 1]) for (const s of [-1, 1]) box(e * 30, ry + 0.75, s * 20, 55, 0.4, 35, M.solar); }
+      const st = { w: sumKeys(steel.lengths, ROOF_KEYS), area: rl * rwid / 144, span: Math.max(rl / 2 - P.postX, rwid / 2 - P.postZ), between: 2 * P.postX, posts: 5, panels: '4 × ~200 W', panelLb: 4 * P.panelLb, size: `${rl.toFixed(0)}" × ${rwid.toFixed(0)}"`, pieces: 'perimeter, 4 beams, 8 braces, mast, 4 posts' };
+      steel.lengths = t0; DRY = false; return st;
+    }
+    function roofPetals(dry) {
+      const ry = P.roofH, rP = P.podR + P.petalOver, hub = 12;
+      DRY = dry; const t0 = steel.lengths; steel.lengths = {};
+      box(0, (crossY + ry) / 2, 0, 3, ry - crossY, 3, M.post, 'post');                                   // mast
+      box(0, ry - 1, 0, hub, 2, hub, M.post, 'roof');                                                     // hub plate
+      const postsP = [];
+      let longest = 0;
+      for (const pd of pods) {
+        const ang = Math.atan2(pd.z, pd.x), d = Math.hypot(pd.x, pd.z);                                  // outward direction from the car centre
+        const tip = [pd.x + rP * Math.cos(ang), pd.z + rP * Math.sin(ang)];
+        // post: on the rail beside the pod's sleeves (side pods) or on the end rail (end pods)
+        const post = pd.z === 0 ? [Math.sign(pd.x) * (L / 2 - 3), 0] : [pd.x, Math.sign(pd.z) * railZ];
+        postsP.push(post);
+        box(post[0], (top + ry) / 2, post[1], 2, ry - top, 2, M.post, 'post');
+        // spine: hub → tip, passing over the post; two chords: hub → arc ends
+        bar([hub / 2 * Math.cos(ang), ry - 1, hub / 2 * Math.sin(ang)], [tip[0], ry - 1, tip[1]], 0.75, M.post, 'petal');
+        const half = 125 * D2R, aEnds = [ang - half, ang + half];
+        for (const ae of aEnds) bar([hub / 2 * Math.cos(ae), ry - 1, hub / 2 * Math.sin(ae)], [pd.x + rP * Math.cos(ae), ry - 1, pd.z + rP * Math.sin(ae)], 0.75, M.post, 'petal');
+        // rim arc, as 12 straight segments (round tube, rolled)
+        const n = 12; let prev = null;
+        for (let i = 0; i <= n; i++) { const t = aEnds[0] + (aEnds[1] - aEnds[0]) * i / n; const pt = [pd.x + rP * Math.cos(t), ry - 1, pd.z + rP * Math.sin(t)]; if (prev) bar(prev, pt, 0.75, M.post, 'petal'); prev = pt; }
+        // knee brace from post top to the spine tip direction
+        bar([post[0], ry - 16, post[1]], [post[0] + 12 * Math.cos(ang), ry - 1.5, post[1] + 12 * Math.sin(ang)], 0.6, M.post, 'petal');
+        longest = Math.max(longest, Math.hypot(tip[0] - post[0], tip[1] - post[1]));
+        if (!dry) {
+          cyl(pd.x, ry + 0.25, pd.z, rP, 0.5, 'y', M.roof, 64);
+          if (P.showSolar) box(pd.x, ry + 0.75, pd.z, 32, 0.4, 32, M.solar);
+        }
+      }
+      // area: union of the six discs, sampled on a 2" grid
+      let cells = 0; const g = 2, X = P.endPodX + rP, Z = P.podZ + rP;
+      for (let x = -X; x <= X; x += g) for (let z = -Z; z <= Z; z += g) { for (const pd of pods) if ((x - pd.x) ** 2 + (z - pd.z) ** 2 <= rP * rP) { cells++; break; } }
+      const st = { w: sumKeys(steel.lengths, ROOF_KEYS), area: cells * g * g / 144, span: longest, between: 0, posts: 7, panels: '6 × ~150 W', panelLb: 6 * P.panelLb * 0.8, size: `six ${(2 * rP).toFixed(0)}" petals`, pieces: 'hub, 6 petals (spine, 2 chords, arc), mast, 6 posts' };
+      steel.lengths = t0; DRY = false; return st;
+    }
+    const sumKeys = (lens, keys) => keys.reduce((t, k) => t + (lens[k] || 0) / 12 * SECTIONS[k].w, 0);
+    roofStats.rect = roofRect(!P.showRoof || P.roofStyle !== 'rect');
+    roofStats.petals = roofPetals(!P.showRoof || P.roofStyle !== 'petals');
+    geo.roofStats = roofStats;
+
+    // ---- sled, deck, trailer ----
+    if (P.showSled) {
+      box(0, railBottom - P.sledH / 2, 0, P.sledL, P.sledH, P.sledW, M.sled);
+      for (const e of [-1, 1]) for (const s of [-1, 1]) cyl(e * (P.sledL / 2 - 3), railBottom - P.sledH - 2, s * (P.sledW / 2 - 3), 2.5, 4, 'y', M.steel2, 16);
+    }
+    if (P.showDeck) box(0, top + 0.25, 0, L, 0.5, W, M.deck);
+    if (P.showTrailer) {
+      loop([[-71.5, 0.2, -36], [71.5, 0.2, -36], [71.5, 0.2, 36], [-71.5, 0.2, 36]], M.trailerLine);
+      loop([[71.5, 0.2, -28.5], [128.5, 0.2, -28.5], [128.5, 0.2, 28.5], [71.5, 0.2, 28.5]], M.trailerLine);
+    }
+    readout(geo);
+  }
+
+  function readout(g) {
+    const rows = [];
+    const add = (k, v, cls) => rows.push(`<dt>${k}</dt><dd class="${cls || ''}">${v}</dd>`);
+    const sub = (k, v) => rows.push(`<dt class="sub">${k}</dt><dd class="sub">${v}</dd>`);
+    const flag = (ok, warnOnly) => ok ? '' : (warnOnly ? 'warn' : 'bad');
+    const L = 2 * P.wheelX, T = P.track;
+    const sumK = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
+    const curRoof = g.roofStats ? (P.roofStyle === 'rect' ? g.roofStats.rect : g.roofStats.petals) : null;
+    const rollingLb = sumK(FRAME_KEYS) + P.sledLb + (P.showRoof && curRoof ? curRoof.w + (P.showSolar ? curRoof.panelLb : 0) : 0) + (P.showPods ? 6 * P.podLb : 0);
+
+    add('Wheelbase / track', `${L.toFixed(1)}" / ${T.toFixed(1)}"`);
+    const tireOut = T / 2 + P.tireW / 2;
+    add('Tire outer face vs 27" envelope', `${tireOut.toFixed(1)}"`, flag(tireOut <= P.deckW / 2));
+    add('Arm pivot vs end of frame', `${g.pivotX.toFixed(1)}" / ${(P.deckL / 2 - 1.25).toFixed(2)}"`, flag(g.pivotX <= P.deckL / 2 - 1.25));
+    const walk = 2 * P.podX - 2 * P.podR;
+    add('Walkway between side pods', `${walk.toFixed(0)}"`, flag(walk >= 18, walk >= 12));
+    sub('end pods at', `±${P.endPodX.toFixed(1)}" (rim to ±${(P.endPodX + P.podR).toFixed(0)}")`);
+    add('Pod floor height', `${g.podFloor.toFixed(1)}"`);
+    sub('seat / rim above ground', `${(g.podFloor + P.seatH).toFixed(0)}" / ${(g.podFloor + 1 + P.podWallH).toFixed(0)}"`);
+    // pod arms vs tires: horizontal (arms threading between tires) or vertical (arms passing over them)
+    const tireTop = P.wheelD, armBottom = g.sleeveY - 1, sleeveEdge = P.podX + P.armSpacing / 2 + P.sleeve / 2;
+    const overWheel = Math.abs(P.wheelX - P.podX) < P.wheelD / 2 + P.armSpacing / 2 + P.sleeve / 2;
+    if (P.sleeveTop) {
+      const bumpClear = armBottom - tireTop - P.bump;
+      add('Tire (at full bump) to pod arm above it', `${bumpClear.toFixed(1)}"`, flag(bumpClear >= 0.5, bumpClear >= 0));
+      sub('static: tire top / arm underside', `${tireTop.toFixed(0)}" / ${armBottom.toFixed(1)}"`);
+    } else {
+      const sleeveClear = (P.wheelX - P.wheelD / 2) - sleeveEdge;
+      add('Tire to nearest side sleeve (same height)', `${sleeveClear.toFixed(1)}"`, flag(sleeveClear >= 1, sleeveClear >= 0));
+    }
+    const deckClear = P.deckH - tireTop - P.bump;
+    add('Tire (at full bump) to deck plate', `${deckClear.toFixed(1)}"`, flag(deckClear >= 0.5, deckClear >= 0));
+    const rearSpringClear = g.tireIn - (g.zArmR - 2 + P.springD / 2);
+    add('Rear spring to tire sidewall', `${rearSpringClear.toFixed(1)}"`, flag(rearSpringClear >= 0.5, rearSpringClear >= 0));
+    const springH = g.railBottom - (g.axleY + 1.5);
+    add('Spring installed height', `${springH.toFixed(1)}"`, flag(springH >= 6 && springH <= 11, springH >= 4));
+    add('Ground clearance, sled bottom', `${(g.railBottom - P.sledH).toFixed(1)}"`);
+
+    add('Steering lock (tire vs front arm)', `±${g.lock.toFixed(0)}°`, flag(g.lock >= 22, g.lock >= 15));
+    const th = Math.abs(P.steer) * D2R;
+    if (th > 0.001) {
+      const Rc = L / Math.tan(th), inn = Math.atan(L / (Rc - T / 2)) / D2R, out = Math.atan(L / (Rc + T / 2)) / D2R;
+      add('Turning radius at this angle (centreline)', `${(Rc / 12).toFixed(1)} ft`);
+      sub('inner / outer wheel (Ackermann)', `${inn.toFixed(0)}° / ${out.toFixed(0)}°`);
+    } else {
+      add('Turning radius at full lock (centreline)', `${(L / Math.tan(g.lock * D2R) / 12).toFixed(1)} ft`);
+    }
+    const scrub = T / 2 - g.zKp;
+    add('Scrub radius (hub centre to kingpin)', `${scrub.toFixed(1)}"`, flag(scrub <= 6, scrub <= 8));
+
+    // tipping about the outside tire contact: car weight on the centreline vs riders outboard of it
+    const carLb = (typeof rollingLb === 'number') ? rollingLb : 1700;
+    const riderZ = P.podZ + (P.podR - 9) * Math.cos(P.riderSpread * D2R), contact = T / 2;
+    const perRider = 200 * (riderZ - contact), restoring = carLb * contact;
+    add('Riders on one side to lift the inside wheels', `${(restoring / perRider).toFixed(1)}`, flag(restoring / perRider >= 6, restoring / perRider >= 4));
+    sub('rider centre / tire contact from centreline', `${riderZ.toFixed(0)}" / ${contact.toFixed(1)}"`);
+    const cgH = g.podFloor + P.seatH + 10;
+    sub('CG shift: 5 mph at full lock · one wheel 4" in a rut', `${(cgH * 7.33 ** 2 / (L / Math.tan(g.lock * D2R) / 12) / 32.2).toFixed(1)}" · ${(cgH * Math.sin(Math.atan(4 / T))).toFixed(1)}"`);
+
+    const V = P.cornerLoad, S = P.sideLoad, Rr = P.wheelD / 2, rearOff = T / 2 - g.zArmR;
+    const rearBrg = (S * Rr + V * rearOff) / P.pivotSpan, frontBrg = (S * Rr + V * scrub) / P.pivotSpan;
+    add('Rear pivot, load per bearing', `${rearBrg.toFixed(0)} lb`, flag(rearBrg <= 1200, rearBrg <= 2500));
+    add('Front pivot, load per bearing', `${frontBrg.toFixed(0)} lb`, flag(frontBrg <= 1200, frontBrg <= 2500));
+    add('Front kingpin bending', `${(V * scrub).toFixed(0)} in·lb`);
+
+    if (g.roofStats) {
+      const r = g.roofStats.rect, q = g.roofStats.petals, cur = P.roofStyle === 'rect' ? r : q;
+      const both = (f, unit) => `${f(r)}${unit} · ${f(q)}${unit}`;
+      add('Roof options', 'rectangle · petals');
+      sub('aluminium tube', both(x => x.w.toFixed(0), ' lb'));
+      sub('shade area', both(x => x.area.toFixed(0), ' ft²'));
+      sub('longest reach past a post', both(x => x.span.toFixed(0), '"'));
+      sub('posts + mast', both(x => x.posts, ''));
+      sub('panels', `${r.panels} · ${q.panels}`);
+      sub('panel weight', both(x => x.panelLb.toFixed(0), ' lb'));
+      sub('pieces to demount', `${r.pieces}`); sub('', `${q.pieces}`);
+      sub('headroom over seated eyes (~70")', `${(P.roofH - 70).toFixed(0)}"`);
+      if (P.roofStyle === 'rect') { const onRail = Math.abs(P.postZ - g.railZ) <= 1.5; add('Rectangle posts land on the side rails', onRail ? 'yes' : `no — rail at ${g.railZ.toFixed(1)}"`, flag(onRail, true)); }
+    }
+
+    const sum = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
+    const frame = sum(FRAME_KEYS);
+    add('Frame steel (tube only)', `≈ ${frame.toFixed(0)} lb`);
+    for (const k of FRAME_KEYS) if (steel.lengths[k]) sub(SECTIONS[k].name, `${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)} lb`);
+    const cur = g.roofStats ? (P.roofStyle === 'rect' ? g.roofStats.rect : g.roofStats.petals) : null;
+    const roofW = P.showRoof && cur ? cur.w + (P.showSolar ? cur.panelLb : 0) : 0;
+    if (P.showRoof && cur) add(`Roof as shown (${P.roofStyle}) + panels`, `≈ ${roofW.toFixed(0)} lb`);
+    const rolling = frame + P.sledLb + roofW + (P.showPods ? 6 * P.podLb : 0);
+    add('Frame + sled + pods + roof', `≈ ${rolling.toFixed(0)} lb`);
+    sub('+ 12 riders at 200 lb', `${(rolling + 2400).toFixed(0)} lb`);
+    $('readout').innerHTML = rows.join('');
+  }
+
+  // ---- controls ----
+  for (const id of SLIDERS) $(id).addEventListener('input', e => {
+    P[id] = parseFloat(e.target.value);
+    document.querySelector(`output[for=${id}]`).textContent = e.target.value;
+    build();
+  });
+  for (const id of TOGGLES) $(id).addEventListener('change', e => { P[id] = e.target.checked; build(); });
+  for (const [id, style] of [['rsRect', 'rect'], ['rsPetals', 'petals']]) $(id).addEventListener('click', () => {
+    P.roofStyle = style; $('rsRect').classList.toggle('on', style === 'rect'); $('rsPetals').classList.toggle('on', style === 'petals'); build();
+  });
+
+  // ---- orbit ----
+  const target = new THREE.Vector3(0, 30, 0);
+  let az = 0.62, el = 0.38, dist = 340, drag = null;
+  function place() {
+    camera.position.set(target.x + dist * Math.cos(el) * Math.sin(az), target.y + dist * Math.sin(el), target.z + dist * Math.cos(el) * Math.cos(az));
+    camera.lookAt(target);
+  }
+  const el_ = renderer.domElement;
+  el_.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, pan: e.shiftKey || e.button === 2 }; el_.setPointerCapture(e.pointerId); });
+  el_.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+    if (drag.pan) {
+      const right = new THREE.Vector3().crossVectors(camera.getWorldDirection(new THREE.Vector3()), camera.up).normalize();
+      target.addScaledVector(right, -dx * dist * 0.0012); target.y += dy * dist * 0.0012;
+    } else { az -= dx * 0.006; el = Math.min(1.5, Math.max(-0.3, el + dy * 0.006)); }
+    place();
+  });
+  el_.addEventListener('pointerup', () => drag = null);
+  el_.addEventListener('contextmenu', e => e.preventDefault());
+  el_.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(1200, Math.max(40, dist * (1 + e.deltaY * 0.001))); place(); }, { passive: false });
+
+  const views = {
+    vIso: () => { target.set(0, 30, 0); az = 0.62; el = 0.38; dist = 340; },
+    vTop: () => { target.set(0, 30, 0); az = 0; el = 1.5; dist = 320; },
+    vSide: () => { target.set(0, 40, 0); az = 0; el = 0.02; dist = 330; },
+    vNose: () => { target.set(0, 40, 0); az = Math.PI / 2; el = 0.05; dist = 260; },
+    vFront: () => { target.set(P.wheelX + 4, 12, P.track / 2 - 6); az = 1.0; el = 0.32; dist = 85; },
+    vRear: () => { target.set(-P.wheelX - 4, 12, P.track / 2 - 6); az = 2.3; el = 0.32; dist = 85; },
+    vSteer: () => { target.set(P.wheelX + 10, 16, 0); az = 0.9; el = 0.55; dist = 120; },
+    vUnder: () => { target.set(0, 12, 0); az = 0.5; el = -0.28; dist = 300; },
+  };
+  for (const id in views) $(id).addEventListener('click', () => { views[id](); place(); });
+
+  function resize() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  window.addEventListener('resize', resize);
+  resize(); place(); build();
+  (function loop_() { renderer.render(scene, camera); requestAnimationFrame(loop_); })();
+})();
+</script>
+
+</body></html>

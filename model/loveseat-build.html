@@ -1,0 +1,802 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pod Loveseat — Build</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #101216; --panel: #181b21; --panel-2: #1f232b; --line: #2b3039;
+    --ink: #ece7dc; --muted: #8e939c; --accent: #b78cff; --accent-2: #62d4c8; --warn: #f0b35c; --bad: #e0655a;
+    --rider-a: #4f8fd6; --rider-b: #e0655a;
+    --sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+    --cond: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; overflow: hidden; }
+  #app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); padding: 18px 18px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  h1 { font-family: var(--cond); font-weight: 600; font-size: 26px; letter-spacing: .01em; margin: 0; line-height: 1; }
+  h1 small { display: block; font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: 0; }
+  h2 { font-family: var(--cond); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 8px; }
+  .ctl { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; margin-bottom: 8px; }
+  .ctl label { font-size: 13px; }
+  .ctl output { font-family: var(--cond); font-size: 15px; font-variant-numeric: tabular-nums; color: var(--accent-2); min-width: 44px; text-align: right; }
+  .ctl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
+  .ctl input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .sel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+  select { max-width: 185px; font-family: var(--sans); font-size: 13px; background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 4px 6px; }
+  .toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toggles label { display: inline-flex; align-items: center; gap: 6px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 5px 9px; font-size: 13px; cursor: pointer; }
+  .toggles input { accent-color: var(--accent); margin: 0; }
+  .views { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  button { font-family: var(--cond); font-size: 14px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 7px 4px; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .readout { display: grid; grid-template-columns: 1fr auto; gap: 5px 10px; font-size: 13px; }
+  .readout dt { color: var(--muted); margin: 0; }
+  .readout dd { margin: 0; font-family: var(--cond); font-size: 16px; font-variant-numeric: tabular-nums; text-align: right; }
+  .readout dd.warn { color: var(--warn); }
+  .readout dd.bad { color: var(--bad); }
+  .readout dt.sub { grid-column: 1 / -1; color: var(--accent); font-family: var(--cond); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; margin-top: 6px; }
+  .legend { display: flex; gap: 10px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .note { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 8px 0 0; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #stage { position: relative; min-width: 0; }
+  #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  #hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #toast { position: absolute; top: 12px; right: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-size: 13px; opacity: 0; transition: opacity .2s; }
+  #cutlist { position: absolute; inset: 12px 14px 40px 14px; background: rgba(16,18,22,.94); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; overflow: auto; display: none; }
+  #cutlist pre { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--ink); white-space: pre; }
+  #cutlist .close { position: absolute; top: 8px; right: 10px; }
+  @media (max-width: 720px) {
+    #app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    aside { border-right: 0; border-bottom: 1px solid var(--line); max-height: 45vh; }
+  }
+  @media (prefers-reduced-motion: reduce) { #toast { transition: none; } }
+</style></head><body>
+
+<div id="app">
+  <aside>
+    <h1>Pod loveseat · build<small>steel tube frame, ply shell, lit wall · inches · deck at 24"</small></h1>
+
+    <section>
+      <h2>Structure</h2>
+      <div class="sel"><label for="tube">Frame tube</label><select id="tube">
+        <option value="1x1x0.065">1" sq × 0.065" wall</option>
+        <option value="1x1x0.083">1" sq × 0.083" wall</option>
+        <option value="0.75x0.75x0.065" selected>¾" sq × 0.065" wall</option>
+        <option value="1.25x1.25x0.065">1¼" sq × 0.065" wall</option>
+        <option value="1x1x0.125 AL">1" sq × 0.125" aluminium (sleeved joints)</option>
+        <option value="1.25x1.25x0.125 AL">1¼" sq × 0.125" aluminium (sleeved joints)</option>
+      </select></div>
+      <div class="sel"><label for="postTube">Wall posts</label><select id="postTube">
+        <option value="1x1x0.065" selected>1" sq × 0.065" (flange landing)</option>
+        <option value="0.75x0.75x0.065">¾" sq × 0.065"</option>
+        <option value="1x1x0.125 AL">1" sq × 0.125" aluminium</option>
+      </select></div>
+      <div class="sel"><label for="arm">Receiver arms</label><select id="arm">
+        <option value="2x2x0.120">2" sq × 0.120" wall</option>
+        <option value="2x2x0.188" selected>2" sq × 0.188" wall</option>
+        <option value="2x2x0.250">2" sq × 0.250" wall</option>
+      </select></div>
+      <div class="ctl"><label for="facets">Wall facets</label><output for="facets">7</output><input type="range" id="facets" min="5" max="11" step="1" value="7"></div>
+      <div class="ctl"><label for="wallSpan">Wall span</label><output for="wallSpan">210°</output><input type="range" id="wallSpan" min="180" max="230" step="5" value="210"></div>
+      <div class="ctl"><label for="bandH">Fabric band height</label><output for="bandH">6</output><input type="range" id="bandH" min="3" max="10" step="0.5" value="6"></div>
+      <div class="ctl"><label for="ledRows">LED rows on wall</label><output for="ledRows">4</output><input type="range" id="ledRows" min="0" max="8" step="1" value="4"></div>
+      <div class="sel"><label for="floorPly">Floor ply</label><select id="floorPly"><option value="0.25">¼" (add 2 joists)</option><option value="0.375" selected>⅜" Baltic birch</option><option value="0.5">½" Baltic birch</option><option value="0.75">¾" Baltic birch</option></select></div>
+      <div class="sel"><label for="innerPly">Wall inner ply</label><select id="innerPly"><option value="0.25" selected>¼" Baltic birch</option><option value="0.125">⅛" ply</option><option value="0.5">½" Baltic birch</option></select></div>
+      <div class="toggles">
+        <label><input type="checkbox" id="smooth"> Smooth wall (one bent diffuser sheet)</label>
+        <label><input type="checkbox" id="openSeat" checked> Open under-seat (no legs)</label>
+        <label><input type="checkbox" id="modules" checked> Light modules + end consoles</label>
+      </div>
+      <div class="ctl" style="margin-top:8px"><label for="modDepth">Light module depth</label><output for="modDepth">2</output><input type="range" id="modDepth" min="1.5" max="3" step="0.25" value="2"></div>
+      <div class="ctl"><label for="consoleDepth">Console depth (cup holders)</label><output for="consoleDepth">4.5</output><input type="range" id="consoleDepth" min="3.5" max="6" step="0.25" value="4.5"></div>
+      <div class="ctl"><label for="backTilt">Backrest tilt</label><output for="backTilt">15°</output><input type="range" id="backTilt" min="5" max="25" step="1" value="15"></div>
+      <div class="sel" style="margin-top:8px"><label for="chordSec">Seat front chord</label><select id="chordSec">
+        <option value="frame">same as frame</option>
+        <option value="1x2x0.065" selected>1" × 2" × 0.065" on edge</option>
+        <option value="1.5x1.5x0.065">1½" sq × 0.065"</option>
+        <option value="1x2x0.125 AL">1" × 2" × 0.125" aluminium on edge</option>
+      </select></div>
+      <div class="sel"><label for="seatType">Seat</label><select id="seatType">
+        <option value="slats" selected>Wood slats (futon style)</option>
+        <option value="pan">Steel ribs + ½" ply pan</option>
+      </select></div>
+      <div class="sel"><label for="modPly">Module / console ply</label><select id="modPly">
+        <option value="0.125" selected>⅛" ply</option>
+        <option value="0.0625">1/16" ply</option>
+        <option value="0.25">¼" ply</option>
+      </select></div>
+    </section>
+
+    <section>
+      <h2>Ergonomics (from loveseat-3d)</h2>
+      <div class="ctl"><label for="seatH">Seat height, uncompressed</label><output for="seatH">17</output><input type="range" id="seatH" min="13" max="21" step="0.5" value="17"></div>
+      <div class="ctl"><label for="rimH">Rim / backrest top</label><output for="rimH">25</output><input type="range" id="rimH" min="20" max="34" step="0.5" value="25"></div>
+      <div class="ctl"><label for="podR">Pod radius</label><output for="podR">24</output><input type="range" id="podR" min="21" max="30" step="0.5" value="24"></div>
+      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">14</output><input type="range" id="armGap" min="10" max="24" step="1" value="14"></div>
+    </section>
+
+    <section>
+      <h2>Show</h2>
+      <div class="toggles">
+        <label><input type="checkbox" id="showRiders" checked> Riders</label>
+        <label><input type="checkbox" id="showChassis" checked> Chassis</label>
+        <label><input type="checkbox" id="showPly" checked> Ply</label>
+        <label><input type="checkbox" id="showSoft" checked> Foam + fabric</label>
+        <label><input type="checkbox" id="showDiffuser" checked> Diffuser</label>
+        <label><input type="checkbox" id="showLeds" checked> LEDs</label>
+        <label><input type="checkbox" id="showSkirt" checked> Mirror skirt</label>
+        <label><input type="checkbox" id="showStep"> Boarding step</label>
+      </div>
+    </section>
+
+    <section>
+      <h2>View</h2>
+      <div class="views">
+        <button id="vIso">Iso</button><button id="vSide">Side</button><button id="vFront">Front</button><button id="vTop">Top</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Derived</h2>
+      <dl class="readout" id="readout"></dl>
+    </section>
+
+    <section>
+      <div class="legend">
+        <span><i style="background:#8a929c"></i>steel</span>
+        <span><i style="background:#c99a6b"></i>ply</span>
+        <span><i style="background:#e9f0f5"></i>diffuser</span>
+        <span><i style="background:#b98cff"></i>fabric</span>
+        <span><i style="background:#62d4c8"></i>LED</span>
+        <span><i style="background:#3a3f4a"></i>cup holder</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="row2"><button id="showCut">Cut list</button><button id="copyCut">Copy cut list</button></div>
+      <button id="copyObj" style="width:100%; margin-top:6px">Copy OBJ to clipboard</button>
+      <p class="note">Weights are computed from the members drawn; costs are 2026 ballpark retail and live in the <code>COST</code> table. Riders are the same 50th-percentile adults as loveseat-3d. Receiver check uses 400 lb of riders plus the computed pod mass, ×3 for playa, against tube yield.</p>
+    </section>
+  </aside>
+
+  <div id="stage">
+    <div id="hint">drag to orbit · wheel to zoom · shift-drag to pan</div>
+    <div id="toast"></div>
+    <div id="cutlist"><button class="close" id="closeCut">Close</button><pre id="cutText"></pre></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const P = {
+    // ergonomics (defaults match loveseat-3d)
+    seatH: 17, seatFoam: 4, rimH: 25, backFoam: 2, backTilt: 15, podR: 24, riderAng: 40, armGap: 14,
+    wallT: 1.5, seatSpan: 200, seatDepth: 20, deckH: 24, compress: 2,
+    // structure
+    tube: '0.75x0.75x0.065', postTube: '1x1x0.065', arm: '2x2x0.188', openSeat: true, chordSec: '1x2x0.065', seatType: 'slats', modPly: 0.125, kickPly: 0.125, modules: true, modDepth: 2, consoleDepth: 4.5, laserW: 19, laserH: 11, facets: 7, wallSpan: 210, bandH: 6, ledRows: 4, floorPly: 0.375, innerPly: 0.25, smooth: false,
+    showRiders: true, showChassis: true, showPly: true, showSoft: true, showDiffuser: true, showLeds: true, showSkirt: true, showStep: false,
+  };
+  const R = { hipW: 15, shW: 18, bk: 23, eye: 31, torsoH: 22, torsoD: 8, headR: 4.2 };
+
+  // ---------- materials + costs (edit here) ----------
+  // steel tube: lb/ft, $/ft, section modulus S (in^3) for the arms
+  const TUBE = {
+    '1x1x0.065':      { w: 1,    lbft: 0.83, usd: 2.6, I: 0.0356, S: 0.0712 },
+    '1x1x0.083':      { w: 1,    lbft: 1.04, usd: 3.0, I: 0.0430, S: 0.086 },
+    '0.75x0.75x0.065':{ w: 0.75, lbft: 0.61, usd: 2.2, I: 0.0141, S: 0.0375 },
+    '1.25x1.25x0.065':{ w: 1.25, lbft: 1.05, usd: 3.2, I: 0.0723, S: 0.116 },
+    '1.5x1.5x0.065':  { w: 1.5,  lbft: 1.27, usd: 3.6, I: 0.128,  S: 0.171 },
+    '1x2x0.065':      { w: 1, h: 2, lbft: 1.27, usd: 3.4, I: 0.193, S: 0.193 },   // stood on edge, 2" vertical
+    '1x1x0.125 AL':   { w: 1,    lbft: 0.51, usd: 4.5, I: 0.0576, S: 0.115, yield: 35000, al: true },   // 6061-T6
+    '1.25x1.25x0.125 AL': { w: 1.25, lbft: 0.66, usd: 5.5, I: 0.120, S: 0.192, yield: 35000, al: true },
+    '1x2x0.125 AL':   { w: 1, h: 2, lbft: 0.85, usd: 6.0, I: 0.32, S: 0.32, yield: 35000, al: true },
+    '2x2x0.120':      { w: 2,    lbft: 3.05, usd: 6.5,  S: 0.533 },
+    '2x2x0.188':      { w: 2,    lbft: 4.64, usd: 8.5,  S: 0.754 },
+    '2x2x0.250':      { w: 2,    lbft: 5.95, usd: 10.5, S: 0.911 },
+  };
+  const COST = {
+    ply: { 0.0625: { lbsf: 0.20, usdSheet: 12, sheet: [12, 20] }, 0.125: { lbsf: 0.40, usdSheet: 35, sheet: [48, 96] }, 0.375: { lbsf: 1.1, usdSheet: 65, sheet: [60, 60] }, 0.25: { lbsf: 0.75, usdSheet: 50, sheet: [60, 60] }, 0.5: { lbsf: 1.5, usdSheet: 85, sheet: [60, 60] }, 0.75: { lbsf: 2.3, usdSheet: 110, sheet: [60, 60] } },
+    diffuserSmooth: { name: '1/16" opal polycarbonate, 24×96 sheet', lbsf: 0.38, usdSheet: 75, sheet: [24, 96] },
+    diffuserFacet:  { name: '1/8" opal acrylic, 24×48 sheet', lbsf: 0.72, usdSheet: 55, sheet: [24, 48] },
+    mirror: { lbsf: 0.72, usdSf: 6 },              // 1/8" mirror acrylic
+    foamHR: { lbcf: 2.8, usdCf: 35 },              // HR foam ~35 ILD
+    fabric: { lbsy: 0.6, usdYd: 28, widthIn: 54 }, // solution-dyed acrylic (Sunbrella class)
+    led: { perM: 60, usdM: 7, wMaxPerLed: 0.3, wTypPerLed: 0.08, lbM: 0.05, controllerUsd: 25, controllerLb: 1.5 },
+    hardware: { usd: 45, lb: 3 },                  // pins, anti-rattle, bolts, T-nuts, glue, paint
+    steelYield: 46000,
+  };
+  const M = {
+    steel: new THREE.MeshStandardMaterial({ color: 0x8a929c, metalness: 0.6, roughness: 0.45 }),
+    steelDark: new THREE.MeshStandardMaterial({ color: 0x5c636c, metalness: 0.6, roughness: 0.5 }),
+    ply: new THREE.MeshStandardMaterial({ color: 0xc99a6b, roughness: 0.85 }),
+    plyDark: new THREE.MeshStandardMaterial({ color: 0xa87c52, roughness: 0.85 }),
+    foam: new THREE.MeshStandardMaterial({ color: 0xd9a066, roughness: 0.95 }),
+    fabric: new THREE.MeshStandardMaterial({ color: 0xb98cff, roughness: 0.9 }),
+    diffuser: new THREE.MeshStandardMaterial({ color: 0xe9f0f5, roughness: 0.6, transparent: true, opacity: 0.55, emissive: 0x62d4c8, emissiveIntensity: 0.18, side: THREE.DoubleSide }),
+    led: new THREE.MeshStandardMaterial({ color: 0x62d4c8, emissive: 0x62d4c8, emissiveIntensity: 1.2 }),
+    skirt: new THREE.MeshStandardMaterial({ color: 0xd8dde3, metalness: 0.9, roughness: 0.2 }),
+    deck: new THREE.MeshStandardMaterial({ color: 0x3f444c, roughness: 0.8 }),
+    tire: new THREE.MeshStandardMaterial({ color: 0x1c1d20, roughness: 0.9 }),
+    a: new THREE.MeshStandardMaterial({ color: 0x4f8fd6, roughness: 0.7, transparent: true, opacity: 0.45 }),
+    b: new THREE.MeshStandardMaterial({ color: 0xe0655a, roughness: 0.7, transparent: true, opacity: 0.45 }),
+  };
+
+  // ---------- scene ----------
+  const stage = $('stage');
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  stage.appendChild(renderer.domElement);
+  const scene = new THREE.Scene(); scene.background = new THREE.Color(0x101216);
+  const camera = new THREE.PerspectiveCamera(38, 1, 1, 2000);
+  scene.add(new THREE.HemisphereLight(0xcfd6e6, 0x2a2420, 0.9));
+  const sun = new THREE.DirectionalLight(0xfff1e0, 0.9); sun.position.set(60, 120, 40); sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -120, right: 120, top: 120, bottom: -120, near: 1, far: 400 }); scene.add(sun);
+  const fill = new THREE.DirectionalLight(0x9fb4ff, 0.35); fill.position.set(-80, 40, -60); scene.add(fill);
+  const playa = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x2a2621, roughness: 1 }));
+  playa.rotation.x = -Math.PI / 2; playa.position.y = -P.deckH - 0.05; playa.receiveShadow = true; scene.add(playa);
+  const grid = new THREE.GridHelper(240, 20, 0x3a3f4a, 0x2a2f38); grid.position.y = -P.deckH; scene.add(grid);
+
+  const model = new THREE.Group(); scene.add(model);
+  const rad = d => d * Math.PI / 180;
+  const mesh = (g, m, name) => { const o = new THREE.Mesh(g, m); o.castShadow = o.receiveShadow = true; if (name) o.name = name; return o; };
+  const box = (w, h, d, m, x, y, z, name) => { const o = mesh(new THREE.BoxGeometry(w, h, d), m, name); o.position.set(x, y, z); return o; };
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+  // ---------- bill of materials collected during build ----------
+  let BOM;
+  function resetBOM() { BOM = { members: [], panels: [], notes: [] }; }
+  // square tube between two points; records the member
+  function member(group, a, b, sec, name, note) {
+    const t = TUBE[sec]; const d = new THREE.Vector3().subVectors(b, a); const len = d.length();
+    const o = mesh(new THREE.BoxGeometry(t.w, t.h || t.w, len), t.al ? M.skirt : sec.startsWith('2') ? M.steel : M.steelDark, name);
+    o.position.copy(a).addScaledVector(d, 0.5);
+    o.quaternion.setFromUnitVectors(V(0, 0, 1), d.clone().normalize());
+    group.add(o);
+    BOM.members.push({ name, sec, len, note: note || '' });
+    return o;
+  }
+  function panel(name, kind, w, h, thick, note) { BOM.panels.push({ name, kind, w, h, thick, note: note || '' }); }
+  function panel2(name, kind, w, h, thick, area, note) { BOM.panels.push({ name, kind, w, h, thick, area, note: note || '' }); }
+  // rolled ring: one continuous tube bent to radius r over a0..a1 at height y
+  function rolled(group, r, a0, a1, y, name) {
+    const t = TUBE[P.tube];
+    group.add(band(r - t.w / 2, r + t.w / 2, a0, a1, y - t.w / 2, y + t.w / 2, M.steelDark, name, false));
+    BOM.members.push({ name, sec: P.tube, len: rad(a1 - a0) * r, note: `rolled to R${r.toFixed(1)}" over ${(a1 - a0).toFixed(0)}°` });
+  }
+
+  // ring/band shape in plan through vertex angles (about +x), faceted or arc, extruded y0..y1
+  function band(rIn, rOut, a0, a1, y0, y1, m, name, faceted, n) {
+    const s = new THREE.Shape();
+    if (faceted) {
+      const step = (a1 - a0) / n;
+      for (let i = 0; i <= n; i++) { const a = rad(a0 + i * step); i ? s.lineTo(rOut * Math.cos(a), rOut * Math.sin(a)) : s.moveTo(rOut * Math.cos(a), rOut * Math.sin(a)); }
+      for (let i = n; i >= 0; i--) { const a = rad(a0 + i * step); s.lineTo(rIn * Math.cos(a), rIn * Math.sin(a)); }
+    } else {
+      s.absarc(0, 0, rOut, rad(a0), rad(a1), false);
+      if (rIn > 0.01) s.absarc(0, 0, rIn, rad(a1), rad(a0), true); else s.lineTo(0, 0);
+    }
+    s.closePath();
+    const g = new THREE.ExtrudeGeometry(s, { depth: y1 - y0, bevelEnabled: false, curveSegments: 48 });
+    const o = mesh(g, m, name); o.rotation.x = -Math.PI / 2; o.position.y = y0; return o;
+  }
+  function seg(a, b, r, m, name) {
+    const d = new THREE.Vector3().subVectors(b, a); const len = d.length();
+    const o = mesh(new THREE.CylinderGeometry(r, r, len, 18), m, name);
+    o.position.copy(a).addScaledVector(d, 0.5);
+    o.quaternion.setFromUnitVectors(V(0, 1, 0), d.clone().normalize());
+    return o;
+  }
+
+  // ---------- build ----------
+  let D = {}; // derived numbers for the readout
+  function build() {
+    while (model.children.length) model.remove(model.children[0]);
+    resetBOM();
+    const { podR, wallT, backFoam, seatFoam, seatH, rimH, compress, facets, wallSpan, bandH } = P;
+    const tw = TUBE[P.tube].w;
+    const ys = seatH - compress;                 // loaded seat surface
+    const wallIn = P.modules ? 0.25 + P.modDepth : wallT;                       // inner face of the wall (module back or inner ply)
+    const rTop = podR - 1.25;                                                    // backrest hangs from the inner face of the top ring
+    const lean = P.modules ? Math.tan(rad(P.backTilt)) * (rimH - 0.5 - seatH) : 0; // how far the backrest foot is inboard of its top, at seat level
+    const rb = P.modules ? rTop - lean - backFoam : podR - wallT - backFoam;      // back foam face radius at the seat
+    const modClear = P.modules ? (podR - 0.25 - P.modDepth) - (rTop - Math.tan(rad(P.backTilt)) * (bandH + 0.5)) : 99; // backrest vs module top edge
+    const seatIn = Math.max(2, rb - P.seatDepth);
+    const hs = wallSpan / 2, ss = P.seatSpan / 2;
+    const rp = podR - 0.75;                      // post centreline radius (posts 1" tube, outer face 0.25" inside podR)
+    const panTop = seatH - seatFoam;             // top of seat ply
+    const faceted = !P.smooth;
+    const nF = facets;                           // facets between posts
+    const postAng = []; for (let i = 0; i <= nF; i++) postAng.push(-hs + i * wallSpan / nF);
+    const yFloorRing = -1.25;                    // floor frame centreline (tube -1.75..-0.75, ply above to 0)
+    const xChord = 1.25;                         // chord tubes sit 0.75" outboard of the rail face
+    const pt = (a, r, y) => V(r * Math.cos(rad(a)), y, r * Math.sin(rad(a)));
+
+    // ---- chassis: rail at x = -2..0, deck to the left, one pod at z = 0 ----
+    if (P.showChassis) {
+      const C = new THREE.Group(); C.name = 'chassis';
+      C.add(box(2, 4, 100, M.steelDark, -1, -2, 0, 'side_rail'));
+      C.add(box(30, 0.75, 100, M.deck, -17, -0.375, 0, 'deck_plate'));
+      for (const z of [-P.armGap / 2, P.armGap / 2]) {
+        C.add(box(16, 2.5, 2.5, M.steel, -6, -2.75, z, 'receiver_tube'));
+        C.add(box(16, 4, 2, M.steelDark, -22, -2, z, 'cross_member'));
+        const pin = mesh(new THREE.CylinderGeometry(0.31, 0.31, 4.5, 12), M.skirt, 'hitch_pin');
+        pin.rotation.x = Math.PI / 2; pin.position.set(-8, -2.75, z); C.add(pin);
+      }
+      for (const z of [-40, 40]) {
+        const w = mesh(new THREE.CylinderGeometry(11, 11, 4.5, 40), M.tire, 'wheel');
+        w.rotation.z = Math.PI / 2; w.position.set(-7, -P.deckH + 11, z); C.add(w);
+      }
+      if (P.showStep) {
+        // boarding step for the walkway between pods: hangs off the rail on a spare receiver stub
+        const zs = podR + 22; const S = new THREE.Group(); S.name = 'step';
+        member(S, V(-13, -2.75, zs), V(6, -2.75, zs), P.arm, 'step_stub', 'in a spare receiver');
+        member(S, V(6, -3, zs - 10), V(6, -3, zs + 10), P.tube, 'step_hanger_top');
+        for (const z of [zs - 10, zs + 10]) {
+          member(S, V(6, -3, z), V(6, -13, z), P.tube, 'step_drop');
+          member(S, V(6, -13, z), V(16, -13, z), P.tube, 'step_side');
+        }
+        member(S, V(16, -13, zs - 10), V(16, -13, zs + 10), P.tube, 'step_front');
+        member(S, V(6, -13, zs - 10), V(6, -13, zs + 10), P.tube, 'step_back');
+        if (P.showPly) S.add(box(11, 0.5, 21, M.ply, 11, -12.25, zs, 'step_tread'));
+        panel('step tread', 'ply', 11, 21, 0.5);
+        C.add(S);
+      }
+      model.add(C);
+    }
+
+    // ---- pod frame ----
+    const G = new THREE.Group(); G.name = 'pod';
+    // receiver arms: 13" inside the receiver, out to the floor ring
+    for (const z of [-P.armGap / 2, P.armGap / 2]) {
+      const xEnd = Math.sqrt(Math.max(1, rp * rp - z * z)) - 0.5;
+      member(G, V(-13, -2.75, z), V(xEnd, -2.75, z), P.arm, 'receiver_arm', '13" engages the receiver; ends at the floor ring');
+    }
+    // floor frame: chord along the rail, faceted half-ring on the arm tips, radial joists
+    member(G, V(xChord, yFloorRing, -rp), V(xChord, yFloorRing, rp), P.tube, 'floor_chord');
+    const ringAng = [-90, ...postAng.filter(a => a > -90 && a < 90), 90];
+    if (faceted) for (let i = 0; i < ringAng.length - 1; i++) {
+      const a = ringAng[i], b = ringAng[i + 1];
+      const pa = Math.abs(a) === 90 ? V(xChord, yFloorRing, rp * Math.sign(a)) : pt(a, rp, yFloorRing);
+      const pb = Math.abs(b) === 90 ? V(xChord, yFloorRing, rp * Math.sign(b)) : pt(b, rp, yFloorRing);
+      member(G, pa, pb, P.tube, 'floor_ring', `mitre ${(wallSpan / nF / 2).toFixed(1)}° each end`);
+    } else rolled(G, rp, -90, 90, yFloorRing, 'floor_ring');
+    for (const a of (P.floorPly < 0.3 ? [-25, 25, -45, 45, -60, 60, -75, 75] : [-45, 45, -72, 72])) member(G, V(xChord, yFloorRing, xChord * Math.tan(rad(a))), pt(a, rp - 0.5, yFloorRing), P.tube, 'floor_joist');
+    // wall posts: inside the half disc they start at the floor ring, past 90° they stand on the deck
+    for (const a of postAng) {
+      const wrap = Math.abs(a) > 90;
+      member(G, pt(a, rp, wrap ? 0.5 : yFloorRing), pt(a, rp, rimH - 0.5), P.postTube, wrap ? 'wall_post_wrap' : 'wall_post', wrap ? 'stands on the deck' : 'welded to floor ring; module flanges land on the faces');
+    }
+    // sill for the wrap posts (ties them back to the 90° post at deck level)
+    if (hs > 90) for (const s of [-1, 1]) {
+      const k = postAng.filter(a => s * a > 90);
+      const chain = [pt(s * 90, rp, 0.5), ...k.sort((x, y) => s * x - s * y).map(a => pt(a, rp, 0.5))];
+      for (let i = 0; i < chain.length - 1; i++) member(G, chain[i], chain[i + 1], P.tube, 'wall_sill_wrap');
+    }
+    // top ring and seat back rail follow the posts
+    if (faceted) for (let i = 0; i < nF; i++) member(G, pt(postAng[i], rp, rimH - 0.5), pt(postAng[i + 1], rp, rimH - 0.5), P.tube, 'top_ring', `mitre ${(wallSpan / nF / 2).toFixed(1)}° each end`);
+    else rolled(G, rp, -hs, hs, rimH - 0.5, 'top_ring');
+    const backAng = [-ss, ...postAng.filter(a => a > -ss && a < ss), ss];
+    if (faceted) for (let i = 0; i < backAng.length - 1; i++) member(G, pt(backAng[i], rp, panTop - 0.5), pt(backAng[i + 1], rp, panTop - 0.5), P.tube, 'seat_back_rail');
+    else rolled(G, rp, -ss, ss, panTop - 0.5, 'seat_back_rail');
+    // seat front chord, ribs and legs
+    const zf = Math.min(rp, (rp) * Math.sin(rad(Math.min(ss, 90))));
+    const chordSec = P.chordSec === 'frame' ? P.tube : P.chordSec;
+    const ch = TUBE[chordSec].h || TUBE[chordSec].w;
+    const yChord = panTop - ch / 2;              // top face flush with the underside of the pan
+    member(G, V(xChord, yChord, -zf), V(xChord, yChord, zf), chordSec, 'seat_front_chord', P.openSeat ? 'simply supported on the end links' : '');
+    if (P.seatType === 'pan') for (const a of [-65, -35, 0, 35, 65]) member(G, V(xChord, panTop - 0.5, xChord * Math.tan(rad(a))), pt(a, rp - 0.5, panTop - 0.5), P.tube, 'seat_rib', Math.abs(a) === 65 ? 'weld to the post face, not just the rail' : '');
+    else for (const a of [-65, 65]) member(G, V(xChord, panTop - 0.5, xChord * Math.tan(rad(a))), pt(a, rp - 0.5, panTop - 0.5), P.tube, 'seat_end_rib', 'closes the seat frame; weld to the post face');
+    if (P.openSeat) {
+      // chord ends tie into the last posts inside 90° on each side
+      for (const sgn of [-1, 1]) {
+        const cand = postAng.filter(a => sgn * a > 0 && Math.abs(a) <= 90);
+        const ae = cand.length ? cand.reduce((m, a) => Math.abs(a) > Math.abs(m) ? a : m, cand[0]) : sgn * 75;
+        member(G, V(xChord, yChord, sgn * zf), pt(ae, rp, yChord), chordSec, 'seat_chord_link', 'ties the chord into the end post');
+      }
+    } else for (const z of [-12, 0, 12]) member(G, V(xChord, yFloorRing + 0.5, z), V(xChord, panTop - 1, z), P.tube, 'seat_leg');
+    // front chord check: 40% of a 600 lb design load (2 riders × 1.5) spread along it, and one 200 lb person on the edge at midspan
+    const Lc = P.openSeat ? 2 * zf : 24, Ic = TUBE[chordSec].I, Sc = TUBE[chordSec].S, E = 29e6;
+    const wDist = 240 / Lc;
+    const chordM = Math.max(wDist * Lc * Lc / 8, 200 * Lc / 4);
+    const chordStress = chordM / Sc;
+    const chordSag = Math.max(5 * wDist * Lc ** 4 / (384 * E * Ic), 200 * Lc ** 3 / (48 * E * Ic));
+    const storage = P.openSeat ? { w: 2 * zf - 2, h: panTop - ch - 0.5, d: rp - xChord - 2 } : null;
+
+    // ---- ply ----
+    const floorA = Math.PI * podR * podR / 2;                       // half disc, in^2
+    const seatA = rad(P.seatSpan) / 2 * ((podR - wallT) ** 2 - seatIn ** 2);
+    const wallH = rimH - 0.5;                                        // inner panel height from the floor ply
+    const arcIn = rad(wallSpan) * (podR - wallT);                    // inner ply developed length
+    const arcOut = rad(wallSpan) * (podR - 0.25);                    // diffuser developed length
+    const diffH = rimH - bandH - 0.5;
+    if (P.showPly) {
+      G.add(band(0, podR - 0.25, -90, 90, -0.75, -0.75 + P.floorPly, M.ply, 'floor_ply', false));
+      if (P.seatType === 'pan') G.add(band(seatIn, podR - wallT, -ss, ss, panTop - 0.5, panTop, M.ply, 'seat_pan_ply', faceted, Math.max(4, Math.round(nF * P.seatSpan / wallSpan))));
+      if (!P.modules) G.add(band(podR - wallT, podR - wallT + P.innerPly, -hs, hs, 0, wallH, M.plyDark, 'wall_inner_ply', faceted, nF));
+      G.add(band(podR - 0.35, podR - 0.1, -hs, hs, rimH - bandH, rimH, M.plyDark, 'band_ply', faceted, nF));
+    }
+    // ---- light modules and end consoles: one per bay, set in from outside, flanged onto the post faces ----
+    const bays = []; let consoleEdge = hs;
+    if (P.modules) {
+      const modH = rimH - bandH - 1;               // module box height (0.5" clear of floor ply, up to the band)
+      for (let i = 0; i < nF; i++) {
+        const a0 = postAng[i], a1 = postAng[i + 1], am = (a0 + a1) / 2;
+        const isConsole = Math.min(Math.abs(a0), Math.abs(a1)) >= 70;
+        const d = isConsole ? P.consoleDepth : P.modDepth;
+        const rOut = podR - 0.25, rIn = rOut - d;
+        const y0 = isConsole ? panTop : 0.5, y1 = isConsole ? rimH : rimH - bandH;
+        const chord = 2 * rOut * Math.sin(rad((a1 - a0) / 2));
+        bays.push({ a0, a1, am, isConsole, d, chord, h: y1 - y0 });
+        if (isConsole) consoleEdge = Math.min(consoleEdge, Math.min(Math.abs(a0), Math.abs(a1)));
+        // every laser-cut plate must fit the bed: stack light modules in rows no taller than laserH
+        const rows = isConsole ? 1 : Math.max(1, Math.ceil((y1 - y0) / P.laserH));
+        const rowH = (y1 - y0) / rows;
+        bays[bays.length - 1].rows = rows; bays[bays.length - 1].rowH = rowH;
+        if (P.showPly) for (let r = 0; r < rows; r++) {
+          const ya = y0 + r * rowH, yb = ya + rowH;
+          G.add(band(rIn, rIn + 0.25, a0, a1, ya, yb, M.plyDark, isConsole ? 'console_back' : 'module_back', faceted, 1));
+          G.add(band(rIn, rOut, a0, a1, ya, ya + 0.25, M.plyDark, isConsole ? 'console_bottom' : 'module_bottom', faceted, 1));
+          G.add(band(rIn, rOut, a0, a1, yb - (isConsole ? 0.5 : 0.25), yb, isConsole ? M.fabric : M.plyDark, isConsole ? 'console_top' : 'module_top', faceted, 1));
+          for (const a of [a0, a1]) {
+            const sd = box(d, rowH, 0.25, M.plyDark, (rIn + rOut) / 2 * Math.cos(rad(a)), (ya + yb) / 2, (rIn + rOut) / 2 * Math.sin(rad(a)), isConsole ? 'console_side' : 'module_side');
+            sd.rotation.y = -rad(a); G.add(sd);
+          }
+        }
+        if (isConsole) {
+          // two recessed cup sleeves in the console top, 3.5" dia x 3.5" deep, along the bay chord
+          const rc = rOut - d / 2;
+          const pa = pt(a0, rc, 0), pb = pt(a1, rc, 0);
+          for (const f of [0.3, 0.7]) {
+            const c = pa.clone().lerp(pb, f);
+            const cup = mesh(new THREE.CylinderGeometry(1.75, 1.75, 3.5, 24), M.deck, 'cup_holder');
+            cup.position.set(c.x, rimH - 1.7, c.z); G.add(cup);
+          }
+          panel('console box (sides+back+bottom)', 'ply', chord + 2 * d, y1 - y0 + d, Math.max(P.modPly, 0.125), `end bay: cup holders + wiring/controller home; back plate ${chord.toFixed(1)} × ${(y1 - y0).toFixed(1)}` + ((y1 - y0) > P.laserH ? ' — cut the back in two pieces for the laser' : ''));
+          panel('console top', 'ply', chord, d, 0.5, '2 × 3.5" holes, sleeves 3.5" deep, drain hole');
+        } else {
+          for (let r = 0; r < rows; r++) {
+            panel('light module box', 'ply', chord + 2 * d, rowH + d, P.modPly, r === 0 && (i === 0 || bays[i - 1].isConsole) ? `back plate ${chord.toFixed(1)} × ${rowH.toFixed(2)} fits the ${P.laserW}×${P.laserH} bed; matte white inside; one connector` : '');
+            panel('diffuser lid', 'diffuserFacet', chord, rowH, 0.125, r === 0 && (i === 0 || bays[i - 1].isConsole) ? 'laser-cut opal acrylic, same size as the back plate' : '');
+          }
+        }
+      }
+      // tilted backrest: 1/4" ply hung from the band, foot set in by `lean` at seat level; drawn in slices
+      const ssB = Math.min(ss, consoleEdge);
+      const nS = 12, yTop = rimH - 0.5, H = yTop - seatH;
+      for (let k = 0; k < nS; k++) {
+        const yk = seatH + k * H / nS, rk = rTop - lean * (1 - (k + 0.5) / nS);
+        if (P.showPly) G.add(band(rk - 0.25, rk, -ssB, ssB, yk, yk + H / nS + 0.02, M.ply, 'backrest_ply', faceted, Math.max(4, Math.round(nF * 2 * ssB / wallSpan))));
+        if (P.showSoft) G.add(band(rk - 0.25 - backFoam, rk - 0.25, -ssB, ssB, yk, yk + H / nS + 0.02, M.foam, 'back_foam', faceted, Math.max(4, Math.round(nF * 2 * ssB / wallSpan))));
+      }
+      // kick panel + bolster below the backrest foot, down to the seat pan
+      const rf = rTop - lean;
+      if (P.showPly) G.add(band(rf - P.kickPly, rf, -ssB, ssB, panTop, seatH, M.ply, 'backrest_kick', faceted, 6));
+      if (P.showSoft) G.add(band(rf - 0.25 - backFoam, rf - 0.25, -ssB, ssB, panTop, seatH, M.foam, 'lumbar_bolster', faceted, 6));
+      const nB = Math.max(1, Math.round(nF * 2 * ssB / wallSpan)), chB = 2 * rTop * Math.sin(rad(ssB / nB));
+      for (let k = 0; k < nB; k++) panel('backrest facet, 1/4" ply', 'ply', chB, H, 0.25, k ? '' : `tilted ${P.backTilt}°, hung from the top ring; ${nB} pieces, seams on the ribs`);
+      for (let k = 0; k < nB; k++) panel('backrest kick facet, 1/8" ply', 'ply', chB, seatH - panTop, P.kickPly, k ? '' : 'cosmetic: closes the wiring wedge at seat level');
+      var ssBOut = ssB;
+    }
+    panel2('floor', 'ply', 2 * podR, podR, P.floorPly, floorA, 'half disc, notch for posts and legs');
+    let slat = null;
+    if (P.seatType === 'pan') panel2('seat pan', 'ply', 2 * (podR - wallT), podR - wallT, 0.5, seatA, `annular sector ${P.seatSpan}°, r ${seatIn.toFixed(1)}–${(podR - wallT).toFixed(1)}`);
+    else {
+      // radial slats, 1/2" x 2.5" Baltic birch, dropped into laser-cut combs on the front chord and back rail; ~4.5" pitch at the back rail
+      const spanS = 2 * Math.min(ss, 62), nSl = Math.max(5, Math.round(rad(spanS) * rp / 4.5));
+      let lenMax = 0, lb = 0;
+      for (let k = 0; k < nSl; k++) {
+        const a = -spanS / 2 + (k + 0.5) * spanS / nSl;
+        const pa = V(xChord + 1.5, panTop - 0.25, (xChord + 1.5) * Math.tan(rad(a))), pb = pt(a, rp - 1, panTop - 0.25);
+        const len = pa.distanceTo(pb); lenMax = Math.max(lenMax, len); lb += len * 2.5 * 0.5 * 0.024;
+        if (P.showPly) { const o = mesh(new THREE.BoxGeometry(2.5, 0.5, len), M.ply, 'seat_slat'); o.position.copy(pa).lerp(pb, 0.5); o.quaternion.setFromUnitVectors(V(0, 0, 1), pb.clone().sub(pa).normalize()); G.add(o); }
+      }
+      // one slat: 50 lb (a 200 lb person over four slats) at midspan, E 1.8e6, I = 2.5 x 0.5^3 / 12
+      const Is = 2.5 * 0.125 / 12, sag = 50 * lenMax ** 3 / (48 * 1.8e6 * Is), stressS = (50 * lenMax / 4) / (2.5 * 0.25 / 6);
+      slat = { n: nSl, len: lenMax, lb, sag, stress: stressS };
+      for (let k = 0; k < nSl; k++) panel2('seat slat, 1/2" x 2.5" birch', 'ply', lenMax, 2.5, 0.5, lenMax * 2.5, k ? '' : `radial, ~4.5" centres at the back rail, table-saw strips; combs at both ends laser-cut from 1/4"`);
+      panel('slat combs, 1/4" ply', 'ply', 12, 2, 0.25, '2 per bay, notched for the slats, screwed to the chord and back rail');
+    }
+    if (faceted) {
+      const chordIn = 2 * (podR - wallT) * Math.sin(rad(wallSpan / nF / 2));
+      const chordOut = 2 * (podR - 0.25) * Math.sin(rad(wallSpan / nF / 2));
+      if (!P.modules) for (let i = 0; i < nF; i++) panel('wall inner facet', 'ply', chordIn, wallH, P.innerPly, i ? '' : `${nF} flat panels between posts`);
+      for (let i = 0; i < nF; i++) panel('band facet', 'ply', chordOut, bandH, 0.25, i ? '' : 'behind the fabric roll');
+      if (!P.modules) for (let i = 0; i < nF; i++) panel('diffuser facet', 'diffuserFacet', chordOut, diffH, 0.125, i ? '' : 'flat, screwed to post faces with washers');
+    } else {
+      if (!P.modules) panel('wall inner, kerf-bent', 'ply', arcIn, wallH, P.innerPly, `developed ${arcIn.toFixed(0)}" — needs a 4×8 sheet, kerf every ~1"`);
+      panel('band, kerf-bent', 'ply', arcOut, bandH, 0.25, 'developed length');
+      panel('diffuser, one sheet cold-bent', 'diffuserSmooth', arcOut, diffH, 0.0625, `developed ${arcOut.toFixed(0)}" of a 96" sheet`);
+    }
+
+    // ---- diffuser / LEDs / skirt ----
+    if (P.showDiffuser) G.add(band(podR - 0.35, podR - 0.25, -hs, hs, 0.5, rimH - bandH, M.diffuser, 'diffuser', faceted, nF));
+    const ledLenIn = 0; let ledM = 0;
+    if (P.ledRows > 0) {
+      const y0 = 2, y1 = rimH - bandH - 1.5;
+      for (let i = 0; i < P.ledRows; i++) {
+        const y = P.ledRows === 1 ? (y0 + y1) / 2 : y0 + i * (y1 - y0) / (P.ledRows - 1);
+        const rl = P.modules ? podR - 0.25 - P.modDepth + 0.25 : podR - wallT + P.innerPly;
+        if (P.showLeds) G.add(band(rl, rl + 0.15, -hs, hs, y, y + 0.4, M.led, 'led_row', faceted, nF));
+        ledM += rad(wallSpan) * rl * 0.0254;
+      }
+    }
+    // under-floor strip washing the mirror skirt and the playa
+    if (P.showLeds) G.add(band(podR - 1.5, podR - 1.1, -90, 90, -1.9, -1.5, M.led, 'led_skirt_strip', false));
+    ledM += Math.PI * (podR - 1.3) * 0.0254;
+    if (P.showSkirt) G.add(band(podR - 0.05, podR + 0.08, -90, 90, -4.5, -0.75, M.skirt, 'mirror_skirt', false));
+    const skirtA = Math.PI * podR * 3.75;
+
+    // ---- soft goods ----
+    const seatFoamV = seatA * seatFoam, backFoamV = P.modules ? rad(2 * consoleEdge) * (rTop - lean / 2) * backFoam * (rimH - panTop) : rad(P.seatSpan) * (podR - wallT - backFoam / 2) * backFoam * (rimH - seatH);
+    const rollV = rad(wallSpan) * (podR) * 2 * (bandH + 2);
+    if (P.showSoft) {
+      G.add(band(seatIn, podR - wallT, -ss, ss, panTop, seatH, M.foam, 'seat_foam', faceted, Math.max(4, Math.round(nF * P.seatSpan / wallSpan))));
+      if (!P.modules) {
+        G.add(band(rb, podR - wallT, -ss, ss, seatH, rimH - bandH, M.foam, 'back_foam', faceted, Math.max(4, Math.round(nF * P.seatSpan / wallSpan))));
+        const lean0 = Math.tan(rad(P.backTilt)) * (rimH - seatH);
+        if (lean0 > 0.5) G.add(band(rb - lean0, rb, -ss, ss, seatH, seatH + 3, M.foam, 'lumbar_bolster', faceted, 6));
+      }
+      // fabric band: padded roll over the top ring and the band ply, same fabric as the seat
+      G.add(band(podR - wallT - 0.5, podR + 0.4, -hs, hs, rimH - bandH, rimH + 0.5, M.fabric, 'fabric_band', faceted, nF));
+      const rollSpan = P.modules ? 2 * consoleEdge : wallSpan;   // the roll stops at the consoles, whose flat tops are the armrests
+      const t = mesh(new THREE.TorusGeometry(podR - wallT / 2, 1.9, 14, 64, rad(rollSpan)), M.fabric, 'rim_roll');
+      t.rotation.x = Math.PI / 2; t.rotation.z = -rad(rollSpan / 2); t.position.y = rimH; G.add(t);
+    }
+    model.add(G);
+
+    // ---- riders ----
+    if (P.showRiders) [[P.riderAng, M.a, 'rider_A'], [-P.riderAng, M.b, 'rider_B']].forEach(([ang, m, name]) => model.add(rider(ang, m, name, ys, rb)));
+
+    // ---- weights ----
+    const steelLen = {}; let steelLb = 0, steelUsd = 0;
+    for (const m of BOM.members) { if (m.name.startsWith('step')) continue; steelLen[m.sec] = (steelLen[m.sec] || 0) + m.len; }
+    for (const [sec, len] of Object.entries(steelLen)) { steelLb += len / 12 * TUBE[sec].lbft; steelUsd += len / 12 * TUBE[sec].usd; }
+    const plyBySize = {}; let plyLb = 0, plyUsd = 0, diffLb = 0, diffUsd = 0;
+    for (const p of BOM.panels) {
+      if (p.name.startsWith('step')) continue;
+      if (p.kind === 'ply') { const c = COST.ply[p.thick] || COST.ply[0.5]; const sf = (p.area || p.w * p.h) / 144; plyLb += sf * c.lbsf; plyBySize[p.thick] = (plyBySize[p.thick] || 0) + p.w * p.h; }
+      else { const c = COST[p.kind]; const sf = p.w * p.h / 144; diffLb += sf * c.lbsf; }
+    }
+    const sheets = {};
+    for (const [t, area] of Object.entries(plyBySize)) { const c = COST.ply[t]; sheets[t] = Math.ceil(area * 1.3 / (c.sheet[0] * c.sheet[1])); plyUsd += sheets[t] * c.usdSheet; }
+    const dc = faceted ? COST.diffuserFacet : COST.diffuserSmooth;
+    const diffArea = BOM.panels.filter(p => p.kind.startsWith('diffuser')).reduce((s, p) => s + p.w * p.h, 0);
+    const diffSheets = Math.ceil(diffArea * (faceted ? 1.25 : 1.0) / (dc.sheet[0] * dc.sheet[1]));
+    diffUsd = diffSheets * dc.usdSheet;
+    const foamCf = (seatFoamV + backFoamV + rollV) / 1728;
+    const foamLb = foamCf * COST.foamHR.lbcf, foamUsd = foamCf * COST.foamHR.usdCf;
+    const fabricYd = ((seatA + rad(P.seatSpan) * (podR - wallT) * (rimH - seatH + 6) + rad(wallSpan) * podR * (bandH + 8)) * 1.35) / (COST.fabric.widthIn * 36);
+    const fabricLb = fabricYd * COST.fabric.lbsy, fabricUsd = fabricYd * COST.fabric.usdYd;
+    const ledN = Math.round(ledM * COST.led.perM);
+    const ledLb = ledM * COST.led.lbM + COST.led.controllerLb, ledUsd = ledM * COST.led.usdM + COST.led.controllerUsd;
+    const skirtLb = P.showSkirt ? skirtA / 144 * COST.mirror.lbsf : 0, skirtUsd = P.showSkirt ? skirtA / 144 * COST.mirror.usdSf : 0;
+    const hwLb = COST.hardware.lb, hwUsd = COST.hardware.usd;
+    const armLb = Object.entries(steelLen).filter(([s]) => s.startsWith('2')).reduce((a, [s, l]) => a + l / 12 * TUBE[s].lbft, 0);
+    const floorLb = floorA / 144 * COST.ply[P.floorPly].lbsf, seatLb = P.seatType === 'pan' ? seatA / 144 * 1.5 : slat.lb;
+    const bareLb = steelLb - armLb + floorLb + seatLb;   // what gets lifted onto the arms: frame + floor + seat, nothing else
+    const podLb = steelLb + plyLb + diffLb + foamLb + fabricLb + ledLb + skirtLb + hwLb;
+    const podUsd = steelUsd + plyUsd + diffUsd + foamUsd + fabricUsd + ledUsd + skirtUsd + hwUsd;
+
+    // ---- receiver check ----
+    const xRiders = rb - 6, xPod = 0.55 * podR;
+    const mStatic = 400 * xRiders + podLb * xPod;
+    const mDesign = 3 * mStatic;
+    const mStand = mStatic + 200 * podR * 1.5;
+    const S = TUBE[P.arm].S;
+    const stress = Math.max(mDesign, mStand) / 2 / S;
+    const rSh = P.modules ? rTop - backFoam : rb;   // shoulders bear on the top of the tilted backrest
+    const hipGap = 2 * (rb - 5) * Math.sin(rad(P.riderAng)) - R.hipW, shGap = 2 * (rSh - 4) * Math.sin(rad(P.riderAng)) - R.shW;
+    D = { slat, armLb, bareLb, modClear, rTop, ssB: typeof ssBOut !== 'undefined' ? ssBOut : null, bays, hipGap, shGap, consoleEdge, wallIn, lean, chordSec, Lc, chordM, chordStress, chordSag, storage, ys, rb, seatIn, rp, steelLb, steelUsd, steelLen, plyLb, plyUsd, sheets, diffLb, diffUsd, diffSheets, dc, foamLb, foamUsd, fabricYd, fabricLb, fabricUsd, ledN, ledM, ledLb, ledUsd, skirtLb, skirtUsd, hwLb, hwUsd, podLb, podUsd, mStatic, mDesign, mStand, stress, arcOut, arcIn, diffH, wallH, faceted, nF, postAng, xChord, panTop };
+    readout();
+  }
+
+  function rider(angDeg, m, name, ys, rb) {
+    const a = rad(angDeg); const g = new THREE.Group(); g.name = name;
+    g.position.set(rb * Math.cos(a), ys, rb * Math.sin(a));
+    g.rotation.y = -a - Math.PI / 2;
+    const tilt = rad(P.backTilt);
+    const torso = new THREE.Group(); torso.rotation.x = -tilt; torso.position.z = R.torsoD / 2; g.add(torso);
+    const body = box(R.shW, R.torsoH, R.torsoD, m, 0, R.torsoH / 2, 0, 'torso'); torso.add(body);
+    const head = mesh(new THREE.SphereGeometry(R.headR, 24, 18), m, 'head'); head.position.set(0, R.torsoH + 3 + R.headR, 0.5); torso.add(head);
+    for (const s of [-1, 1]) {
+      const hip = V(s * 4, 3, 2), knee = V(s * 4.5, 3, R.bk), ankle = V(s * 4.5, -ys + 1.5, R.bk + 1.5);
+      g.add(seg(hip, knee, 3, m, 'thigh')); g.add(seg(knee, ankle, 2.2, m, 'shin'));
+      g.add(box(4, 1.5, 10, m, s * 4.5, -ys + 0.75, R.bk + 5, 'foot'));
+    }
+    return g;
+  }
+
+  // ---------- readout ----------
+  const lb = v => v.toFixed(0) + ' lb', usd = v => '$' + Math.round(v / 5) * 5;
+  function readout() {
+    const util = D.stress / (TUBE[P.arm].yield || COST.steelYield), yc = TUBE[D.chordSec].yield || COST.steelYield;
+    const rows = [
+      ['sub', 'Per pod'],
+      ['Steel frame + arms', lb(D.steelLb)],
+      ['Ply', lb(D.plyLb)],
+      ['Diffuser', lb(D.diffLb)],
+      ['Foam + fabric', lb(D.foamLb + D.fabricLb)],
+      ['LEDs, skirt, hardware', lb(D.ledLb + D.skirtLb + D.hwLb)],
+      ['Pod, total', lb(D.podLb), D.podLb > 150 ? 'warn' : ''],
+      ['Six pods', lb(6 * D.podLb)],
+      ['sub', 'Lift'],
+      ['Each arm (slides in first)', lb(D.armLb / 2)],
+      ['Bare frame + floor + seat', lb(D.bareLb), D.bareLb > 80 ? 'warn' : ''],
+      ['Modules, consoles, cushions, skirt', lb(D.podLb - D.bareLb - D.armLb)],
+      ['Cost, rough', usd(D.podUsd) + ' / ' + usd(6 * D.podUsd)],
+      ['sub', 'Buy list, per pod'],
+      ['1" tube', (Object.entries(D.steelLen).filter(([s]) => !s.startsWith('2')).reduce((a, [, l]) => a + l, 0) / 12).toFixed(0) + ' ft'],
+      ['Arm tube', (Object.entries(D.steelLen).filter(([s]) => s.startsWith('2')).reduce((a, [, l]) => a + l, 0) / 12).toFixed(1) + ' ft'],
+      ['Ply sheets', Object.entries(D.sheets).map(([t, n]) => `${n}× ${t}"`).join(', ')],
+      ['Diffuser', `${D.diffSheets}× ${D.dc.sheet[0]}×${D.dc.sheet[1]}`],
+      ['LEDs', `${D.ledN} (${D.ledM.toFixed(1)} m), ${(D.ledN * COST.led.wMaxPerLed).toFixed(0)} W max`],
+      ['Fabric', D.fabricYd.toFixed(1) + ' yd'],
+      ['sub', 'Receiver arms'],
+      ['Static moment', (D.mStatic / 1000).toFixed(1) + 'k in·lb'],
+      ['Design moment (×3 / rim stand)', (Math.max(D.mDesign, D.mStand) / 1000).toFixed(1) + 'k in·lb'],
+      ['Arm stress vs yield', (D.stress / 1000).toFixed(0) + ' ksi · ' + (util * 100).toFixed(0) + '%', util > 0.67 ? 'bad' : util > 0.5 ? 'warn' : ''],
+      ['sub', 'Seat front chord'],
+      ['Section · span', D.chordSec + ' · ' + D.Lc.toFixed(0) + '"'],
+      ['Stress (worst case)', (D.chordStress / 1000).toFixed(0) + ' ksi · ' + (D.chordStress / yc * 100).toFixed(0) + '%', D.chordStress / yc > 0.6 ? 'bad' : D.chordStress / yc > 0.4 ? 'warn' : ''],
+      ['Sag', D.chordSag.toFixed(2) + '"', D.chordSag > 0.25 ? 'warn' : ''],
+      ['Slats', D.slat ? `${D.slat.n} × ${D.slat.len.toFixed(0)}" · sag ${D.slat.sag.toFixed(2)}" · ${(D.slat.stress / 1000).toFixed(1)} ksi` : 'ply pan', D.slat && D.slat.sag > 0.5 ? 'warn' : ''],
+      ['Under-seat storage', D.storage ? `${D.storage.w.toFixed(0)} × ${D.storage.h.toFixed(0)} × ${D.storage.d.toFixed(0)}` : 'legs in the way'],
+      ['sub', 'Fit (from loveseat-3d)'],
+      ['Back face at seat, r', D.rb.toFixed(1) + '"'],
+      ['Shoulder gap at ' + P.riderAng + '°', D.shGap.toFixed(1) + '"', D.shGap < 0 ? 'bad' : D.shGap < 2 ? 'warn' : ''],
+      ['Hip gap', D.hipGap.toFixed(1) + '"', D.hipGap < 0 ? 'bad' : ''],
+      ['sub', 'Wall'],
+      ['Backrest clears module top by', P.modules ? D.modClear.toFixed(2) + '"' : '—', D.modClear < 0 ? 'bad' : D.modClear < 0.25 ? 'warn' : ''],
+      ['Light modules', P.modules ? (() => { const m = D.bays.filter(b => !b.isConsole); const b0 = m[0] || { chord: 0, rowH: 0, rows: 1 }; return `${m.reduce((a, b) => a + b.rows, 0)} × ${b0.chord.toFixed(1)} × ${b0.rowH.toFixed(2)} × ${P.modDepth}`; })() : 'off', P.modules && D.bays.some(b => b.chord > P.laserW) ? 'bad' : ''],
+      ['Laser bed ' + P.laserW + '×' + P.laserH, P.modules ? (D.bays.some(b => b.chord > P.laserW) ? 'facet chord too wide' : 'all module plates fit') : '—', P.modules && D.bays.some(b => b.chord > P.laserW) ? 'bad' : ''],
+      ['End consoles · cups', P.modules ? `${D.bays.filter(b => b.isConsole).length} · ${2 * D.bays.filter(b => b.isConsole).length}` : 'off', P.modules && !D.bays.some(b => b.isConsole) ? 'warn' : ''],
+      ['Diffuser developed length', D.arcOut.toFixed(0) + '" × ' + D.diffH.toFixed(1) + '"', !D.faceted && D.arcOut > 96 ? 'bad' : ''],
+      ['Facet chord', D.faceted ? (2 * (P.podR - 0.25) * Math.sin(rad(P.wallSpan / D.nF / 2))).toFixed(1) + '"' : 'smooth'],
+      ['Posts', String(D.postAng.length)],
+    ];
+    $('readout').innerHTML = rows.map(([k, v, w]) => k === 'sub' ? `<dt class="sub">${v}</dt>` : `<dt>${k}</dt><dd class="${w || ''}">${v}</dd>`).join('');
+  }
+
+  // ---------- cut list ----------
+  function cutList() {
+    const L = [];
+    L.push(`POD LOVESEAT — CUT LIST  (inches; one pod; ${D.faceted ? D.nF + ' facets' : 'smooth wall'}; frame ${P.tube}, posts ${P.postTube}, arms ${P.arm})`);
+    L.push(`Pod radius ${P.podR}, wall span ${P.wallSpan}°, rim ${P.rimH}, seat ${P.seatH} (ply top ${D.panTop}), receivers ${P.armGap} apart.`);
+    L.push('');
+    L.push('STEEL — group by name; lengths are centreline-to-centreline, add nothing for butt joints, mitre where noted');
+    const grp = {};
+    for (const m of BOM.members) { const k = m.name + '|' + m.sec + '|' + m.len.toFixed(2) + '|' + m.note; grp[k] = grp[k] || { ...m, qty: 0 }; grp[k].qty++; }
+    const rows = Object.values(grp).sort((a, b) => a.sec.localeCompare(b.sec) || a.name.localeCompare(b.name) || b.len - a.len);
+    L.push('  qty  section           length   part                 note');
+    for (const r of rows) L.push(`  ${String(r.qty).padStart(3)}  ${r.sec.padEnd(16)} ${r.len.toFixed(2).padStart(7)}   ${r.name.padEnd(20)} ${r.note}`);
+    if (P.showStep) L.push('  (step members listed above are not in the pod totals below)');
+    for (const [sec, len] of Object.entries(D.steelLen)) L.push(`  total ${sec}: ${(len / 12).toFixed(1)} ft (${(len / 12 * TUBE[sec].lbft).toFixed(0)} lb) — buy ${Math.ceil(len / 12 * 1.1 / 24) * 24} ft in 24' sticks (or ${Math.ceil(len / 12 * 1.1 / 8)} × 8')`);
+    L.push('');
+    if (TUBE[P.tube].al) L.push('  ALUMINIUM FRAME: no welding. Every joint is an internal sleeve — 3" of 3/4" square bar or 0.065" tube pressed into both members — with two 3/16" rivets or 1/4" bolts per side, so nothing shows outside but the fastener heads. The receiver arms and the node they weld into stay steel; the frame bolts to that node.');
+    L.push(`  LIFT: arms ${(D.armLb / 2).toFixed(0)} lb each go into the receivers first; bare frame + floor + seat ${D.bareLb.toFixed(0)} lb goes onto them; modules, consoles, cushions and skirt (${(D.podLb - D.bareLb - D.armLb).toFixed(0)} lb) attach on the car.`);
+    L.push('');
+    L.push('POST POSITIONS in plan (x outboard from the rail face, z along the car), post centrelines at r = ' + D.rp.toFixed(2));
+    for (const a of D.postAng) L.push(`  ${a.toFixed(1).padStart(7)}°   x ${(D.rp * Math.cos(rad(a))).toFixed(2).padStart(7)}   z ${(D.rp * Math.sin(rad(a))).toFixed(2).padStart(7)}${Math.abs(a) > 90 ? '   (stands on deck)' : ''}`);
+    L.push(`  Chord tubes at x = ${D.xChord}. Lay the floor frame out flat on the table from these coordinates; the top ring is the same polygon at y = ${P.rimH - 0.5}.`);
+    L.push('');
+    L.push('PANELS');
+    const pg = {};
+    for (const p of BOM.panels) { const k = p.name + '|' + p.kind + '|' + p.w.toFixed(1) + '|' + p.h.toFixed(1) + '|' + p.thick; pg[k] = pg[k] || { ...p, qty: 0 }; pg[k].qty++; if (p.note) pg[k].note = p.note; }
+    for (const p of Object.values(pg)) L.push(`  ${String(p.qty).padStart(3)}  ${p.kind === 'ply' ? 'ply ' + p.thick + '"' : (p.kind.startsWith('diffuser') ? 'diffuser' : p.kind).padEnd(9)}  ${p.w.toFixed(1)} × ${p.h.toFixed(1)}   ${p.name.padEnd(28)} ${p.note}`);
+    L.push(`  Sheets: ${Object.entries(D.sheets).map(([t, n]) => `${n} × ${t}" Baltic birch (${COST.ply[t].sheet.join('×')})`).join(', ')}; diffuser ${D.diffSheets} × ${D.dc.name}`);
+    L.push('');
+    L.push('SOFT GOODS + ELECTRICAL');
+    L.push(`  Seat foam ${P.seatFoam}" HR over the pan, back foam ${P.backFoam}" from seat to band, ${P.bandH}" fabric band + 2" roll over the top ring: ${(D.foamLb).toFixed(0)} lb foam, ${D.fabricYd.toFixed(1)} yd of 54" fabric (seat, back, band, roll — same fabric throughout)`);
+    L.push(`  WS2812 60/m: ${P.ledRows} rows on the inner ply + one under-floor strip = ${D.ledM.toFixed(1)} m, ${D.ledN} LEDs, ${(D.ledN * COST.led.wMaxPerLed).toFixed(0)} W at full white, ~${(D.ledN * COST.led.wTypPerLed).toFixed(0)} W typical`);
+    L.push(`  Mirror skirt: 1/8" mirror acrylic, 3.75" × ${(Math.PI * P.podR).toFixed(0)}" developed, in 2–3 pieces`);
+    if (P.modules) {
+      const m = D.bays.filter(b => !b.isConsole), c = D.bays.filter(b => b.isConsole);
+      const nMod = m.reduce((a, b) => a + b.rows, 0);
+      L.push(`  Light modules: ${nMod} boxes ${m[0] ? m[0].chord.toFixed(1) + ' × ' + m[0].rowH.toFixed(2) + ' × ' + P.modDepth : ''} (${m[0] ? m[0].rows : 0} rows per bay so every plate fits the ${P.laserW}×${P.laserH} laser bed; 1/4" ply, white inside, laser-cut opal lid), set into the bays from outside, flange screwed to the post faces, one JST-SM 3-pin + power connector each`);
+      L.push(`  End consoles: ${c.length} boxes ${c[0] ? c[0].chord.toFixed(1) + ' × ' + c[0].h.toFixed(1) + ' × ' + P.consoleDepth : ''}, flat padded top at rim height = armrest, 2 recessed cup sleeves each (3.5" dia × 3.5" deep, drain hole), controller + power distribution inside, access from the front face` + (c.length ? '' : '  — NO ROOM: end bays reach inside 70°, widen the wall span or reduce facets'));
+      L.push(`  Backrest: 1/4" ply hung from the band, tilted ${P.backTilt}° (foot ${D.lean.toFixed(1)}" inboard of the top ring; ${D.modClear.toFixed(2)}" clear of the module top edge), 2" foam; the wedge behind it is the wiring chase down to the seat back rail`);
+    }
+    L.push('  Hardware: 2 × 5/8" hitch pins + clips, 2 anti-rattle clamps, 1/4-20 T-nuts for the ply, #8 washer-head screws for the diffuser');
+    L.push('');
+    L.push('WEIGHT + COST (rough)');
+    L.push(`  steel ${D.steelLb.toFixed(0)} lb / ${usd(D.steelUsd)} · ply ${D.plyLb.toFixed(0)} lb / ${usd(D.plyUsd)} · diffuser ${D.diffLb.toFixed(0)} lb / ${usd(D.diffUsd)} · foam+fabric ${(D.foamLb + D.fabricLb).toFixed(0)} lb / ${usd(D.foamUsd + D.fabricUsd)} · LEDs ${D.ledLb.toFixed(0)} lb / ${usd(D.ledUsd)} · skirt+hardware ${(D.skirtLb + D.hwLb).toFixed(0)} lb / ${usd(D.skirtUsd + D.hwUsd)}`);
+    L.push(`  POD ${D.podLb.toFixed(0)} lb / ${usd(D.podUsd)}      SIX PODS ${(6 * D.podLb).toFixed(0)} lb / ${usd(6 * D.podUsd)}`);
+    L.push(`  Seat front chord ${D.chordSec}, ${D.Lc.toFixed(0)}" span: ${(D.chordStress / 1000).toFixed(0)} ksi worst case (200 lb on the edge at midspan), ${D.chordSag.toFixed(2)}" sag` + (D.storage ? `; under-seat storage ${D.storage.w.toFixed(0)} × ${D.storage.h.toFixed(0)} × ${D.storage.d.toFixed(0)}` : ''));
+    L.push(`  Receiver: static ${(D.mStatic / 1000).toFixed(1)}k in·lb, design ${(Math.max(D.mDesign, D.mStand) / 1000).toFixed(1)}k in·lb → ${(D.stress / 1000).toFixed(0)} ksi in each ${P.arm} arm (${(D.stress / COST.steelYield * 100).toFixed(0)}% of yield)`);
+    L.push('');
+    L.push('BUILD ORDER');
+    L.push('  1. Jig: bolt two receiver tubes to a straight bar at the real spacing; keep both arms inserted while welding so they end up parallel.');
+    L.push('  2. Floor frame flat on the table: chord, ring segments, joists, then the arms underneath. Check the frame slides into the chassis before anything goes up.');
+    L.push('  3. Posts plumb off the floor ring (wrap posts off the sill), top ring, seat back rail, seat chord' + (P.openSeat ? ' with its end links into the posts' : ' + legs') + ', ribs (outer ribs onto the post faces). Tack everything, sit on it, then weld out.');
+    L.push(P.modules ? '  4. Paint. Ply: floor, seat pan, backrest + kick, band facets (T-nuts into the tube). Build and bench-test the light modules and consoles separately; harness runs behind the backrest to a connector at the arm.' : '  4. Paint. Ply: floor, seat pan, inner wall panels (T-nuts into the tube). LED rows on the inner ply, wiring down a post to a connector at the arm.');
+    L.push(P.modules ? '  5. Modules and consoles into the bays from outside, flanges onto the post faces. Then foam, then fabric.' : '  5. Diffuser last: facets screwed to post faces, or the single sheet cold-bent around the posts and screwed at the ends. Then foam, then fabric.');
+    return L.join('\n');
+  }
+
+  // ---------- controls ----------
+  const ranges = { facets: '', wallSpan: '°', bandH: '', modDepth: '', consoleDepth: '', backTilt: '°', ledRows: '', seatH: '', rimH: '', podR: '', armGap: '' };
+  for (const id of Object.keys(ranges)) $(id).addEventListener('input', e => {
+    P[id] = parseFloat(e.target.value);
+    document.querySelector(`output[for=${id}]`).textContent = e.target.value + ranges[id]; build();
+  });
+  $('tube').addEventListener('change', e => { P.tube = e.target.value; build(); });
+  $('arm').addEventListener('change', e => { P.arm = e.target.value; build(); });
+  $('postTube').addEventListener('change', e => { P.postTube = e.target.value; build(); });
+  $('chordSec').addEventListener('change', e => { P.chordSec = e.target.value; build(); });
+  $('floorPly').addEventListener('change', e => { P.floorPly = parseFloat(e.target.value); build(); });
+  $('seatType').addEventListener('change', e => { P.seatType = e.target.value; build(); });
+  $('modPly').addEventListener('change', e => { P.modPly = parseFloat(e.target.value); build(); });
+  $('innerPly').addEventListener('change', e => { P.innerPly = parseFloat(e.target.value); build(); });
+  for (const id of ['smooth', 'openSeat', 'modules', 'showRiders', 'showChassis', 'showPly', 'showSoft', 'showDiffuser', 'showLeds', 'showSkirt', 'showStep']) $(id).addEventListener('change', e => { P[id] = e.target.checked; build(); });
+
+  // orbit
+  const target = V(6, 10, 0);
+  let theta = 0.75, phi = 1.05, dist = 150;
+  function place() {
+    camera.position.set(target.x + dist * Math.sin(phi) * Math.cos(theta), target.y + dist * Math.cos(phi), target.z + dist * Math.sin(phi) * Math.sin(theta));
+    camera.lookAt(target);
+  }
+  const el = renderer.domElement; let drag = null;
+  el.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, pan: e.shiftKey || e.button === 2 }; el.setPointerCapture(e.pointerId); });
+  el.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+    if (drag.pan) {
+      const right = new THREE.Vector3(), up = V(0, 1, 0);
+      camera.getWorldDirection(right); right.cross(up).normalize();
+      target.addScaledVector(right, -dx * dist / 900).addScaledVector(up, dy * dist / 900);
+    } else { theta += dx * 0.008; phi = Math.min(Math.PI - 0.05, Math.max(0.05, phi - dy * 0.008)); }
+    place();
+  });
+  el.addEventListener('pointerup', () => drag = null);
+  el.addEventListener('contextmenu', e => e.preventDefault());
+  el.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(600, Math.max(30, dist * (1 + e.deltaY * 0.001))); place(); }, { passive: false });
+  const view = (t, p, d) => () => { theta = t; phi = p; dist = d || 150; target.set(6, 10, 0); place(); };
+  $('vIso').onclick = view(0.75, 1.05);
+  $('vSide').onclick = view(Math.PI / 2, Math.PI / 2, 160);
+  $('vFront').onclick = view(0, Math.PI / 2, 160);
+  $('vTop').onclick = view(Math.PI / 2, 0.05, 150);
+
+  function resize() {
+    const w = stage.clientWidth || 800, h = stage.clientHeight || 600;
+    renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(stage);
+
+  // ---------- OBJ export ----------
+  function exportOBJ() {
+    const out = ['# Pod loveseat build model, inches. Y up, +X outboard from the chassis rail, Z along the car.'];
+    let off = 1; const v = new THREE.Vector3(), n = new THREE.Vector3();
+    model.updateMatrixWorld(true);
+    model.traverse(o => {
+      if (!o.isMesh) return;
+      const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+      const pos = g.attributes.position, nor = g.attributes.normal;
+      out.push(`o ${o.name || 'part'}`);
+      const nm = new THREE.Matrix3().getNormalMatrix(o.matrixWorld);
+      for (let i = 0; i < pos.count; i++) { v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld); out.push(`v ${v.x.toFixed(4)} ${v.y.toFixed(4)} ${v.z.toFixed(4)}`); }
+      if (nor) for (let i = 0; i < nor.count; i++) { n.fromBufferAttribute(nor, i).applyMatrix3(nm).normalize(); out.push(`vn ${n.x.toFixed(4)} ${n.y.toFixed(4)} ${n.z.toFixed(4)}`); }
+      for (let i = 0; i < pos.count; i += 3) out.push(nor ? `f ${off + i}//${off + i} ${off + i + 1}//${off + i + 1} ${off + i + 2}//${off + i + 2}` : `f ${off + i} ${off + i + 1} ${off + i + 2}`);
+      off += pos.count;
+    });
+    return out.join('\n');
+  }
+  window.exportOBJ = exportOBJ; window.cutList = cutList; window.derived = () => D;
+  window.setParams = p => { Object.assign(P, p); build(); };
+  const toast = msg => { const t = $('toast'); t.textContent = msg; t.style.opacity = 1; setTimeout(() => t.style.opacity = 0, 2200); };
+  $('copyObj').onclick = async () => { try { await navigator.clipboard.writeText(exportOBJ()); toast('OBJ copied'); } catch (e) { toast('Clipboard blocked here'); } };
+  $('copyCut').onclick = async () => { try { await navigator.clipboard.writeText(cutList()); toast('Cut list copied'); } catch (e) { toast('Clipboard blocked here'); } };
+  $('showCut').onclick = () => { $('cutText').textContent = cutList(); $('cutlist').style.display = 'block'; };
+  $('closeCut').onclick = () => $('cutlist').style.display = 'none';
+
+  build(); resize(); place();
+  (function loop() { renderer.render(scene, camera); requestAnimationFrame(loop); })();
+})();
+</script></body>
+</html>
