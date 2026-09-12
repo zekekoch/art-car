@@ -3,6 +3,7 @@
   "default": {
     "k": 0,
     "travel": 0,
+    "explode": 0,
     "solutions": [
       {
         "s": -1,
@@ -31,6 +32,7 @@
   "steerRack15": {
     "k": 0,
     "travel": 1.5,
+    "explode": 0,
     "solutions": [
       {
         "s": -1,
@@ -57,6 +59,7 @@
   "kneel8": {
     "k": 8,
     "travel": 0,
+    "explode": 0,
     "solutions": [
       {
         "s": -1,
