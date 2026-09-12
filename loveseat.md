@@ -123,6 +123,16 @@ Why these materials (the general tradeoffs, condensed):
   arms; modules, consoles, cushions and skirt (~37 lb) go on once the pod is on the car. A cradle at receiver height
   (dollies or a rack on the trailer) removes the lift entirely.
 
+### Wood shell option (in the model, not chosen)
+Metal base (arms + floor frame + floor, ~27 lb + 17 lb) with a wooden loveseat on it. Framed like-for-like in wood
+saves only ~6 lb because 3/4" steel tube is already light. The version that pays is a shell: the 1/4" module and
+console shells are glued side to side and become the wall, no posts; a 1.5" laminated-ply top rail, a 3/4" x 2.5"
+back rail, a 1.5 x 3.5 fir front chord on edge (stiffer than the steel 1x2 at the same weight), slats as before;
+the shell bolts to the steel floor ring with T-nuts. The lights become 1/8" cartridges (back plate + strip + lid)
+dropped into the shells on four screws, so they stay swappable while the wall stays put. ~111 lb; the lift is
+17 lb of base then a 40 lb shell. Costs ~0.5" of seat room (hip gap 2.0" at 40 degrees, 45 degrees fixes it).
+Wood joints get glue plus screws for vibration, and a finish for dew and dust.
+
 ### Numbers from the model (defaults)
 - Pod: ~135 lb and ~$800 in materials; six pods ~800 lb, ~$4,800. Steel is 80 lb of that (64 ft of 1" tube plus
   the arms); 3/4" tube drops it to ~120 lb. The 120 lb placeholder in the load case above was optimistic.
@@ -139,7 +149,72 @@ Why these materials (the general tradeoffs, condensed):
 4. Ply (T-nuts into the tube), LED rows on the inner ply, wiring down one post to a connector at the arm.
 5. Diffuser last, then foam, then fabric.
 
+## Outline: U, not D (2026-09-12)
+
+The pod is now a U in plan: a 180° half round outboard, then two straight legs 8" long back over the deck to the rail
+face (48" wide x 32" deep instead of a 48" disc). Reasons, all about the car rather than the seat:
+- Two adjacent pods present parallel flat faces 18" apart, so the walkway is a rectangular slot and a stair module
+  fills it flush from the rail to the pod rims; no deck extension outboard of the 54" rail, so the deck stays on the
+  car and the bare car drives onto the trailer (53" over the tire faces through the 57" ramp opening).
+- The straight legs are the consoles: flat boxes are trivial to build, the armrest lands exactly beside the rider
+  past the 90° post, and every arc bay becomes a light module. One cup per armrest (decided), which an 8" leg fits.
+- Transport: a 48 x 32 box stacks two rows across the 72" trailer, four per layer, six pods in two layers (76" high
+  on the deck). Discs stack one row, two per layer, three layers (102"). With the receiver arms left on the pods the
+  footprint grows 13" and it is back to one row, so the arms come off for the trailer.
+- Seat, backrest, riders and the fit numbers do not move: the 200° seat sits inside the arc, and the wall past 90° was
+  already standing on the deck with a sill. Six 30° facets on the arc give the same 12.3" module chord as before.
+The front (driver) pod is the same module; its legs extend forward, so the car is ~16" shorter overall (rear rim -97",
+front +81").
+
+`model/loveseat-build.html` has the U/D select and the leg-length slider; `model/frame-3d.html` draws both, the stair
+modules (one per side at mid-length on their own receiver stub, 17" wide, 3 x 8" risers with the deck as the top step)
+and a "Trailer" view with everything stacked on the bare car inside the trailer outline, with the fit readout.
+
+## Driver pod (2026-09-12)
+
+The same U module turned round: the half round goes to the end rail (the driver's back is to the car), the legs point
+forward and carry a floor, and the open end between the leg posts is the front. Decisions so far:
+- One spring-return throttle pedal (right foot), regen on lift so the car slows when the foot comes off; a dead pedal
+  for the left foot. Legs 16" (vs 8" on the passenger pods) put the pedal face ~32" ahead of the seat back.
+- F / N / R is a three-position lever on the driver's console top wired to the controllers' direction + enable lines
+  (nothing mechanical to shift); software refuses a direction change unless the car is stopped. Neutral = controllers
+  disabled, motors freewheel, which is also how the car gets pushed around camp.
+- Regen fades to nothing at walking pace and does nothing with a full pack, so there is still a real brake: a hand lever
+  next to the shifter, cable or hydraulic to two rear calipers, doubling as the park brake. The DMV checks for one.
+- Lighting panel and pack readout on the passenger-side console top. One cup per arm, as everywhere.
+- Low gate (12") between the leg posts, hinged left, latched right: this is the way in, up the front of the car.
+- Steering shaft runs under the floor beside the right arm at z = 9 with the quick-disconnect at the rail, u-joint at
+  x = -3, column ~16° from vertical to a 13" wheel 12" ahead of the pod centre and 27" above the floor.
+- Arms run 13" into the end-rail receivers and the full length under the floor to the gate (~64"); 0.120" wall is
+  probably enough here because the riders sit close to the rail.
+- 52" wide (two people, the driver facing forward, so less cuddly than the loveseats); the back is a superellipse
+  (squareness slider, default 0.4) so the corners fill out without the width changing. Outline 52" x 42"; on the
+  trailer it rides beside the fifth passenger pod on layer 2 (still two layers).
+- Entry is from the front: the gate opens and a one-rung fold-down step hangs under the front chord at ~13" above
+  the playa (hinged, folds flat under the floor); the gate post is the handhold. The arms/consoles do not pivot.
+- Both drivers are left-handed and the driver sits on the left, so the shifter and hand brake on the left console
+  are the right way round.
+- Weight is ~185 lb as modelled; 46 lb of that is the two 64" arms (0.120" wall saves ~15 lb) and the rest is the
+  bigger floor and shell. It is lifted onto the car by two people like the others.
+- Kneel (2026-09-12): wheels moved to sit under the side pods (axles at +-33, wheelbase 66") and each side pod's two
+  receiver stubs spread to 26" apart so they straddle the tire (1.8" each side); the receivers go back through the
+  rail, so pod floors sit at deck height (24"). With the deck plate and pod floor cut out over the tires (wheel wells)
+  the frame can drop until the tire meets the seat pan underside: ~8" of kneel, limited by the sled at 3" off the
+  ground, pod floors at 16". Without wells it is ~3" (deck plate). Costs: 66" wheelbase puts the end pods 42-58" past
+  the axles (ride at the ends is lively); the wells need an inner fender or the tire throws dust into the storage
+  under the seat. Turning radius drops to ~15 ft. The stair drops with the car; kneeled, its bottom tread is on the
+  playa.
+  Where the tire actually is under a side pod: centred 5.5" inboard of the pod centre line (the envelope edge),
+  so only the outer 2-3" of tire is under the seat edge; the rest is under the riders' foot space between the seat
+  front and the rail. A kneel therefore needs a fender box in the foot space: ~4" tall allows ~7.5" of kneel, a
+  9" box allows the full 8" and becomes a footrest. `model/loveseat-build.html` now draws the tire, well, fender
+  and receivers under the pod with a kneel slider (Chassis under the pod); legs are 12" to reach the rail at its
+  12" inset and the receivers are 26" apart.
+`model/loveseat-build.html` "Driver pod" toggle draws all of it (leg length, gate height and wheel height are sliders);
+`model/frame-3d.html` draws the driver pod with its gate at the front and packs it in the transport stack.
+
 ## Open
+- Driver pod: pedal box, wheel and gate are placeholders from the model; sit in the cardboard mockup before cutting steel.
 - Faceted vs smooth wall: modules argue for faceted (see Structure); smooth is still in the model for comparison.
 - LED pitch in the 2" modules: 4 rows over 18" is a 4.5" pitch, borderline for an even glow at 2" depth; 5-6 rows
   or a heavier diffuser if the first module scallops.

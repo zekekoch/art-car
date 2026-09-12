@@ -36,6 +36,8 @@
   .readout dd.bad { color: var(--bad); }
   .readout dt.sub { font-size: 11px; padding-left: 10px; }
   .readout dd.sub { font-size: 13px; color: var(--muted); }
+  .readout dd.sub.warn { color: var(--warn); }
+  .readout dd.sub.bad { color: var(--bad); }
   .legend { display: flex; gap: 10px 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   .note { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 0; }
@@ -50,7 +52,7 @@
 
 <div id="app">
   <aside>
-    <h1>Chassis frame<small>54" × 120" steel ladder · single-shaft hub motors on trailing arms · six pods · aluminium roof, rectangle or petals · inches</small></h1>
+    <h1>Chassis frame<small>54" × 120" steel ladder · single-shaft hub motors on trailing arms · six pods · aluminium roof: rectangle, petals or cloverleaf · inches</small></h1>
 
     <section>
       <h2>Views</h2>
@@ -63,6 +65,7 @@
         <button id="vRear" type="button">Rear corner</button>
         <button id="vSteer" type="button">Steering</button>
         <button id="vUnder" type="button">Under</button>
+        <button id="vTrailer" type="button">Trailer</button>
       </div>
     </section>
 
@@ -76,31 +79,51 @@
         <label><input type="checkbox" id="showRoof" checked> roof</label>
         <label><input type="checkbox" id="showSolar" checked> solar</label>
         <label><input type="checkbox" id="showSled" checked> battery sled</label>
+        <label><input type="checkbox" id="showStair" checked> stairs</label>
         <label><input type="checkbox" id="showDeck"> deck plate</label>
         <label><input type="checkbox" id="showTrailer"> trailer</label>
+      </div>
+      <div class="toggles" style="margin-top:6px">
+        <label><input type="checkbox" id="stackMode"> stacked for transport — pods, stairs and roof piled on the bare car inside the trailer</label>
+        <label><input type="checkbox" id="stackArms"> arms stay on the pods (else pulled and stowed)</label>
       </div>
     </section>
 
     <section>
       <h2>Frame</h2>
-      <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">8</output><input type="range" id="railInset" min="0" max="12" step="0.5" value="8"></div>
+      <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">12</output><input type="range" id="railInset" min="0" max="16" step="0.5" value="12"></div>
       <div class="ctl"><label for="railH">Side rail height (2" wide tube)</label><output for="railH">4</output><input type="range" id="railH" min="2" max="6" step="0.5" value="4"></div>
       <div class="ctl"><label for="sleeveLen">Receiver sleeve length (2½" sq)</label><output for="sleeveLen">16</output><input type="range" id="sleeveLen" min="10" max="24" step="1" value="16"></div>
-      <div class="ctl"><label for="armSpacing">Pod arm spacing (sleeve centres)</label><output for="armSpacing">12</output><input type="range" id="armSpacing" min="8" max="20" step="1" value="12"></div>
-      <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="sleeveTop" checked> receivers on top of the rail (arms clear the tires)</label></div>
+      <div class="ctl"><label for="armSpacing">Pod arm spacing (sleeve centres)</label><output for="armSpacing">26</output><input type="range" id="armSpacing" min="8" max="32" step="1" value="26"></div>
+      <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="sleeveTop"> receivers on top of the rail (only needed if the arms have to pass over a tire)</label></div>
     </section>
 
     <section>
       <h2>Pods</h2>
+      <div class="views" style="grid-template-columns:1fr 1fr;margin-bottom:10px">
+        <button id="psD" type="button">D · round</button>
+        <button id="psU" type="button" class="on">U · flat sides</button>
+      </div>
       <div class="ctl"><label for="podX">Side pods, distance from centre (end pods follow, tangent)</label><output for="podX">33</output><input type="range" id="podX" min="24" max="40" step="0.5" value="33"></div>
       <div class="ctl"><label for="bump">Suspension bump travel to allow for</label><output for="bump">3</output><input type="range" id="bump" min="0" max="6" step="0.5" value="3"></div>
+      <div class="ctl"><label for="driverW">Driver pod: width (front end pod)</label><output for="driverW">52</output><input type="range" id="driverW" min="48" max="58" step="1" value="52"></div>
+      <div class="ctl"><label for="driverLeg">Driver pod: leg length (legs point forward, carry the pedal floor and the gate)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
+      <p class="note">U: a half round outboard, then straight sides back to the rail. Adjacent pods present two parallel faces and the walkway is a rectangular slot the stair fills flush; the pod also stacks as a 48" × 32" box instead of a 48" disc.</p>
+    </section>
+
+    <section>
+      <h2>Stairs</h2>
+      <div class="ctl"><label for="stairDepth">Stair run, rail to bottom tread nose</label><output for="stairDepth">24</output><input type="range" id="stairDepth" min="16" max="40" step="1" value="24"></div>
+      <div class="ctl"><label for="riserMax">Riser, max (sets the number of steps)</label><output for="riserMax">8</output><input type="range" id="riserMax" min="6" max="10" step="0.5" value="8"></div>
+      <p class="note">One stair module per side, in the walkway slot at mid-length, on its own receiver stub at x = 0. Width is the slot minus 1". The deck is the top step; airbag kneel shortens the bottom riser.</p>
     </section>
 
     <section>
       <h2>Wheel / motor</h2>
-      <div class="ctl"><label for="wheelX">Axle distance from centre</label><output for="wheelX">42.5</output><input type="range" id="wheelX" min="30" max="54" step="0.5" value="42.5"></div>
+      <div class="ctl"><label for="wheelX">Axle distance from centre</label><output for="wheelX">33</output><input type="range" id="wheelX" min="24" max="54" step="0.5" value="33"></div>
       <div class="ctl"><label for="track">Track (hub centre to hub centre)</label><output for="track">43</output><input type="range" id="track" min="36" max="52" step="0.5" value="43"></div>
       <div class="ctl"><label for="wheelD">Tire outside diameter (ATV 20×10-10 / 22×11-10)</label><output for="wheelD">20</output><input type="range" id="wheelD" min="18" max="26" step="0.5" value="20"></div>
+      <div class="toggles" style="margin-bottom:8px"><label><input type="checkbox" id="wheelWells" checked> wheel wells: deck plate and pod floor cut out over the tires, so the car can kneel until the tire meets the seat pan</label></div>
       <div class="ctl"><label for="tireW">Tire width</label><output for="tireW">10</output><input type="range" id="tireW" min="3" max="12" step="0.5" value="10"></div>
     </section>
 
@@ -120,15 +143,26 @@
 
     <section>
       <h2>Roof</h2>
-      <div class="views" style="grid-template-columns:1fr 1fr;margin-bottom:10px">
-        <button id="rsRect" type="button" class="on">Rectangle</button>
+      <div class="views" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:10px">
+        <button id="rsRect" type="button">Rectangle</button>
         <button id="rsPetals" type="button">Petals</button>
+        <button id="rsClover" type="button" class="on">Cloverleaf</button>
       </div>
-      <div class="ctl"><label for="roofH">Roof height above ground</label><output for="roofH">84</output><input type="range" id="roofH" min="72" max="100" step="1" value="84"></div>
+      <div class="ctl"><label for="roofH">Roof height above ground (top of the rim)</label><output for="roofH">102</output><input type="range" id="roofH" min="72" max="112" step="1" value="102"></div>
+      <div class="ctl"><label for="leafR">Cloverleaf: leaf radius</label><output for="leafR">32</output><input type="range" id="leafR" min="26" max="40" step="0.5" value="32"></div>
+      <div class="ctl"><label for="leafX">Cloverleaf: side leaf centre, from the car centre (length)</label><output for="leafX">24</output><input type="range" id="leafX" min="12" max="40" step="0.5" value="24"></div>
+      <div class="ctl"><label for="leafZ">Cloverleaf: side leaf centre, from the car centre (width)</label><output for="leafZ">21</output><input type="range" id="leafZ" min="8" max="30" step="0.5" value="21"></div>
+      <div class="ctl"><label for="rimD">Cloverleaf: rim depth (lit fascia)</label><output for="rimD">3</output><input type="range" id="rimD" min="2" max="6" step="0.5" value="3"></div>
+      <div class="ctl"><label for="cPostXo">Cloverleaf: outer posts, from centre (length)</label><output for="cPostXo">50</output><input type="range" id="cPostXo" min="36" max="60" step="1" value="50"></div>
+      <div class="ctl"><label for="cPostXi">Cloverleaf: inner posts, from centre (length)</label><output for="cPostXi">10</output><input type="range" id="cPostXi" min="4" max="24" step="1" value="10"></div>
+      <div class="ctl"><label for="cPostZ">Cloverleaf: posts, from centre (width)</label><output for="cPostZ">13</output><input type="range" id="cPostZ" min="8" max="26" step="1" value="13"></div>
+      <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="showOttoman" checked> ottoman benches in the aisle</label></div>
+      <div class="ctl"><label for="ottomanW">Ottoman width</label><output for="ottomanW">18</output><input type="range" id="ottomanW" min="10" max="26" step="1" value="18"></div>
+      <p class="note">Cloverleaf: six overlapping leaves, one over each pod, as two halves split at mid-length. Each half stands on four posts at the leaf valleys (outer pair at the frame corners, inner pair flanking the walkway, so they double as grab handles). The rim is a shallow box beam whose outboard face is the lit fascia; two 100 W flexible panels lie on each leaf. Leaves centred inboard of the pods close the hole over the aisle; slide leafX / leafZ to trade aisle cover against pod-rim cover.</p>
       <div class="ctl"><label for="roofOver">Rectangle: overhang past the deck</label><output for="roofOver">38</output><input type="range" id="roofOver" min="0" max="48" step="1" value="38"></div>
       <div class="ctl"><label for="petalOver">Petals: overhang past the pod rim</label><output for="petalOver">6</output><input type="range" id="petalOver" min="0" max="16" step="1" value="6"></div>
       <div class="ctl"><label for="postX">Rectangle posts, distance from centre (length)</label><output for="postX">52</output><input type="range" id="postX" min="20" max="56" step="1" value="52"></div>
-      <div class="ctl"><label for="postZ">Rectangle posts, distance from centre (width)</label><output for="postZ">19</output><input type="range" id="postZ" min="8" max="26" step="1" value="19"></div>
+      <div class="ctl"><label for="postZ">Rectangle posts, distance from centre (width)</label><output for="postZ">14</output><input type="range" id="postZ" min="8" max="26" step="1" value="14"></div>
     </section>
 
     <section>
@@ -153,6 +187,10 @@
         <span><i style="background:#d9dde3"></i>hub motors</span>
         <span><i style="background:#4f8fd6"></i>battery sled</span>
         <span><i style="background:#8a7350"></i>pods</span>
+        <span><i style="background:#b0895a"></i>stairs</span>
+        <span><i style="background:#ffc088"></i>lit rim</span>
+        <span><i style="background:#5a4632"></i>ottoman</span>
+        <span><i style="background:#8e939c;opacity:.5"></i>trailer rails</span>
       </div>
       <p class="note" style="margin-top:10px">Corners use single-shaft (ATV / golf-cart style) hub motors bolted to a spindle, so every arm is single-sided on a wide pivot. Fronts end in a kingpin; a rack ahead of the axle drives tie rods; the column runs under the driver pod to a wheel, with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow the numbers in podcar_model.py and loveseat.md. Everything else is a proposal to argue with.</p>
     </section>
@@ -171,21 +209,25 @@
   // ---- parameters (real inches; X = length, +X front; Y = up; Z = across, +Z right) ----
   const P = {
     deckL: 120, deckW: 54, deckH: 24,
-    railW: 2, railH: 4, crossH: 3, railInset: 8,
+    railW: 2, railH: 4, crossH: 3, railInset: 12,
     sleeve: 2.5, sleeveLen: 16,
-    podX: 33, podZ: 27, podR: 24, endPodX: 64, armSpacing: 12, sleeveTop: true, bump: 3,
-    podWallH: 25, podWallSpan: 220, seatH: 17, seatSpan: 200, riderSpread: 38,
-    wheelX: 42.5, track: 43, wheelD: 20, tireW: 10, hubD: 10, hubW: 5,
+    podX: 33, podZ: 27, podR: 24, endPodX: 64, armSpacing: 26, sleeveTop: false, bump: 3, wheelWells: true,
+    podWallH: 25, podWallSpan: 220, seatH: 17, seatSpan: 200, riderSpread: 38, podShape: 'U', podLeg: 8, driverLeg: 16, driverW: 52,
+    stairDepth: 24, riserMax: 8, stairLb: 35, showStair: true, stackMode: false, stackArms: false,
+    trailerL: 143, trailerW: 72, trailerRail: 30, rampW: 57, rampLb: 1810, trailerLoadLb: 3710, trailerDeckH: 24,
+    wheelX: 33, track: 43, wheelD: 20, tireW: 10, hubD: 10, hubW: 5,
     armLen: 16, springOff: 6, springD: 6, pivotSpan: 10,
     kpOff: 5, steer: 0, steerArm: 7, ackermann: 15,
-    roofH: 84, roofOver: 38, postX: 52, postZ: 19, panelLb: 10, petalOver: 6, roofStyle: 'rect',
+    roofH: 102, roofOver: 38, postX: 52, postZ: 14, panelLb: 10, petalOver: 6, roofStyle: 'clover',
+    leafR: 32, leafX: 24, leafZ: 21, rimD: 3, cPostXo: 50, cPostXi: 10, cPostZ: 13, flexW: 41, flexD: 21, flexLb: 4.5, ledPerFt: 18.3, rimRows: 2,
+    showOttoman: true, ottomanW: 18, ottomanH: 17,
     sledL: 46, sledW: 21, sledH: 9, sledLb: 475, podLb: 120,
     cornerLoad: 600, sideLoad: 400,
     showCorners: true, showSteering: true, showPods: true, showRiders: true, showRoof: true, showSolar: true,
     showSled: true, showDeck: false, showTrailer: false,
   };
-  const SLIDERS = ['railInset', 'railH', 'sleeveLen', 'armSpacing', 'podX', 'bump', 'wheelX', 'track', 'wheelD', 'tireW', 'armLen', 'pivotSpan', 'springOff', 'springD', 'kpOff', 'steer', 'roofH', 'roofOver', 'petalOver', 'postX', 'postZ', 'cornerLoad', 'sideLoad'];
-  const TOGGLES = ['sleeveTop', 'showCorners', 'showSteering', 'showPods', 'showRiders', 'showRoof', 'showSolar', 'showSled', 'showDeck', 'showTrailer'];
+  const SLIDERS = ['railInset', 'railH', 'sleeveLen', 'armSpacing', 'podX', 'bump', 'driverW', 'driverLeg', 'stairDepth', 'riserMax', 'wheelX', 'track', 'wheelD', 'tireW', 'armLen', 'pivotSpan', 'springOff', 'springD', 'kpOff', 'steer', 'roofH', 'roofOver', 'petalOver', 'postX', 'postZ', 'leafR', 'leafX', 'leafZ', 'rimD', 'cPostXo', 'cPostXi', 'cPostZ', 'ottomanW', 'cornerLoad', 'sideLoad'];
+  const TOGGLES = ['sleeveTop', 'wheelWells', 'showCorners', 'showSteering', 'showPods', 'showRiders', 'showRoof', 'showSolar', 'showSled', 'showStair', 'showDeck', 'showTrailer', 'stackMode', 'stackArms', 'showOttoman'];
 
   // ---- scene ----
   const stage = $('stage');
@@ -227,7 +269,11 @@
     roof: std(0xc9c2b4, { metalness: 0, roughness: 0.7, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
     solar: std(0x1d2a4a, { metalness: 0.6, roughness: 0.3 }),
     post: std(0x9aa1ab, { metalness: 0.55, roughness: 0.45 }),
+    fascia: std(0xffc088, { metalness: 0, roughness: 0.6, emissive: 0xff9a4a, emissiveIntensity: 0.45, transparent: true, opacity: 0.9, side: THREE.DoubleSide }),
+    ottoman: std(0x5a4632, { metalness: 0, roughness: 0.85 }), ottomanTop: std(0x6b3f5c, { metalness: 0, roughness: 0.9 }),
     trailerLine: new THREE.LineDashedMaterial({ color: 0x8e939c, dashSize: 3, gapSize: 2, transparent: true, opacity: 0.7 }),
+    trailerRail: std(0x8e939c, { metalness: 0.2, transparent: true, opacity: 0.18, side: THREE.DoubleSide }),
+    stair: std(0xb0895a, { metalness: 0, roughness: 0.85 }), stairFrame: std(0x8e949d, { metalness: 0.55 }),
   };
 
   let root = null, DRY = false;                            // DRY: tally lengths without adding meshes
@@ -265,6 +311,31 @@
     m.rotation.x = -Math.PI / 2; m.position.set(cx, y0, cz); m.castShadow = m.receiveShadow = true; root.add(m);
     return m;
   }
+  function prism(pts, y0, h, mat) {                         // plan polygon [[x,z],…] extruded up from y0
+    if (DRY) return null;
+    const sh = new THREE.Shape();
+    pts.forEach(([x, z], i) => i ? sh.lineTo(x, -z) : sh.moveTo(x, -z));
+    sh.closePath();
+    const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: h, bevelEnabled: false }), mat);
+    m.rotation.x = -Math.PI / 2; m.position.set(0, y0, 0); m.castShadow = m.receiveShadow = true; root.add(m);
+    return m;
+  }
+  // pod outline in plan (world coords). dir = angle of the outboard side. D: full circle. U: half round outboard, straight legs `leg` long back toward the car
+  function podPts(cx, cz, dir, R, leg) {
+    const a = dir * D2R, pts = [], n = 36;
+    if (leg <= 0) { for (let i = 0; i < 64; i++) { const t = 2 * Math.PI * i / 64; pts.push([cx + R * Math.cos(t), cz + R * Math.sin(t)]); } return pts; }
+    for (let i = 0; i <= n; i++) { const t = a - Math.PI / 2 + Math.PI * i / n; pts.push([cx + R * Math.cos(t), cz + R * Math.sin(t)]); }
+    const bx = -Math.cos(a) * leg, bz = -Math.sin(a) * leg, last = pts[pts.length - 1], first = pts[0];
+    pts.push([last[0] + bx, last[1] + bz], [first[0] + bx, first[1] + bz]);
+    return pts;
+  }
+  function ribbon(segs, y0, h, mat) {                       // vertical band along a list of [[x0,z0],[x1,z1]] segments
+    if (DRY || !segs.length) return null;
+    const pos = [];
+    for (const [[x0, z0], [x1, z1]] of segs) pos.push(x0, y0, z0, x1, y0, z1, x1, y0 + h, z1, x0, y0, z0, x1, y0 + h, z1, x0, y0 + h, z0);
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.computeVertexNormals();
+    const m = new THREE.Mesh(g, mat); m.castShadow = m.receiveShadow = true; root.add(m); return m;
+  }
   function loop(pts, mat) {
     const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(...p)));
     const l = new THREE.LineLoop(g, mat); l.computeLineDistances(); root.add(l); return l;
@@ -276,8 +347,9 @@
     cross: { name: '2×3×0.120 cross members', w: lbft(2, 3, 0.12) }, string: { name: '2×3×0.120 stringers', w: lbft(2, 3, 0.12) },
     sleeve: { name: '2½×2½×0.188 receivers', w: lbft(2.5, 2.5, 0.188) }, arm: { name: '2×3×0.188 trailing arms', w: lbft(2, 3, 0.188) },
     post: { name: '2×2×0.125 6061 posts + 3×3 mast', w: lbft(2, 2, 0.125, 0.0975) }, roof: { name: '2×2×0.095 6061 roof frame', w: lbft(2, 2, 0.095, 0.0975) }, petal: { name: '1½×0.095 6061 petal members', w: lbft(1.5, 1.5, 0.095, 0.0975) },
+    spoke: { name: '1×1×0.065 6061 spokes + braces', w: lbft(1, 1, 0.065, 0.0975) }, rim: { name: '1" × 0.065 6061 round rim chords', w: Math.PI * (0.5 ** 2 - 0.435 ** 2) * 0.0975 * 12 },
   };
-  const FRAME_KEYS = ['rail', 'end', 'cross', 'string', 'sleeve', 'arm'], ROOF_KEYS = ['post', 'roof', 'petal'];
+  const FRAME_KEYS = ['rail', 'end', 'cross', 'string', 'sleeve', 'arm'], ROOF_KEYS = ['post', 'roof', 'petal', 'spoke', 'rim'];
 
   function build() {
     if (root) scene.remove(root);
@@ -289,7 +361,9 @@
     const inner = 2 * railZ - rw, endX = L / 2 - rw / 2;
     const sleeveY = P.sleeveTop ? top + P.sleeve / 2 : top - rh / 2;             // receiver centreline
     const podFloor = P.sleeveTop ? top + P.sleeve : top;                           // pod floor rides on the arms
-    P.endPodX = P.podX + Math.sqrt(Math.max(0, (2 * P.podR) ** 2 - P.podZ ** 2));  // end pods tangent to the side pods
+    P.endPodX = P.podX + Math.sqrt(Math.max(0, (2 * P.podR) ** 2 - P.podZ ** 2));  // rear pod tangent to the side pods
+    P.driverR = P.driverW / 2;
+    P.frontPodX = P.podX + Math.sqrt(Math.max(0, (P.podR + P.driverR) ** 2 - P.podZ ** 2));   // driver pod, its own radius
 
     // ---- ladder ----
     for (const s of [-1, 1]) box(0, railY, s * railZ, L - 2 * rw, rh, rw, M.steel, 'rail');
@@ -299,6 +373,10 @@
       const x = e * sx;
       for (const s of [-1, 1]) box(x, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeve, P.sleeveLen, M.sleeve, 'sleeve');
       stations.push(x - e * (P.sleeve / 2 + rw / 2));
+    }
+    if (P.showStair) {                                                                           // stair stubs at mid-length, one per side, with their own cross member
+      for (const s of [-1, 1]) box(0, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeve, P.sleeveLen, M.sleeve, 'sleeve');
+      stations.push(0);
     }
     const endCrossX = L / 2 - P.sleeveLen - rw / 2;
     for (const e of [-1, 1]) {
@@ -373,7 +451,8 @@
       box(rackX, rackY, 0, 3, 3, 6, M.steer);                                                            // pinion housing, fixed to the frame
       box(rackX, rackY, travel, 1.5, 1.5, 2 * rackHalf + 6, M.steer);                                    // rack bar, slides
       for (const [x, y, z, s] of steerArmEnds) bar([rackX, rackY, s * rackHalf + travel], [x, y, z], 0.5, M.steer);   // tie rods
-      const dz = 9, wheelP = [P.endPodX + 6, podFloor + 28, dz], j1 = [L / 2 + 1, top - 1.5, dz], j0 = [rackX + 2, rackY + 2, dz];
+      if (!P.stackMode) {                                                                                // column and wheel come off with the driver pod
+      const dz = 9, wheelP = [P.frontPodX + 12, podFloor + 28, dz], j1 = [L / 2 + 1, top - 1.5, dz], j0 = [rackX + 2, rackY + 2, dz];
       bar(j0, j1, 0.6, M.steer); bar(j1, wheelP, 0.6, M.steer);
       for (const p of [j0, j1]) { const u = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), M.steel2); u.position.set(...p); root.add(u); }
       const dir = new THREE.Vector3(wheelP[0] - j1[0], wheelP[1] - j1[1], 0).normalize();
@@ -382,18 +461,46 @@
       const sw = new THREE.Mesh(new THREE.TorusGeometry(6.5, 0.6, 12, 40), M.steer); sw.position.set(...wheelP); sw.quaternion.copy(q); root.add(sw);
       const perp = new THREE.Vector3(-dir.y, dir.x, 0);
       for (const a of [90, 210, 330]) { const v = perp.clone().multiplyScalar(Math.cos(a * D2R)).add(new THREE.Vector3(0, 0, Math.sin(a * D2R))); bar(wheelP, [wheelP[0] + 6.5 * v.x, wheelP[1] + 6.5 * v.y, wheelP[2] + 6.5 * v.z], 0.4, M.steer); }
+      }
     }
 
     // ---- pods ----
     const pods = [
       { x: -P.endPodX, z: 0, dir: 180 }, { x: -P.podX, z: -P.podZ, dir: -90 }, { x: -P.podX, z: P.podZ, dir: 90 },
-      { x: P.podX, z: -P.podZ, dir: -90 }, { x: P.podX, z: P.podZ, dir: 90 }, { x: P.endPodX, z: 0, dir: 180 },
+      { x: P.podX, z: -P.podZ, dir: -90 }, { x: P.podX, z: P.podZ, dir: 90 }, { x: P.frontPodX, z: 0, dir: 180 },
     ];
-    if (P.showPods) for (const pd of pods) {
-      const a = pd.dir * D2R, span = P.podWallSpan * D2R, sspan = P.seatSpan * D2R;
-      cyl(pd.x, podFloor + 0.5, pd.z, P.podR, 1, 'y', M.pod, 64);
-      sector(pd.x, pd.z, P.podR - 1, P.podR, a - span / 2, a + span / 2, podFloor + 1, P.podWallH, M.podWall);
-      sector(pd.x, pd.z, P.podR - 20, P.podR - 1, a - sspan / 2, a + sspan / 2, podFloor + P.seatH - 3, 3, M.seat);
+    // U pods: half round outboard, straight legs back to the rail face; D pods: the full 48" disc
+    const legDefault = P.podShape === 'U' ? P.podZ - (railZ + rw / 2) : 0, leg = legDefault;
+    P.podLeg = leg;
+    const isDriver = pd => pd.z === 0 && pd.x > 0;                                             // front end pod
+    function drawPod(x, z, dir, floorY, legOverride, Rovr) {
+      const a = dir * D2R, sspan = P.seatSpan * D2R, leg = legOverride === undefined ? legDefault : legOverride;
+      const R0 = P.podR; if (Rovr) P.podR = Rovr;                                                // driver pod is wider; restore after
+      try {
+      if (leg > 0) {
+        prism(podPts(x, z, dir, P.podR, leg), floorY, 1, M.pod);
+        sector(x, z, P.podR - 1, P.podR, a - Math.PI / 2, a + Math.PI / 2, floorY + 1, P.podWallH, M.podWall);
+        for (const q of [-1, 1]) {                                                              // straight legs, 1" wall, from the tangent point back toward the car
+          const t = a + q * Math.PI / 2, ex = x + (P.podR - 0.5) * Math.cos(t), ez = z + (P.podR - 0.5) * Math.sin(t);
+          const mx = ex - Math.cos(a) * leg / 2, mz = ez - Math.sin(a) * leg / 2;
+          const alongX = Math.abs(Math.cos(a)) > 0.5;
+          box(mx, floorY + 1 + P.podWallH / 2, mz, alongX ? leg : 1, P.podWallH, alongX ? 1 : leg, M.podWall);
+        }
+        if (legOverride !== undefined) {                                                          // driver pod: low gate across the open end
+          const gx = x - Math.cos(a) * leg, gz = z - Math.sin(a) * leg, alongX = Math.abs(Math.cos(a)) > 0.5;
+          box(gx, floorY + 7, gz, alongX ? 1 : 2 * P.podR - 2, 12, alongX ? 2 * P.podR - 2 : 1, M.stair);
+        }
+      } else {
+        const span = P.podWallSpan * D2R;
+        cyl(x, floorY + 0.5, z, P.podR, 1, 'y', M.pod, 64);
+        sector(x, z, P.podR - 1, P.podR, a - span / 2, a + span / 2, floorY + 1, P.podWallH, M.podWall);
+      }
+      sector(x, z, P.podR - 20, P.podR - 1, a - sspan / 2, a + sspan / 2, floorY + P.seatH - 3, 3, M.seat);
+      } finally { P.podR = R0; }
+    }
+    if (P.showPods && !P.stackMode) for (const pd of pods) {
+      const a = pd.dir * D2R;
+      drawPod(pd.x, pd.z, pd.dir, podFloor, isDriver(pd) ? P.driverLeg : undefined, isDriver(pd) ? P.driverR : undefined);
       const endPod = pd.z === 0, dirx = Math.sign(pd.x), dirz = Math.sign(pd.z);
       for (const q of [-1, 1]) {
         if (endPod) box(pd.x - dirx * (P.podR * 0.3 + 2), sleeveY, q * P.armSpacing / 2, P.sleeveLen + P.podR * 0.6 + 4, 2, 2, M.steel2);
@@ -464,10 +571,188 @@
       const st = { w: sumKeys(steel.lengths, ROOF_KEYS), area: cells * g * g / 144, span: longest, between: 0, posts: 7, panels: '6 × ~150 W', panelLb: 6 * P.panelLb * 0.8, size: `six ${(2 * rP).toFixed(0)}" petals`, pieces: 'hub, 6 petals (spine, 2 chords, arc), mast, 6 posts' };
       steel.lengths = t0; DRY = false; return st;
     }
+    // cloverleaf: six leaves as two halves (split at x = 0), each half on four posts at the leaf valleys; rim = shallow box beam with a lit fascia
+    function roofClover(dry) {
+      const ry = P.roofH, r = P.leafR, rd = P.rimD, yTop = ry - 0.5, yBot = ry - rd + 0.5, yBeam = ry - 1;
+      DRY = dry; const t0 = steel.lengths; steel.lengths = {};
+      const posts = [], panels = [], leaves = [];
+      let area = 0, perim = 0, longest = 0, seamGap = 0;
+      const nRay = 180;
+      for (const e of [-1, 1]) {
+        const endX = e > 0 ? P.frontPodX : P.endPodX;                                                  // leaf centres follow the pods
+        const discs = [{ x: e * P.leafX, z: P.leafZ }, { x: e * P.leafX, z: -P.leafZ }, { x: e * endX, z: 0 }];
+        leaves.push(...discs);
+        // outline of this half: ray-cast from a point inside all three leaves, clipped at the seam x = 0
+        const px = e * (P.leafX + endX) / 2, pz = 0, pts = [];
+        for (let i = 0; i < nRay; i++) {
+          const th = 2 * Math.PI * i / nRay, dx = Math.cos(th), dz = Math.sin(th);
+          let t = 0;
+          for (const c of discs) { const qx = px - c.x, qz = pz - c.z, b = dx * qx + dz * qz, disc = b * b - (qx * qx + qz * qz - r * r); if (disc >= 0) t = Math.max(t, -b + Math.sqrt(disc)); }
+          let seam = false;
+          if (e * (px + t * dx) < 0) { t = -px / dx; seam = true; }
+          pts.push({ x: px + t * dx, z: pz + t * dz, seam });
+        }
+        for (let i = 0; i < nRay; i++) { const a = pts[i], b = pts[(i + 1) % nRay]; area += (a.x * b.z - b.x * a.z) / 2; }
+        const halfPosts = [[e * P.cPostXi, P.cPostZ], [e * P.cPostXi, -P.cPostZ], [e * P.cPostXo, P.cPostZ], [e * P.cPostXo, -P.cPostZ]];
+        posts.push(...halfPosts);
+        for (const p of pts) if (!p.seam) longest = Math.max(longest, Math.min(...halfPosts.map(q => Math.hypot(p.x - q[0], p.z - q[1]))));
+        // rim: top and bottom chords (rolled round tube) along the outline, fascia between; nothing along the seam
+        const segs = [];
+        for (let i = 0; i < nRay; i++) {
+          const a = pts[i], b = pts[(i + 1) % nRay];
+          if (a.seam && b.seam) continue;
+          const len = Math.hypot(b.x - a.x, b.z - a.z); perim += len;
+          let nx = (b.z - a.z) / len, nz = -(b.x - a.x) / len;                                            // outward normal → fascia sits just outside the chords
+          if (nx * ((a.x + b.x) / 2 - px) + nz * ((a.z + b.z) / 2 - pz) < 0) { nx = -nx; nz = -nz; }
+          segs.push([[a.x + 0.7 * nx, a.z + 0.7 * nz], [b.x + 0.7 * nx, b.z + 0.7 * nz]]);
+          bar([a.x, yTop, a.z], [b.x, yTop, b.z], 0.5, M.post, 'rim');
+          bar([a.x, yBot, a.z], [b.x, yBot, b.z], 0.5, M.post, 'rim');
+        }
+        ribbon(segs, ry - rd, rd, M.fascia);
+        if (!dry) prism(pts.map(p => [p.x, p.z]), ry, 0.5, M.roof);                                     // skin
+        // posts, post frame (two beams along the car, two across), knee braces
+        for (const [x, z] of halfPosts) {
+          box(x, (top + yBeam) / 2, z, 2, yBeam - top, 2, M.post, 'post');
+          bar([x, yBeam - 16, z], [x + e * 14, yBeam - 1, z], 0.5, M.post, 'spoke');
+          bar([x, yBeam - 16, z], [x, yBeam - 1, z + Math.sign(z) * 14], 0.5, M.post, 'spoke');
+        }
+        for (const s of [-1, 1]) box(e * (P.cPostXi + P.cPostXo) / 2, yBeam, s * P.cPostZ, P.cPostXo - P.cPostXi + 2, 2, 2, M.post, 'roof');
+        for (const x of [P.cPostXi, P.cPostXo]) box(e * x, yBeam, 0, 2, 2, 2 * P.cPostZ + 2, M.post, 'roof');
+        // leaf frames: hub plate, 8 spokes to the rim (clipped at the seam), hub-to-hub beams
+        for (const c of discs) {
+          box(c.x, yBeam, c.z, 8, 1.5, 8, M.post, 'roof');
+          for (let k = 0; k < 8; k++) {
+            const a = k * Math.PI / 4; let ex = c.x + r * Math.cos(a), ez = c.z + r * Math.sin(a);
+            if (e * ex < 0) { const f = (0 - c.x) / (ex - c.x); ex = 0; ez = c.z + f * (ez - c.z); }
+            bar([c.x, yBeam, c.z], [ex, yBeam, ez], 0.5, M.post, 'spoke');
+          }
+        }
+        bar([discs[0].x, yBeam, discs[0].z], [discs[1].x, yBeam, discs[1].z], 1, M.post, 'roof');
+        for (const c of [discs[0], discs[1]]) bar([c.x, yBeam, c.z], [discs[2].x, yBeam, discs[2].z], 1, M.post, 'roof');
+        // panels: two 41 × 21 flexible panels per leaf, side by side; block long axis across the car on the end leaf, along it on the side leaves
+        const blocks = [
+          { cx: e * P.leafX, cz: P.leafZ, w: P.flexW, d: 2 * P.flexD, along: 'x', c: discs[0] },
+          { cx: e * P.leafX, cz: -P.leafZ, w: P.flexW, d: 2 * P.flexD, along: 'x', c: discs[1] },
+          { cx: e * (endX + 2), cz: 0, w: P.flexW, d: 2 * P.flexD, along: 'x', c: discs[2] },
+        ];
+        for (const b of blocks) {
+          const corners = [[b.cx - b.w / 2, b.cz - b.d / 2], [b.cx + b.w / 2, b.cz - b.d / 2], [b.cx - b.w / 2, b.cz + b.d / 2], [b.cx + b.w / 2, b.cz + b.d / 2]];
+          const inLeaf = corners.every(([x, z]) => Math.hypot(x - b.c.x, z - b.c.z) <= r + 0.01 && e * x >= -0.01);
+          panels.push({ x0: b.cx - b.w / 2, x1: b.cx + b.w / 2, z0: b.cz - b.d / 2, z1: b.cz + b.d / 2, inLeaf });
+          if (!dry && P.showSolar) for (const q of [-1, 1]) box(b.cx, ry + 0.75, b.cz + q * P.flexD / 2, b.w - 1, 0.4, P.flexD - 1, M.solar);
+        }
+        // how far the two halves' leaves fall short of meeting over the aisle centre (negative = they overlap)
+        const cover = r * r - P.leafZ * P.leafZ; seamGap = cover > 0 ? P.leafX - Math.sqrt(cover) : P.leafX;
+      }
+      let overlap = false;
+      for (let i = 0; i < panels.length; i++) for (let j = i + 1; j < panels.length; j++) { const a = panels[i], b = panels[j]; if (a.x0 < b.x1 - 0.01 && b.x0 < a.x1 - 0.01 && a.z0 < b.z1 - 0.01 && b.z0 < a.z1 - 0.01) overlap = true; }
+      // pod-rim cover: farthest pod point from its leaf centre vs the leaf radius (positive = rim sticks out past the roof)
+      const sideShort = Math.hypot(P.podX - P.leafX, P.podZ - P.leafZ) + P.podR - r, endShort = P.podR - r, frontShort = P.driverR - r;
+      const sidePiece = [P.leafX + r, P.leafZ + r], endPiece = [2 * r, 2 * r];
+      const st = { w: sumKeys(steel.lengths, ROOF_KEYS), area: area / 144, span: longest, between: 2 * P.cPostXi, posts: 8, panels: '12 × 100 W flex', panelLb: 12 * P.flexLb,
+        size: `six ${(2 * r).toFixed(0)}" leaves, ${(2 * (endX_(P) + r)).toFixed(0)}" × ${(2 * (P.leafZ + r)).toFixed(0)}"`, pieces: '2 post frames, 6 leaf pieces (rim + spokes), 8 posts',
+        perim, panelsFit: panels.every(p => p.inLeaf) && !overlap, overlap, seamGap, sideShort, endShort: Math.max(endShort, frontShort), sidePiece, endPiece, posts_: posts };
+      steel.lengths = t0; DRY = false; return st;
+    }
+    const endX_ = P => Math.max(P.frontPodX, P.endPodX);
     const sumKeys = (lens, keys) => keys.reduce((t, k) => t + (lens[k] || 0) / 12 * SECTIONS[k].w, 0);
-    roofStats.rect = roofRect(!P.showRoof || P.roofStyle !== 'rect');
-    roofStats.petals = roofPetals(!P.showRoof || P.roofStyle !== 'petals');
+    roofStats.rect = roofRect(!P.showRoof || P.stackMode || P.roofStyle !== 'rect');
+    roofStats.petals = roofPetals(!P.showRoof || P.stackMode || P.roofStyle !== 'petals');
+    roofStats.clover = roofClover(!P.showRoof || P.stackMode || P.roofStyle !== 'clover');
     geo.roofStats = roofStats;
+
+    // ---- ottoman: two storage benches in the aisle, one per half, from the walkway to the end pod ----
+    {
+      const walkHalf = P.podX - P.podR, aisle = 2 * (railZ + rw / 2);
+      const benches = [];
+      for (const e of [-1, 1]) {
+        const x0 = walkHalf + 2, x1 = (e > 0 ? P.frontPodX - P.driverR : P.endPodX - P.podLeg) - 4, len = x1 - x0;
+        benches.push({ e, x0, x1, len });
+        if (P.showOttoman && !P.stackMode && len > 6) {
+          box(e * (x0 + x1) / 2, top + (P.ottomanH - 3) / 2, 0, len, P.ottomanH - 3, P.ottomanW, M.ottoman);
+          box(e * (x0 + x1) / 2, top + P.ottomanH - 1.5, 0, len, 3, P.ottomanW, M.ottomanTop);
+        }
+      }
+      geo.ottoman = { benches, aisle, beside: (aisle - P.ottomanW) / 2, seats: benches.reduce((t, b) => t + 2 * Math.floor(b.len / 18), 0), storage: benches.reduce((t, b) => t + b.len * (P.ottomanW - 2) * (P.ottomanH - 4), 0) / 1728 };
+    }
+
+
+    // ---- stairs: one module per side in the walkway slot, hung off a receiver stub at x = 0 ----
+    const walk = 2 * P.podX - 2 * P.podR, stairW = Math.max(12, walk - 1);
+    const nRise = Math.max(2, Math.ceil(top / P.riserMax)), riser = top / nRise, treadD = P.stairDepth / (nRise - 1);
+    geo.stair = { w: stairW, n: nRise, riser, treadD, nose: W / 2 + P.stairDepth, rim: P.podZ + P.podR };
+    function drawStair(s) {
+      const z0 = W / 2;
+      box(0, sleeveY, s * (z0 - P.sleeveLen + 1 + (P.sleeveLen + 3) / 2), 2, 2, P.sleeveLen + 3, M.steel2);           // stub, 13" in the receiver, 4" proud of the deck edge
+      box(0, (sleeveY - 1 + top - 5) / 2, s * (z0 + 3), 2, sleeveY - 1 - (top - 5), 2, M.steel2);                    // drop
+      box(0, top - 4, s * (z0 + 3), stairW, 2, 2, M.stairFrame);                                                      // header
+      for (const q of [-1, 1]) bar([q * (stairW / 2 - 1), top - 4, s * (z0 + 3)], [q * (stairW / 2 - 1), riser - 2, s * (z0 + P.stairDepth - 2)], 1, M.stairFrame);
+      for (let i = 1; i < nRise; i++) {
+        const y = i * riser, zi = z0 + (nRise - 1 - i) * treadD;
+        box(0, y - 0.5, s * (zi + treadD / 2), stairW - 2, 1, treadD, M.stair);                                       // tread
+        box(0, y + riser / 2, s * zi, stairW - 2, riser, 0.5, M.stair);                                                // riser face above it (top one is the deck lip)
+      }
+    }
+    if (P.showStair && !P.stackMode) for (const s of [-1, 1]) drawStair(s);
+
+    // ---- transport stack: bare car on the trailer, pods piled on the deck, stairs at the deck ends, roof flat on top ----
+    if (P.stackMode) {
+      const R = P.podR, fpL = 2 * R, inb = leg > 0 ? leg : R, fpD = R + inb + (P.stackArms ? 13 : 0), podH = 1 + P.podWallH;
+      const rows = Math.max(1, Math.floor(P.trailerW / fpD)), cols = Math.max(1, Math.floor(P.trailerL / fpL));
+      const per = rows * cols, nPass = 5;
+      let layers = Math.ceil(nPass / per);
+      const cell = (i) => { const layer = Math.floor(i / per), k = i % per, row = Math.floor(k / cols), col = k % cols; return { layer, row, col, zc: (row - (rows - 1) / 2) * fpD, cx: (col - (cols - 1) / 2) * fpL }; };
+      for (let i = 0; i < nPass; i++) {
+        const { layer, zc, cx } = cell(i), dir = zc < 0 ? -90 : 90, a = dir * D2R;
+        const armOff = P.stackArms ? 13 : 0;                                                                        // arms point inboard (−dir); footprint grows that way
+        const cz = zc - Math.sin(a) * ((R - inb - armOff) / 2), fy = top + layer * podH;
+        drawPod(cx, cz, dir, fy);
+        if (P.stackArms) for (const q of [-1, 1]) box(cx + q * P.armSpacing / 2, fy - 1, cz - Math.sin(a) * (inb + 6.5), 2, 2, 13, M.steel2);
+      }
+      // driver pod: deeper (R + driverLeg). Goes in the next free cell if its legs can extend across the other row without hitting a pod or the rail; else its own layer
+      const Rd = P.driverR, dl = P.driverLeg + (P.stackArms ? 13 : 0), fpDd = Rd + dl, fpLd = 2 * Rd;
+      let dPlaced = false, dNote = '';
+      if (nPass % per !== 0) {
+        const c = cell(nPass), edge = c.zc + Math.sign(c.zc || -1) * fpD / 2;                                         // outer edge of this cell's row
+        const dir = c.zc < 0 || rows === 1 ? -90 : 90, a = dir * D2R, sgn = -Math.sin(a);                            // arc at the outer edge, legs inward (+sgn·z)
+        const arcEdge = rows === 1 ? -P.trailerW / 2 + 1 : edge;
+        const far = arcEdge + sgn * fpDd;                                                                             // where the legs end
+        const otherCell = { row: 1 - c.row, col: c.col }, otherIdx = c.layer * per + otherCell.row * cols + otherCell.col;
+        const otherOccupied = rows > 1 && otherIdx < nPass && otherIdx >= 0;
+        const nearEdgeOther = Math.abs(c.zc) - fpD / 2;                                                              // the other row starts here (signed toward sgn)
+        const fits = Math.abs(far) <= P.trailerW / 2 && (!otherOccupied || sgn * far <= nearEdgeOther);
+        if (fits) { drawPod(c.cx, arcEdge + sgn * Rd, dir, top + c.layer * podH, P.driverLeg, Rd); dPlaced = true; dNote = `driver pod beside pod ${nPass} on layer ${c.layer + 1}`; }
+      }
+      if (!dPlaced) { drawPod(0, -fpDd / 2 + Rd, 90, top + layers * podH, P.driverLeg, Rd); layers += 1; dNote = 'driver pod on its own layer'; }
+      let yTop = top + layers * podH;
+      const stackL = cols * fpL + (dPlaced ? fpLd - fpL : 0), stackW = rows * fpD;
+      if (P.showStair) for (const e of [-1, 1]) box(e * (stackL / 2 + stairW / 2 + 1), top + top / 2, 0, stairW, top, P.stairDepth, M.stair);
+      let roofH = 0;
+      if (P.showRoof && P.roofStyle === 'clover') {
+        // six leaf pieces (side pieces two per layer, end pieces one per layer), then the two post frames, panels and the post bundle
+        const c = roofStats.clover, lh = P.rimD + 1, [sw, sd] = c.sidePiece, [ew, ed] = c.endPiece;
+        for (let i = 0; i < 2; i++) for (const s of [-1, 1]) box(s * (sw / 2 + 1), yTop + roofH + lh * i + P.rimD / 2, 0, sw, P.rimD, sd, M.fascia);
+        roofH += 2 * lh;
+        for (const s of [-1, 1]) box(s * (ew / 2 + 1), yTop + roofH + P.rimD / 2, 0, ew, P.rimD, ed, M.fascia);
+        roofH += lh;
+        for (const e of [-1, 1]) box(e * ((P.cPostXo - P.cPostXi) / 2 + 2), yTop + roofH + 1, 0, P.cPostXo - P.cPostXi + 2, 2, 2 * P.cPostZ + 2, M.post);
+        roofH += 2.5;
+        if (P.showSolar) { for (let i = 0; i < 12; i++) box(0, yTop + roofH + 0.4 + i * 0.6, 0, P.flexW, 0.5, P.flexD, M.solar); roofH += 12 * 0.6; }
+        box(0, yTop + roofH + 3, 0, P.roofH - top + 2, 6, 6, M.post); roofH += 6;                                  // post bundle
+      } else if (P.showRoof) {
+        const rect = P.roofStyle === 'rect';
+        const nP = rect ? 4 : 6, pw = rect ? 55 : 32, pd = rect ? 35 : 32;
+        if (P.showSolar) { for (let i = 0; i < nP; i++) box(0, yTop + 0.75 + i * 1.5, 0, pw, 1.5, pd, M.solar); roofH += nP * 1.5; }
+        box(0, yTop + roofH + 3, 0, Math.min(120, P.trailerL - 4), 6, 6, M.post); roofH += 6;                       // tube bundle, longest piece 120"
+      }
+      geo.stack = { dNote, fpDd, rows, cols, per, layers, fpL, fpD, stackL, stackW: Math.max(stackW, P.showStair ? P.stairDepth : 0), stackLWithStairs: stackL + (P.showStair ? 2 * (stairW + 2) : 0), podsTop: yTop, top: yTop + roofH };
+    }
+    if (P.stackMode || P.showTrailer) {
+      const hL = P.trailerL / 2, hW = P.trailerW / 2, rh_ = P.trailerRail;
+      for (const s of [-1, 1]) box(0, rh_ / 2, s * hW, P.trailerL, rh_, 0.5, M.trailerRail);
+      box(-hL, rh_ / 2, 0, 0.5, rh_, P.trailerW, M.trailerRail);
+      for (const s of [-1, 1]) box(hL, rh_ / 2, s * (P.rampW / 2 + (hW - P.rampW / 2) / 2), 0.5, rh_, hW - P.rampW / 2, M.trailerRail);
+    }
 
     // ---- sled, deck, trailer ----
     if (P.showSled) {
@@ -485,11 +770,11 @@
   function readout(g) {
     const rows = [];
     const add = (k, v, cls) => rows.push(`<dt>${k}</dt><dd class="${cls || ''}">${v}</dd>`);
-    const sub = (k, v) => rows.push(`<dt class="sub">${k}</dt><dd class="sub">${v}</dd>`);
+    const sub = (k, v, cls) => rows.push(`<dt class="sub">${k}</dt><dd class="sub ${cls || ''}">${v}</dd>`);
     const flag = (ok, warnOnly) => ok ? '' : (warnOnly ? 'warn' : 'bad');
     const L = 2 * P.wheelX, T = P.track;
     const sumK = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
-    const curRoof = g.roofStats ? (P.roofStyle === 'rect' ? g.roofStats.rect : g.roofStats.petals) : null;
+    const curRoof = g.roofStats ? g.roofStats[P.roofStyle] : null;
     const rollingLb = sumK(FRAME_KEYS) + P.sledLb + (P.showRoof && curRoof ? curRoof.w + (P.showSolar ? curRoof.panelLb : 0) : 0) + (P.showPods ? 6 * P.podLb : 0);
 
     add('Wheelbase / track', `${L.toFixed(1)}" / ${T.toFixed(1)}"`);
@@ -498,22 +783,68 @@
     add('Arm pivot vs end of frame', `${g.pivotX.toFixed(1)}" / ${(P.deckL / 2 - 1.25).toFixed(2)}"`, flag(g.pivotX <= P.deckL / 2 - 1.25));
     const walk = 2 * P.podX - 2 * P.podR;
     add('Walkway between side pods', `${walk.toFixed(0)}"`, flag(walk >= 18, walk >= 12));
-    sub('end pods at', `±${P.endPodX.toFixed(1)}" (rim to ±${(P.endPodX + P.podR).toFixed(0)}")`);
+    const frontEnd = P.frontPodX + P.driverLeg;
+    sub('end pods at', `−${P.endPodX.toFixed(1)}" / +${P.frontPodX.toFixed(1)}" (rear rim −${(P.endPodX + P.podR).toFixed(0)}", front +${frontEnd.toFixed(0)}"; overall ${(P.endPodX + P.podR + frontEnd).toFixed(0)}")`);
+    sub('pod outline', P.podShape === 'U' ? `U — 48" × ${(P.podR + P.podLeg).toFixed(0)}" (legs ${P.podLeg.toFixed(0)}" to the rail)` : 'D — 48" disc');
+    if (g.stair) {
+      const s = g.stair;
+      add('Stair module', `${s.w.toFixed(0)}" wide · ${s.n} risers of ${s.riser.toFixed(1)}"`, flag(s.riser <= 8 && s.w >= 17, s.riser <= 9 && s.w >= 12));
+      sub('treads', `${s.n - 1} × ${s.treadD.toFixed(0)}" deep`);
+      sub('bottom nose vs pod rim from centreline', `${s.nose.toFixed(0)}" / ${s.rim.toFixed(0)}"`);
+    }
+    if (g.stack) {
+      const k = g.stack, tot = k.top + P.trailerDeckH;
+      add('Transport stack', `${k.per} pods per layer · ${k.layers} layer${k.layers > 1 ? 's' : ''}`, flag(k.layers <= 2, k.layers <= 3));
+      sub('pod footprint (arms ' + (P.stackArms ? 'on' : 'off') + ')', `${k.fpL.toFixed(0)}" × ${k.fpD.toFixed(0)}" · driver ${(2 * P.driverR).toFixed(0)}" × ${k.fpDd.toFixed(0)}"`);
+      sub('', k.dNote);
+      sub(`stack width vs ${P.trailerW}" trailer`, `${k.stackW.toFixed(0)}"`);
+      sub(`length with stairs vs ${P.trailerL}"`, `${k.stackLWithStairs.toFixed(0)}"`);
+      add('Top of the load above the trailer floor', `${k.top.toFixed(0)}"`);
+      sub('pods top / above ground (13\'6" legal)', `${k.podsTop.toFixed(0)}" / ${tot.toFixed(0)}" (${(tot / 12).toFixed(1)} ft)`);
+      add(`Ramp: tire faces vs ${P.rampW}" opening`, `${(2 * tireOut).toFixed(0)}"`, flag(2 * tireOut <= P.rampW - 2, 2 * tireOut <= P.rampW));
+    }
     add('Pod floor height', `${g.podFloor.toFixed(1)}"`);
     sub('seat / rim above ground', `${(g.podFloor + P.seatH).toFixed(0)}" / ${(g.podFloor + 1 + P.podWallH).toFixed(0)}"`);
-    // pod arms vs tires: horizontal (arms threading between tires) or vertical (arms passing over them)
-    const tireTop = P.wheelD, armBottom = g.sleeveY - 1, sleeveEdge = P.podX + P.armSpacing / 2 + P.sleeve / 2;
-    const overWheel = Math.abs(P.wheelX - P.podX) < P.wheelD / 2 + P.armSpacing / 2 + P.sleeve / 2;
-    if (P.sleeveTop) {
+    // pod receivers vs tires: the two stubs of each side pod either straddle the tire (then the frame can kneel through them) or pass over it
+    const tireTop = P.wheelD, armBottom = g.sleeveY - 1, Rt = P.wheelD / 2;
+    const sIn = P.podX - P.armSpacing / 2 + P.sleeve / 2, sOut = P.podX + P.armSpacing / 2 - P.sleeve / 2;   // inner faces of the two sleeves
+    const tX0 = P.wheelX - Rt, tX1 = P.wheelX + Rt;
+    const straddle = tX0 >= sIn && tX1 <= sOut;
+    const outside = tX1 <= P.podX - P.armSpacing / 2 - P.sleeve / 2 || tX0 >= P.podX + P.armSpacing / 2 + P.sleeve / 2;
+    if (straddle) {
+      const gap = Math.min(tX0 - sIn, sOut - tX1);
+      add('Tire between the pod receivers (gap each side)', `${gap.toFixed(1)}"`, flag(gap >= 1, gap >= 0.5));
+      sub('receivers at / tire spans', `±${(P.podX - P.armSpacing / 2).toFixed(0)}"–${(P.podX + P.armSpacing / 2).toFixed(0)}" / ${tX0.toFixed(0)}"–${tX1.toFixed(0)}"`);
+    } else if (outside) add('Tire clear of the pod receivers along the car', 'yes');
+    else if (P.sleeveTop) {
       const bumpClear = armBottom - tireTop - P.bump;
       add('Tire (at full bump) to pod arm above it', `${bumpClear.toFixed(1)}"`, flag(bumpClear >= 0.5, bumpClear >= 0));
       sub('static: tire top / arm underside', `${tireTop.toFixed(0)}" / ${armBottom.toFixed(1)}"`);
-    } else {
-      const sleeveClear = (P.wheelX - P.wheelD / 2) - sleeveEdge;
-      add('Tire to nearest side sleeve (same height)', `${sleeveClear.toFixed(1)}"`, flag(sleeveClear >= 1, sleeveClear >= 0));
-    }
+    } else add('Pod receiver runs over the tire at rail height', 'clash — widen the arm spacing to straddle it, or put the receivers on top', 'bad');
+    // kneel: how far the frame can drop with the car parked (bump reserve not needed) before something meets the tire
+    const seatPanUnder = g.podFloor + P.seatH - 3 - 0.5;                                              // seat pan underside (storage space under the seat)
+    const stops = [];
+    if (!P.wheelWells) stops.push(['deck plate', P.deckH - 0.5]);
+    stops.push([P.wheelWells ? 'seat pan (through the wells)' : 'deck plate', P.wheelWells ? seatPanUnder : P.deckH - 0.5]);
+    if (!straddle && !outside) stops.push(['pod receiver', armBottom]);
+    if (g.tireIn - (g.railZ + P.railW / 2) < 0.5) stops.push(['side rail', g.railBottom]);
+    const stop = stops.reduce((m, s) => s[1] < m[1] ? s : m);
+    const kneel = Math.max(0, stop[1] - tireTop - 0.5), sledMin = 3;
+    const kneelSled = Math.max(0, g.railBottom - P.sledH - sledMin), kneelOK = Math.min(kneel, kneelSled);
+    add('Kneel available, parked', `${kneelOK.toFixed(1)}"`, flag(kneelOK >= 6, kneelOK >= 3));
+    sub('limited by', kneelOK < kneel ? `sled at ${sledMin}" off the ground` : `${stop[0]} meeting the tire`);
+    sub('pod floor kneeled / normal', `${(g.podFloor - kneelOK).toFixed(1)}" / ${g.podFloor.toFixed(1)}"`);
     const deckClear = P.deckH - tireTop - P.bump;
     add('Tire (at full bump) to deck plate', `${deckClear.toFixed(1)}"`, flag(deckClear >= 0.5, deckClear >= 0));
+    // side rail vs tire: the rail hangs railH below the deck, so it must sit inboard of the tire's inner face, or the tire hits it long before the deck
+    const railOuter = g.railZ + P.railW / 2, lateral = g.tireIn - railOuter;
+    if (lateral < 0.5) {
+      const railClear = g.railBottom - tireTop - P.bump;
+      add('Side rail is over the tire — clearance at full bump', `${railClear.toFixed(1)}"`, flag(railClear >= 0.5, railClear >= 0));
+      sub('move the rail inboard: tire inner face / rail outer face', `${g.tireIn.toFixed(1)}" / ${railOuter.toFixed(1)}"`);
+    } else add('Side rail inboard of the tire (lateral gap)', `${lateral.toFixed(1)}"`, flag(lateral >= 1, lateral >= 0.5));
+    const crossBottom = P.deckH - P.crossH, crossClear = crossBottom - tireTop - P.bump;
+    sub('cross members over the tire path, at full bump', lateral < 0.5 ? `${crossClear.toFixed(1)}"` : 'clear (they stop at the rail)');
     const rearSpringClear = g.tireIn - (g.zArmR - 2 + P.springD / 2);
     add('Rear spring to tire sidewall', `${rearSpringClear.toFixed(1)}"`, flag(rearSpringClear >= 0.5, rearSpringClear >= 0));
     const springH = g.railBottom - (g.axleY + 1.5);
@@ -548,30 +879,74 @@
     add('Front kingpin bending', `${(V * scrub).toFixed(0)} in·lb`);
 
     if (g.roofStats) {
-      const r = g.roofStats.rect, q = g.roofStats.petals, cur = P.roofStyle === 'rect' ? r : q;
-      const both = (f, unit) => `${f(r)}${unit} · ${f(q)}${unit}`;
-      add('Roof options', 'rectangle · petals');
+      const r = g.roofStats.rect, q = g.roofStats.petals, c = g.roofStats.clover;
+      const both = (f, unit) => `${f(r)}${unit} · ${f(q)}${unit} · ${f(c)}${unit}`;
+      add('Roof options', 'rectangle · petals · cloverleaf');
       sub('aluminium tube', both(x => x.w.toFixed(0), ' lb'));
       sub('shade area', both(x => x.area.toFixed(0), ' ft²'));
       sub('longest reach past a post', both(x => x.span.toFixed(0), '"'));
-      sub('posts + mast', both(x => x.posts, ''));
-      sub('panels', `${r.panels} · ${q.panels}`);
+      sub('posts (+ mast)', both(x => x.posts, ''));
+      sub('panels', `${r.panels} · ${q.panels} · ${c.panels}`);
       sub('panel weight', both(x => x.panelLb.toFixed(0), ' lb'));
-      sub('pieces to demount', `${r.pieces}`); sub('', `${q.pieces}`);
-      sub('headroom over seated eyes (~70")', `${(P.roofH - 70).toFixed(0)}"`);
+      sub('pieces to demount', `${r.pieces}`); sub('', `${q.pieces}`); sub('', `${c.pieces}`);
+      const under = P.roofH - (P.roofStyle === 'clover' ? P.rimD : 2);
+      add('Roof underside above ground', `${under.toFixed(0)}"`);
+      sub('over seated eyes (~70")', `${(under - 70).toFixed(0)}"`);
+      const standing = under - P.deckH - 74;
+      sub('standing on the deck, 6\'2" rider', `${standing >= 0 ? '+' : ''}${standing.toFixed(0)}"`, flag(standing >= 0, standing >= -4));
       if (P.roofStyle === 'rect') { const onRail = Math.abs(P.postZ - g.railZ) <= 1.5; add('Rectangle posts land on the side rails', onRail ? 'yes' : `no — rail at ${g.railZ.toFixed(1)}"`, flag(onRail, true)); }
+      if (P.roofStyle === 'clover') {
+        const onRail = Math.abs(P.cPostZ - g.railZ) <= 1.5;
+        add('Cloverleaf posts land on the side rails', onRail ? 'yes' : `no — rail at ${g.railZ.toFixed(1)}"`, flag(onRail, true));
+        // outer posts vs the pods: the side pod legs end at the rail face (a post inboard of that is clear); the rear pod floor starts at its leg ends; the driver pod's half round faces the centre
+        const legFace = g.railZ + P.railW / 2, podEndX = P.podX + P.podR, endLegX = P.endPodX - P.podLeg;
+        const sideClear = P.cPostZ + 1 <= legFace - 1 + 0.01 ? 99 : (P.cPostXo - 1 > podEndX ? P.cPostXo - 1 - podEndX : -(podEndX - (P.cPostXo - 1)));
+        const rearClear = P.cPostZ < P.podR ? endLegX - P.cPostXo - 1 : 99;
+        const frontClear = Math.hypot(P.cPostXo - P.frontPodX, P.cPostZ) - P.driverR - 1.4;
+        const outerClear = Math.min(sideClear, rearClear, frontClear), which = outerClear === frontClear ? 'driver pod' : outerClear === rearClear ? 'rear pod legs' : 'side pod';
+        sub(`outer posts vs pod floors (side pods end ${podEndX.toFixed(0)}", rear pod legs to ${endLegX.toFixed(0)}", driver pod rim ${(P.frontPodX - Math.sqrt(Math.max(0, P.driverR ** 2 - P.cPostZ ** 2))).toFixed(0)}" at this z)`, outerClear >= 0 ? `clear by ${outerClear.toFixed(1)}" (${which})` : `into the ${which} by ${(-outerClear).toFixed(1)}"`, flag(outerClear >= 0, outerClear >= -3));
+        sub('entrance between the inner posts', `${(2 * P.cPostXi - 2).toFixed(0)}" (walkway ${walk.toFixed(0)}")`, flag(2 * P.cPostXi - 2 >= walk - 2, true));
+        add('Leaves meet over the aisle centre', c.seamGap <= 0 ? `yes — overlap ${(-c.seamGap).toFixed(0)}"` : `no — ${c.seamGap.toFixed(0)}" gap each side of x = 0`, flag(c.seamGap <= 0, c.seamGap <= 6));
+        sub('side pod rim past the leaf edge (worst point)', `${c.sideShort.toFixed(0)}"`, flag(c.sideShort <= 0, c.sideShort <= 6));
+        sub('end pod rim past the leaf edge', `${c.endShort.toFixed(0)}"`, flag(c.endShort <= 0, c.endShort <= 6));
+        add('Rim (lit fascia)', `${(c.perim / 12).toFixed(0)} ft × ${P.rimD}" deep`);
+        sub(`LEDs at 60/m, ${P.rimRows} rows`, `${(c.perim / 12 * P.ledPerFt * P.rimRows).toFixed(0)}`);
+        sub('fascia + underside wash, typical / full white', `${(c.perim / 12 * P.ledPerFt * (P.rimRows + 1) * 0.08).toFixed(0)} W / ${(c.perim / 12 * P.ledPerFt * (P.rimRows + 1) * 0.3).toFixed(0)} W`);
+        add('Panels: 12 × ' + P.flexW + ' × ' + P.flexD + '" flex, ' + (12 * P.flexW * P.flexD / 144).toFixed(0) + ' ft²', c.panelsFit ? 'fit inside their leaves' : (c.overlap ? 'overlap each other' : 'run past a leaf edge or the seam'), flag(c.panelsFit, true));
+        const q40 = 0.00256 * 40 * 40;
+        add('40 mph gust, roof plane at ±10° (rough)', `±${(q40 * 0.5 * c.area).toFixed(0)} lb up/down · ${(q40 * 0.5 * c.area / 8).toFixed(0)} lb per post`);
+        sub('skin weight if 1/8" ply / shade cloth', `${(c.area * 0.4).toFixed(0)} lb / ${(c.area * 0.05).toFixed(0)} lb (not in the roof total)`);
+        add('Leaf pieces for the trailer', `side ${c.sidePiece[0].toFixed(0)}" × ${c.sidePiece[1].toFixed(0)}" (×4) · end ${c.endPiece[0].toFixed(0)}" × ${c.endPiece[1].toFixed(0)}" (×2)`, flag(Math.max(c.sidePiece[1], c.endPiece[1]) <= P.trailerW, true));
+        sub('per-piece weight (tube ÷ 6, + 2 panels)', `≈ ${(c.w / 6 * 0.8 + 2 * P.flexLb).toFixed(0)} lb`);
+      }
+    }
+    if (g.ottoman && P.showOttoman) {
+      const o = g.ottoman;
+      add('Ottoman benches', `${o.benches.map(b => b.len.toFixed(0) + '"').join(' + ')} long × ${P.ottomanW}" × ${P.ottomanH}" high`);
+      sub('extra seats at 18" each (both sides)', `${o.seats}`);
+      sub('storage inside', `${o.storage.toFixed(1)} ft³`);
+      sub(`aisle beside the bench (aisle ${o.aisle.toFixed(0)}" between pod legs)`, `${o.beside.toFixed(0)}" each side`, flag(o.beside >= 12, o.beside >= 8));
     }
 
     const sum = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
     const frame = sum(FRAME_KEYS);
     add('Frame steel (tube only)', `≈ ${frame.toFixed(0)} lb`);
     for (const k of FRAME_KEYS) if (steel.lengths[k]) sub(SECTIONS[k].name, `${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)} lb`);
-    const cur = g.roofStats ? (P.roofStyle === 'rect' ? g.roofStats.rect : g.roofStats.petals) : null;
+    const cur = g.roofStats ? g.roofStats[P.roofStyle] : null;
     const roofW = P.showRoof && cur ? cur.w + (P.showSolar ? cur.panelLb : 0) : 0;
     if (P.showRoof && cur) add(`Roof as shown (${P.roofStyle}) + panels`, `≈ ${roofW.toFixed(0)} lb`);
-    const rolling = frame + P.sledLb + roofW + (P.showPods ? 6 * P.podLb : 0);
-    add('Frame + sled + pods + roof', `≈ ${rolling.toFixed(0)} lb`);
+    const stairsLb = P.showStair ? 2 * P.stairLb : 0;
+    const rolling = frame + P.sledLb + roofW + (P.showPods ? 6 * P.podLb : 0) + stairsLb;
+    add('Frame + sled + pods + roof' + (P.showStair ? ' + stairs' : ''), `≈ ${rolling.toFixed(0)} lb`);
     sub('+ 12 riders at 200 lb', `${(rolling + 2400).toFixed(0)} lb`);
+    if (g.stack) {
+      const onRamp = frame + P.sledLb;
+      const podsAll = 6 * P.podLb, roofAll = g.roofStats[P.roofStyle], roofLb = roofAll.w + (P.showSolar ? roofAll.panelLb : 0);
+      const load = frame + P.sledLb + podsAll + stairsLb + roofLb;
+      add(`Drives up the ramp (frame + sled) vs ${P.rampLb} lb`, `≈ ${onRamp.toFixed(0)} lb`, flag(onRamp <= P.rampLb * 0.8, onRamp <= P.rampLb));
+      add(`Trailer load, everything, vs ${P.trailerLoadLb} lb`, `≈ ${load.toFixed(0)} lb`, flag(load <= P.trailerLoadLb * 0.8, load <= P.trailerLoadLb));
+      sub('before bikes, cargo and camp', '');
+    }
     $('readout').innerHTML = rows.join('');
   }
 
@@ -582,8 +957,12 @@
     build();
   });
   for (const id of TOGGLES) $(id).addEventListener('change', e => { P[id] = e.target.checked; build(); });
-  for (const [id, style] of [['rsRect', 'rect'], ['rsPetals', 'petals']]) $(id).addEventListener('click', () => {
-    P.roofStyle = style; $('rsRect').classList.toggle('on', style === 'rect'); $('rsPetals').classList.toggle('on', style === 'petals'); build();
+  const STYLES = [['rsRect', 'rect'], ['rsPetals', 'petals'], ['rsClover', 'clover']];
+  for (const [id, style] of STYLES) $(id).addEventListener('click', () => {
+    P.roofStyle = style; for (const [i2, s2] of STYLES) $(i2).classList.toggle('on', s2 === style); build();
+  });
+  for (const [id, shape] of [['psD', 'D'], ['psU', 'U']]) $(id).addEventListener('click', () => {
+    P.podShape = shape; $('psD').classList.toggle('on', shape === 'D'); $('psU').classList.toggle('on', shape === 'U'); build();
   });
 
   // ---- orbit ----
@@ -617,6 +996,7 @@
     vRear: () => { target.set(-P.wheelX - 4, 12, P.track / 2 - 6); az = 2.3; el = 0.32; dist = 85; },
     vSteer: () => { target.set(P.wheelX + 10, 16, 0); az = 0.9; el = 0.55; dist = 120; },
     vUnder: () => { target.set(0, 12, 0); az = 0.5; el = -0.28; dist = 300; },
+    vTrailer: () => { if (!P.stackMode) { P.stackMode = true; $('stackMode').checked = true; build(); } target.set(10, 50, 0); az = 0.75; el = 0.3; dist = 420; },
   };
   for (const id in views) $(id).addEventListener('click', () => { views[id](); place(); });
 
