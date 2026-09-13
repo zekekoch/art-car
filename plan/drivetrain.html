@@ -70,6 +70,13 @@
   <li><span class="m">model/drivetrain/</span> — saved diagrams (<a href="../model/drivetrain/drivetrain-front-corner.png">front corner</a>, <a href="../model/drivetrain/drivetrain-steering-plan.png">steering plan</a>), the OBJ/MTL export, and <code>verify.cjs</code>, which checks rod lengths, symmetry, toe, clashes and the kneel stops headlessly. <a href="../model/drivetrain/README.md">README</a></li>
 </ul>
 
+<h2>Alternative under study: four identical corners</h2>
+<figure>
+  <img src="../img/modular-corner-layout.svg" alt="Rigid chassis with four identical removable drive-steer-coilover corner cassettes and one complete spare">
+  <figcaption>A separate study replaces the different front and rear hub-motor corners with four copies of one removable cassette. Each includes its own coilover, geared traction motor, active steering, angle feedback, pneumatic tire and friction brake.</figcaption>
+</figure>
+<p>The benefit is a true universal spare and one repeated fabrication: corner identity becomes software, and four-wheel steering can provide countersteer, crab and spin modes. The costs are substantial: likely more weight and money, loss of the air-suspension kneel, a larger tire-sweep envelope, and a safety-critical steer-by-wire system. The <a href="modular-corners.html">identical modular-corner study</a> records the proposed service boundary, vendor precedents, preliminary load and cost screens, steering modes, safety architecture and the physical test gate. It does not change the plan of record.</p>
+
 <h2>Open items</h2>
 <p>In the order they block the build:</p>
 <ol>
@@ -82,9 +89,9 @@
 </ol>
 
 <h2>How we got here</h2>
-<p>The chassis concept and corner module are sections 2 and 3 of the <a href="../notebook/art-car-design-notebook.html">design notebook</a>, which also has the honest low-speed torque discussion and why direct-drive hubs beat geared motors, AGV drive units and tractor motors. The 12 September <a href="../model/drivetrain-review.md">drivetrain review</a> found thirteen problems with the first version — mixed motor variants, an animated rather than solved steering linkage, an 8″ kneel that was really 5.6″, undercounted weights — and the <a href="../model/drivetrain-review-response.md">response</a> records what changed for each. The review also lays out the cheaper alternative, a rated utility-cart front axle and electric rear transaxle, which was not taken. Earlier alternatives (used Leaf modules, ATV 20 × 10-10 tires, a 10″ scrub radius) are on the <a href="../explorations.html">explorations page</a>.</p>
+<p>The chassis concept and corner module are sections 2 and 3 of the <a href="../notebook/art-car-design-notebook.html">design notebook</a>, which also has the honest low-speed torque discussion and why direct-drive hubs beat geared motors, AGV drive units and tractor motors. The 12 September <a href="../model/drivetrain-review.md">drivetrain review</a> found thirteen problems with the first version — mixed motor variants, an animated rather than solved steering linkage, an 8″ kneel that was really 5.6″, undercounted weights — and the <a href="../model/drivetrain-review-response.md">response</a> records what changed for each. The review also lays out the cheaper alternative, a rated utility-cart front axle and electric rear transaxle, which was not taken. The newer <a href="modular-corners.html">identical drive-steer-corner study</a> revisits the industrial-module route specifically to test whether one universal spare and four-wheel steering justify its weight, cost and control burden. Earlier alternatives (used Leaf modules, ATV 20 × 10-10 tires, a 10″ scrub radius) are on the <a href="../explorations.html">explorations page</a>.</p>
 
-<footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §1–3 · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> · <a href="../model/drivetrain-review-response.md">drivetrain-review-response.md</a> · <a href="../README.md">README key numbers</a> · <a href="../model/frame-3d.html#advanced">frame-3d readout</a></footer>
+<footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §1–3 · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> · <a href="../model/drivetrain-review-response.md">drivetrain-review-response.md</a> · <a href="../README.md">README key numbers</a> · <a href="../model/frame-3d.html#advanced">frame-3d readout</a> · <a href="modular-corners.html">identical modular-corner alternative</a></footer>
 </main>
 </body>
 </html>
