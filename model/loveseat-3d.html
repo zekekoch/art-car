@@ -63,7 +63,7 @@
       <h2>Pod</h2>
       <div class="ctl"><label for="podR">Pod radius</label><output for="podR">24</output><input type="range" id="podR" min="21" max="30" step="0.5" value="24"></div>
       <div class="ctl"><label for="riderAng">Rider angle from centre</label><output for="riderAng">40°</output><input type="range" id="riderAng" min="20" max="55" step="1" value="40"></div>
-      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">14</output><input type="range" id="armGap" min="10" max="24" step="1" value="14"></div>
+      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
     </section>
 
     <section>
@@ -100,7 +100,7 @@
 
     <section>
       <button id="copyObj" style="width:100%">Copy OBJ to clipboard</button>
-      <p class="note">Riders are 50th-percentile adults: 15" hips, 18" shoulders, 23" buttock-to-knee, seated eye 31" above the seat. Cushions compress ~2" under load. One pod is shown at z = 0 on a 100" run of chassis rail.</p>
+      <p class="note">Riders are 50th-percentile adults: 15" hips, 18" shoulders, 23" buttock-to-knee, seated eye 31" above the seat. Cushions compress ~2" under load. One pod is shown at z = 0 on a 100" run of chassis rail, which sits 12" inboard of the pod centre line; the design moment is taken about that rail face (see loveseat-build for the full check).</p>
     </section>
   </aside>
 
@@ -116,7 +116,7 @@
   const $ = id => document.getElementById(id);
   const P = {
     seatH: 17, seatFoam: 4, rimH: 25, backFoam: 2, backTilt: 15,
-    podR: 24, riderAng: 40, armGap: 14,
+    podR: 24, riderAng: 40, armGap: 28, inset: 12,     // chassis rail face is 12" inboard of the pod centre line
     wallT: 1.5, wallSpan: 220, seatSpan: 200, seatDepth: 20, deckH: 24, compress: 2,
     showRiders: true, showChassis: true, showFoam: true, showRim: true,
   };
@@ -195,13 +195,14 @@
     // ---- chassis: rail at x = -2..0, deck to the left, one pod at z = 0 ----
     if (P.showChassis) {
       const C = new THREE.Group(); C.name = 'chassis';
-      C.add(tube(2, 4, -1, -2, -50, 50, M.steelDark, 'side_rail'));
-      C.add(box(30, 0.75, 100, M.deck, -17, -0.375, 0, 'deck_plate'));
+      const rx = -P.inset;                                                        // rail face; the pod centre line is the envelope edge
+      C.add(tube(2, 4, rx - 1, -2, -50, 50, M.steelDark, 'side_rail'));
+      C.add(box(30, 0.75, 100, M.deck, rx - 15 + 7.5, -0.375, 0, 'deck_plate'));
       for (const z of [-P.armGap / 2, P.armGap / 2]) {
-        C.add(box(16, 2.5, 2.5, M.steel, -6, -2.75, z, 'receiver_tube'));        // x -14..2
-        C.add(box(16, 4, 2, M.steelDark, -22, -2, z, 'cross_member'));            // x -30..-14
+        C.add(box(16, 2.5, 2.5, M.steel, -8, -2.75, z, 'receiver_tube'));        // through the rail, ends at the envelope edge
+        C.add(box(2, 3, 2 * P.inset - 2, M.steelDark, rx - 3, -1.5, z, 'cross_member'));
         const pin = mesh(new THREE.CylinderGeometry(0.31, 0.31, 4.5, 12), M.skirt, 'hitch_pin');
-        pin.rotation.x = Math.PI / 2; pin.position.set(-8, -2.75, z); C.add(pin);
+        pin.rotation.x = Math.PI / 2; pin.position.set(rx - 3, -2.75, z); C.add(pin);
       }
       for (const z of [-40, 40]) {
         const w = mesh(new THREE.CylinderGeometry(11, 11, 4.5, 40), M.tire, 'wheel');
@@ -212,7 +213,7 @@
 
     // ---- pod ----
     const G = new THREE.Group(); G.name = 'pod';
-    for (const z of [-P.armGap / 2, P.armGap / 2]) G.add(box(podR - 2 + 13, 2, 2, M.steel, (podR - 2 - 13) / 2, -2.75, z, 'arm_2in_sq'));
+    for (const z of [-P.armGap / 2, P.armGap / 2]) G.add(box(podR - 2 + 13, 2, 2, M.steel, (podR - 2 - 13) / 2, -2.75, z, 'arm_2in_sq'));   // 13" engaged in the receiver from the envelope edge
     // floor ring beam + half-disc floor
     G.add(sector(podR - 2.5, podR - 0.5, -90, 90, -3.75, -1.75, M.steel, 'floor_ring'));
     G.add(sector(0, podR, -90, 90, -0.75, 0, M.ply, 'floor'));
@@ -302,7 +303,7 @@
       ['Shoulder gap', shGap.toFixed(1) + '"', shGap < 0],
       ['Hip gap', hipGap.toFixed(1) + '"', hipGap < 0],
       ['Knees past pod centre', kneePast.toFixed(1) + '"', kneePast > 0],
-      ['Cantilever moment, design', Math.round(3 * (400 * (rb - 6) + 120 * 12) / 1000) + 'k in·lb'],
+      ['Cantilever moment, design (about the rail face, ×3)', Math.round(3 * (400 * (rb - 6 + P.inset) + 135 * (0.35 * P.podR + P.inset)) / 1000) + 'k in·lb'],
     ];
     $('readout').innerHTML = rows.map(([k, v, w]) => `<dt>${k}</dt><dd class="${w ? 'warn' : ''}">${v}</dd>`).join('');
   }

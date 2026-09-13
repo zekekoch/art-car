@@ -52,7 +52,7 @@
 <body>
 <main>
 <h1>Art car v2 — design notebook</h1>
-<p class="sub">Working document for the custom electric chassis and Selina's nine body concepts. Everything with a number in it is an estimate unless it cites a source; the sketch dimensions in the volumetric study are read off the renderings by eye and are meant to be edited.</p>
+<p class="sub">Working document for the custom electric chassis and Selina's nine body concepts. Everything with a number in it is an estimate unless it cites a source; the sketch dimensions in the volumetric study are read off the renderings by eye and are meant to be edited. <b>Revised 2026-09-13</b> after the drivetrain review (<code>model/drivetrain-review.md</code>, response in <code>model/drivetrain-review-response.md</code>): sections 1, 2, 3, 4, 7 and 8 carry the corrections; the geometry now lives in <code>model/frame-3d.html</code> and <code>model/drivetrain-3d.html</code>.</p>
 
 <h2>1. Fixed constraints</h2>
 <h3>Transport</h3>
@@ -66,7 +66,7 @@
     <dd>Receiver hitch, customer supplies tow gear. Contract limit: towing weight within <b>2,500 lb</b>, daily towing charge. RV is 8.3′ wide.</dd>
   </dl>
 </div>
-<div class="flag"><b>Weight.</b> The current rig already runs well past Cruise America's 2,500 lb warranty: ramp trailer 2,290 lb empty plus a ~1,000 lb Taylor-Dunn, plywood body, a couple of e-bikes and four 12 V batteries. So the number that actually governs is the trailer's own rating — <b>3,710 lb of load, 1,810 lb on the ramp</b> — and whatever the RV's hitch and brakes tolerate. A new chassis at ~1,000–1,200 lb (steel platform, 15 kWh pack, four motor corners) before body, cargo and bikes is roughly where the current load sits, so the budget is "no heavier than today" rather than "lighter."</div>
+<div class="flag"><b>Weight and the tow limit (revised 2026-09-13).</b> The rental contract's 2,500 lb limit is below the empty trailer, so it never governed; the target is the <b>5,000 lb</b> a used Cruise America RV is rated to tow. The empty ramp trailer is 2,290 lb; the trailer's own ratings are <b>3,710 lb of load and 1,810 lb on the ramp</b>. The chassis model now weighs everything drawn plus a parts list: ≈2,740 lb for the car as drawn (frame 365, deck 55, sled 475, four corners 485, electrics 170, pods 860, roof 210, stairs 70, ottomans 50), so trailer + car is <b>≈5,030 lb</b> — the whole allowance before a single e-bike, spare or tool goes on; with ~250 lb of cargo it is ~5,280, about 6 % over. The cleanest fix is not a lighter car: the battery sled (475 lb) rolls, so it and the loose modules (ottomans 50, stairs 70, panels 54) can ride in the RV, which takes the trailer to ~4,700 lb with cargo; aluminium pod frames (~35 lb each) are the next 200 lb if needed. Tongue weight at 10–15 % of the gross is 500–750 lb: check the hitch's tongue rating and place the car on the trailer to suit. The bare car that drives up the ramp is ≈1,530 lb, 84 % of the ramp rating. The earlier ~1,000–1,200 lb chassis figure counted tube and pack only.</div>
 <ul>
   <li>Ramp width 57″ is the hard width limit for anything that rolls on under its own power. Wider decks need the roof and side panels to come off, or a pair of separate ramps and a 72″ limit.</li>
   <li>Roof structures must be demountable regardless; nothing in the sketches fits on an open trailer assembled.</li>
@@ -76,40 +76,50 @@
 <h3>Chassis envelope</h3>
 <ul>
   <li><b>Maximum 54″ × 120″ (4.5′ × 10′).</b> Three inches of clearance on the ramp, 23″ short of the trailer deck. The chassis can be smaller in either dimension; the body can extend past it on any side. Everything the passengers sit on is body, cantilevered or supported off this rectangle.</li>
-  <li>Wheels live inside the envelope, so track ≈ 48–50″ and wheelbase ≈ 80–100″. Every inch of body outboard of the track is lever arm against the chassis mass.</li>
+  <li>Wheels live inside the envelope: with 10″-wide tires the track is 43″ hub to hub (outer faces at 53″) and the wheelbase 66″, so the wheels sit under the side pods. Every inch of body outboard of the track is lever arm against the chassis mass.</li>
 </ul>
 <h3>Playa</h3>
 <ul>
-  <li>Mutant vehicle licensing: radically modified appearance, conventional steering preferred, 5 mph at night / 10 mph day, lit perimeter after dark.</li>
+  <li>Mutant vehicle licensing: radically modified appearance, conventional steering preferred, lit perimeter after dark. BRC's vehicle speed limit is <b>5 mph, day and night</b>; the 10 mph in the brief is a capability, not an operating speed. The MV Owner's Handbook applies the <b>36–48″ perimeter guardrail</b> rule to vehicle levels <b>84″ or more above the playa</b> (ingress/egress gaps ≤ 36″ wide); with the pod floors at 24″ (18″ kneeled) the 26″ rims and the 12″ driver gate are design choices, not licensing items. Any stairs must have a secure railing, so the stair module gets a handrail.</li>
   <li>Surface: hardpan with ruts, dust drifts, and occasional wet patches. Low-speed, high-torque, dust everywhere. Anything unsealed dies.</li>
-  <li>Field service: any single corner (wheel + motor + suspension) must be swappable with a jack, a wrench, and two connectors.</li>
+  <li>Field service: any single corner should be swappable with a jack and hand tools. Honest count of what comes apart: the phase/hall connector, the air line, the brake hose (bleed afterwards), the damper, the torque-block clamp on the motor shaft and, at the front, the tie-rod end; rears add the parking-brake cable. Carry one complete spare corner.</li>
 </ul>
 
 <h2>2. Chassis concept</h2>
 <ul>
   <li><b>Platform.</b> Welded steel rectangle. Battery box is the central mass, mounted low. Roof loads go through a central spine or mast into the battery box, not through the side panels.</li>
   <li><b>Drive.</b> Four independent 48 V motors, one per corner, used for traction and torque split. Not skid steer.</li>
-  <li><b>Steering.</b> Ackermann on the front pair (or all four) via knuckles. Independent motors don't need to do the steering.</li>
-  <li><b>Corner module.</b> Trailing arm carrying a 12″ direct-drive hub motor, air spring above. All four identical apart from the front steering knuckle; carry one spare. (See section 3.)</li>
-  <li><b>Suspension.</b> Airbags preferred: kneel for boarding, level on ruts, adjust ride height for the trailer ramp.</li>
+  <li><b>Steering.</b> Front pair on inclined kingpins — 8″ scrub at hub height, ~5.6″ at the ground with 12° of inclination, about the least a single-sided hub motor allows — with a rack at the ball-joint station and fixed-length tie rods. <code>frame-3d.html</code> solves the actual wheel angles from the rod lengths and reports lock (~22° inner, ~15.5 ft to the outside tire), the Ackermann error and the toe change over suspension travel (~1.4° over 3″). Independent motors don't need to do the steering.</li>
+  <li><b>Corner module.</b> Trailing arm on a 10″-wide pivot carrying a 12″ direct-drive hub motor, air spring and damper above. The front arm's two legs both sit inboard of the kingpin so the tire can sweep to lock; the rear is an L-arm beside the motor. Carry one spare of each. (See section 3.)</li>
+  <li><b>Suspension.</b> Airbags preferred: kneel for boarding, level on ruts, adjust ride height for the trailer ramp. As drawn the kneel is <b>~5.6″</b>, not 8″: the D2500 has 3.5″ of stroke from its 6.25″ installed height to its 2.8″ compressed limit, the seat 10″ from the pivot on a 16″ arm gives a 0.625 motion ratio (5.6″ of wheel travel, shared with the bump reserve), and the tire chord meets the receiver sleeves at about the same point.</li>
   <li><b>Bus voltage.</b> 48 V for everything on the drive side; 12 V rails per lighting zone via DC-DC. Golf cart / marine / e-scooter parts ecosystem.</li>
 </ul>
 
 <h2>3. Corner module</h2>
-<p>Each corner is one bolt-on unit: a 12″ direct-drive hub motor in a trailing arm, an air spring above it, one phase/hall connector and one air line. Front corners add a steering knuckle. Carry one complete spare.</p>
+<p>Each corner is one bolt-on unit: a 12″ direct-drive hub motor in a trailing arm, an air spring and a separate damper above it, a hydraulic service brake, one phase/hall connector and one air line. Front corners add a steering knuckle on an inclined kingpin. Carry one complete spare. The detailed geometry lives in <code>model/frame-3d.html</code> and <code>model/drivetrain-3d.html</code>; the drivetrain review and its response list what is established and what is not.</p>
 <table>
 <tr><th>Part</th><th>Pick</th><th class="n">Each</th><th class="n">×4</th><th>Notes</th></tr>
-<tr><td>Motor + wheel</td><td>QS205 12″ hub, 3 kW rated, 150 N·m peak, 48 V winding</td><td class="n">$300–600</td><td class="n">$1,300–2,400</td><td>~$300 direct from QS (10–12 wk), $500–630 US eBay stock. Needs ~40 N·m per wheel at 5 mph fully loaded, so it loafs. Ask for the low-speed winding.</td></tr>
-<tr><td>Controller</td><td>48 V sine-wave FOC, 80 A (Sabvoton / Fardriver / Kelly)</td><td class="n">$120–250</td><td class="n">$500–1,000</td><td>One per motor for torque split. CAN or serial out so a small board can read speed/current per corner.</td></tr>
-<tr><td>Air spring</td><td>Air Lift Dominator D2500, 294–2,096 lb, 7.7″ stroke</td><td class="n">$111</td><td class="n">$450</td><td>D2600 if corner loads exceed ~1,500 lb. Never plumb left/right together.</td></tr>
-<tr><td>Air management</td><td>12 V compressor, 2 gal tank, 4 solenoid valves, 4 pressure sensors</td><td class="n"></td><td class="n">$400–600</td><td>Per-corner pressure = per-corner load; this is the tip-over warning.</td></tr>
-<tr><td>Arm, knuckle, brackets, steel</td><td>Welded, 2 fixed rear, 2 steered front</td><td class="n"></td><td class="n">$300–500</td><td>Route phase wires through the steering pivot on the front pair.</td></tr>
-<tr><td><b>Total</b></td><td></td><td class="n"></td><td class="n"><b>~$3,000–5,000</b></td><td></td></tr>
+<tr><td>Motor + wheel</td><td>QS205 <b>car</b> variant (50H V3), 3 kW class: single stationary shaft, rotating 4×100 flange, CB60, M24×1.5; 12 × 8.5 rim with a Carlstar 23×10.50-12 turf tire (22.5″ mounted, 798 kg rated)</td><td class="n">$300–600</td><td class="n">$1,300–2,400 + rims and tires</td><td>The scooter and car QS205s are different parts. The car motor's shaft has to be positively located and torque-reacted (a clamped torque block on the knuckle / arm); it does not bolt to a trailer spindle. QS's pages disagree on voltage range, PCD (4×100 in the text, 4×114.3 in the drawing), IP rating and peak torque: get the drawing and the wheel-end load rating for the exact ordered variant before ordering rims or machining anything. 16 kg each. ~$300 direct (10–12 wk), $500–630 US stock.</td></tr>
+<tr><td>Controller</td><td>48 V sine-wave FOC; Kelly KLS4830S candidate (30–62 V operating, 120 A continuous / 300 A one-minute boost)</td><td class="n">$120–250</td><td class="n">$500–1,000</td><td>One per motor for torque split. CAN or serial out so a small board can read speed/current per corner. Controller ratings are not wheel torque (see below); full-pack regen has to be limited in firmware because 58.4 V leaves little margin under 62 V.</td></tr>
+<tr><td>Air spring + damper</td><td>Air Lift Dominator D2500 (58343): 7″ dia, 2.8–10.5″ height, 5.5–7.5″ design height; plus a damper, bump stop and droop strap per corner</td><td class="n">$111 + ~$60</td><td class="n">~$700</td><td>Installed at ~6.25″ on a 16″ arm with the seat 10″ from the pivot: motion ratio 0.625, bag force ≈ 1.6 × the sprung corner load, 3.5″ of bag stroke ≈ 5.6″ of wheel travel (kneel and bump share it). At a 1,350 lb corner the bag sees ~2,000 lb against a 2,096 lb listing; the crowded-rear case (~1,830 lb corners) wants the D2600 or the seat nearer the axle. Air springs are not dampers. Never plumb left/right together.</td></tr>
+<tr><td>Air management</td><td>12 V compressor, 2 gal tank, 4 solenoid valves, 4 pressure sensors, 4 height sensors</td><td class="n"></td><td class="n">$400–600</td><td>Pressure tracks corner load only after calibration at a known height (effective area changes with height, and the motion ratio and friction sit in between); a tip warning needs that plus the CG estimate the chassis model now makes. Not a load cell.</td></tr>
+<tr><td>Arm, knuckle, brackets, steel</td><td>Welded arms and hangers; machined kingpin seats, thrust faces, torque blocks and pivot bores (line-reamed after welding); 1¾″ kingpins</td><td class="n"></td><td class="n">$300–500 + machining</td><td>Kingpin bending at a 1,350 lb corner with 600 lb of side load is ~14,000 in·lb (27 ksi in a 1¾″ pin). Pivot loads in the models are moment-couple estimates, not bearing ratings. Route phase wires through the steering pivot on the front pair.</td></tr>
+<tr><td>Brakes</td><td>Tandem master cylinder + pedal, four hydraulic calipers on rotors matched to the QS hub, two mechanical parking calipers at the rear</td><td class="n"></td><td class="n">$600–1,000</td><td>Regen fades at walking pace and does nothing on a full pack, so a foot-operated friction brake is required as the service brake, with the hand lever as the mechanically held parking brake. Rotor diameter, thickness, offset, PCD and pad sweep must match the motor; sizing pending a brake calculation.</td></tr>
+<tr><td><b>Total</b></td><td></td><td class="n"></td><td class="n"><b>~$4,000–6,500</b></td><td>before rims, tires and machining</td></tr>
 </table>
+<h3>Low-speed torque, honestly</h3>
+<p>3 kW divided by a low rpm is not continuous torque, and a 150 N·m peak says nothing about what a winding can do all afternoon at 80 rpm. What the wheels need is set by rolling resistance, which nobody has measured on this playa with these tires, so these are scenarios. Torque per wheel, four-wheel drive, 22.5″ tires (84 rpm at 5 mph):</p>
+<table>
+<tr><th>Gross mass</th><th class="n">C<sub>rr</sub> 0.03</th><th class="n">0.06</th><th class="n">0.10</th><th class="n">+ 2 % grade</th><th class="n">+ 0.15 m/s²</th></tr>
+<tr><td>1,250 kg — car as drawn, empty</td><td class="n">26 N·m</td><td class="n">53</td><td class="n">88</td><td class="n">+18</td><td class="n">+13</td></tr>
+<tr><td>2,350 kg — 12 seated</td><td class="n">49</td><td class="n">99</td><td class="n">165</td><td class="n">+33</td><td class="n">+25</td></tr>
+<tr><td>2,700 kg — 16 aboard</td><td class="n">57</td><td class="n">113</td><td class="n">189</td><td class="n">+38</td><td class="n">+29</td></tr>
+</table>
+<p>The old "~40 N·m per wheel, so it loafs" line is the firm-ground case only. At 40 N·m and 84 rpm a motor delivers just 350 W mechanically, so the limit is copper loss and heat, not power. Before ordering: ask QS for continuous torque and winding temperature at 75–85 rpm for the winding and controller actually supplied, and for allowable stall / starting time. <code>model/drivetrain-3d.html</code> has mass, rolling-resistance, grade and acceleration sliders for these numbers.</p>
 <p>Why direct-drive hubs and not a geared motor: a 4,300 rpm go-kart motor needs ~50:1 of reduction to turn a 20″ wheel at 5 mph. AGV and forklift drive units have the right torque and ratio but come with 8″ polyurethane wheels and top out around 2 mph; electric-tractor motors are 10–30 kW industrial units. A 16-pole-pair outrunner hub motor is the same idea as a tractor traction motor — many poles, lots of copper, high torque at low rpm — already packaged in a wheel with a tire that works on dirt.</p>
 
 <h3>Tipping threshold</h3>
-<p>Static roll-over about the outside tire, worst case: every passenger on one side, nobody on the other. Chassis mass on the centerline at the track half-width; passengers at 200 lb each with their centroid 10″ inboard of the platform rim. Air springs change none of this — they level the deck and measure the load, but the moment balance is pure geometry.</p>
+<p>Static roll-over about the outside tire, worst case: every passenger on one side, nobody on the other. Chassis mass on the centerline at the track half-width; passengers at 200 lb each with their centroid 10″ inboard of the platform rim. Air springs change none of this — they level the deck, but the moment balance is pure geometry. This table is the early first-order estimate; <code>frame-3d.html</code> now does it properly, weighing every item drawn, placing the riders and reporting the four corner reactions for several loading cases (empty, 12 seated, 16 aboard, six on one side, four crowded at the rear) plus a static roll threshold from the computed CG height (~0.56 g with 12 seated; six on one side leaves ~570 lb on each inside wheel).</p>
 <div id="tipping"></div>
 <p><small>Reads as: how many 200 lb adults can sit on one rim before the inside wheels unload. Below ~4 is uncomfortable once a wheel drops into a rut. Chassis mass includes the pack. The 74″ track row assumes 12″ bolt-on spacers or outrigger stubs fitted on the playa and removed for the ramp.</small></p>
 
@@ -124,12 +134,16 @@
 <tr><td>Turnkey 48 V packs (~$200–300/kWh)</td><td class="n">$3–4.5k</td><td class="n">$6–9k</td><td class="n">$9–13k</td></tr>
 <tr><td>Cell weight / packaged</td><td class="n">86 kg / ~100 kg</td><td class="n">173 / ~200 kg</td><td class="n">260 / ~300 kg</td></tr>
 <tr><td>Cell volume / packaged</td><td class="n">41 L / ~55 L</td><td class="n">83 / ~110 L</td><td class="n">125 / ~165 L</td></tr>
-<tr><td>Box (2 deep × 8 long per layer)</td><td class="n">~23 × 14 × 9 in</td><td class="n">~46 × 14 × 9 in</td><td class="n">~46 × 21 × 9 in</td></tr>
-<tr><td>Continuous power (0.5 C, V3 cells)</td><td class="n">~7 kW</td><td class="n">~14 kW</td><td class="n">~21 kW</td></tr>
+<tr><td>Nominal / usable in an 80–90 % window</td><td class="n">14.3 / 11.5–12.9 kWh</td><td class="n">28.7 / 22.9–25.8 kWh</td><td class="n">43 / 34–39 kWh</td></tr>
+<tr><td>Voltage, 16S: nominal / at 3.65 V per cell</td><td class="n" colspan="3">51.2 V / 58.4 V — controllers rated to 62 V, so regen into a full pack needs a firmware ceiling</td></tr>
+<tr><td>Raw cells, 2 rows × 16 (72 × 173.7 × 207.5 mm)</td><td class="n">~22.7 × 13.7 × 8.2 in</td><td class="n">45.4 × 13.7 × 8.2 in</td><td class="n">45.4 × 20.5 × 8.2 in</td></tr>
+<tr><td>Sled reserved (walls, compression, busbars, terminals, electrical bay)</td><td class="n">~28 × 21 × 10.5 in</td><td class="n"><b>50 × 21 × 10.5 in</b></td><td class="n">~50 × 28 × 10.5 in</td></tr>
+<tr><td>Continuous power (0.5 C per the EVE sheet for one revision)</td><td class="n">~7 kW</td><td class="n">~14 kW</td><td class="n">~21 kW</td></tr>
 </table>
 <ul>
   <li>Peak power scales with parallel strings, not just range: a single 16S string tops out around 7 kW continuous, which is tight for four motors in soft playa with ten aboard.</li>
-  <li>Two independent strings with their own BMS give redundancy — one trips, limp home on the other.</li>
+  <li>Two independent strings with their own BMS can give redundancy, but only if each string's protection, contactor and current sharing are designed for one string dropping out under load and the controllers are told about it; limp-home is a design feature to be built, not a free consequence of parallel packs.</li>
+  <li>EVE has shipped several LF280K revisions with different current ratings; the 0.5 C figure above is one sheet's test condition. Confirm the purchased revision before sizing fusing and contactors. The 50 × 21 × 10.5 in sled is a packaging allowance, not an enclosure design; the old "46 × 14 × 9 in box" left no room for walls, insulation, compression hardware, busbars, covers or service access.</li>
   <li>314 Ah cells now sell at the same per-cell price, so ~33 kWh for the 30 kWh money.</li>
   <li>Battery mass is smaller than intuition: even 45 kWh is ~300 kg, about the weight of the steel frame. Low and flat is what helps the CG; it won't be the dominant mass.</li>
 </ul>
@@ -147,11 +161,15 @@
 <h3>Energy budget (rough)</h3>
 <table>
 <tr><th>Load</th><th class="n">Draw</th><th class="n">Hours / night</th><th class="n">kWh / night</th></tr>
-<tr><td>Lighting, ~3,300 WS2815 at typical brightness</td><td class="n">0.3–1 kW</td><td class="n">8</td><td class="n">~1–3</td></tr>
+<tr><td>Lighting, ~3,300 WS2815 at typical brightness</td><td class="n">0.3–1 kW</td><td class="n">8</td><td class="n">~2.4–8</td></tr>
 <tr><td>Drive, ~1,500–2,000 kg loaded at 5 mph</td><td class="n">2–4 kW</td><td class="n">3</td><td class="n">~6–12</td></tr>
-<tr><td>Roof solar, ~800 W nominal</td><td class="n"></td><td class="n">6 (sun)</td><td class="n">≈ −4</td></tr>
+<tr><td>Roof solar, ~800 W nominal</td><td class="n"></td><td class="n">6 (sun)</td><td class="n">≈ −4, clear sky, clean and unshaded</td></tr>
 </table>
-<p>Net roughly 5–10 kWh per night. 30 kWh usable means every-other-day charging with a camp shore cord and solar covering the lights.</p>
+<p>Net 4.4–16 kWh per day before conversion losses and reserve (the earlier "5–10" had the lighting line wrong by a factor of ~2.5). With 23–26 kWh usable that is nightly charging at the top of the range and every other day only at the bottom: plan the camp shore cord for nightly, and treat solar as a bonus until it is measured on the playa.</p>
+
+<h3>Range and charging</h3>
+<p>Energy per mile at 5 mph is rolling force × distance ÷ battery-to-wheel efficiency. Aero is nothing at 5 mph in still air (~25 N against ~1,400 N of rolling force); a 20 mph headwind on ~8 m² of frontal area adds ~600 N, 40 % more. With 12 aboard (2,350 kg) and 70 % efficiency at 84 rpm: <b>0.46 / 0.90 / 1.49 kWh per mile</b> at C<sub>rr</sub> 0.03 / 0.06 / 0.10, which is 2.3 / 4.5 / 7.4 kW from the pack while moving. With 24.5 kWh usable and 6 kWh of lights and auxiliaries a night that leaves <b>40 / 21 / 12 miles</b> of driving per charge (8 / 4 / 2.5 hours of motion). A night of cruising is 10–20 miles, so the middle case works with nightly charging and the soft-playa case does not; dropping the lights to 3 kWh buys ~3 miles. The two numbers nobody has measured are C<sub>rr</sub> on the playa and the motor's efficiency at this rpm, and one night with the current car settles both at once: a coulomb counter on its pack (a Victron SmartShunt, ~$130) plus a phone GPS track gives Wh per mile all-in, and a crane scale on a tow rope at walking pace gives C<sub>rr</sub> directly. <code>model/drivetrain-3d.html</code> has the sliders.</p>
+<p>Charging: replacing 19–25 kWh a night from a Honda EU3200i (2,600 W rated, 3,200 W max) through a 48 V 40 A charger (~2.2 kW into the pack) takes <b>9–11 hours</b> and 3–4 gallons (1.2 gal tank, 3.3 h at rated load, so two or three refills). LFP takes that 0.14 C rate flat out, so the time is simply energy ÷ power: the generator runs essentially all day at 58 dB(A). Two EU3200i in parallel or a larger camp generator halves it; the roof's ~1.2 kW nominal of solar is worth 4–6 kWh on a good day, two to three hours of generator.</p>
 
 <h2>5. Core shapes on the base</h2>
 <p>With the chassis fixed at 54″ × 120″, the body question reduces to how the seating platform hangs off that rectangle. Selina's five options, drawn at one scale with the base (solid) and trailer deck (dashed):</p>
@@ -186,13 +204,13 @@
 <p>Direction under consideration: the car travels as modules, each light enough to roll on and off the trailer by hand or winch, and gets assembled at camp. The battery is its own rolling unit that goes under the car and bolts up to the frame.</p>
 <table>
 <tr><th>Module</th><th class="n">Target weight</th><th>Moves how</th><th>Notes</th></tr>
-<tr><td>Chassis (frame, 4 corners, steering, controllers)</td><td class="n">≤ 800 lb</td><td>Drives itself up the ramp on a small "get on the trailer" pack, or winched</td><td>Fits 54″ × 120″. Stays in one piece — the joints in a split frame cost weight and stiffness.</td></tr>
-<tr><td>Battery sled (30 kWh, BMS, contactors, DC-DC)</td><td class="n">~450–500 lb</td><td>Rolls on its own cart; positioned under the car centreline</td><td>Car kneels onto it (airbags) or the cart lifts (scissor/hydraulic); four bolts, two Anderson SB350 plugs, one comms plug. Also lets the pack charge at home off the car.</td></tr>
-<tr><td>Seating modules (pods / lobes / benches)</td><td class="n">≤ 150 lb each</td><td>Dollies, two people</td><td>Each with its own rail and LED zone; one connector per module.</td></tr>
+<tr><td>Chassis (frame, deck, 4 corners, steering, brakes, controllers)</td><td class="n">~1,050 lb as drawn; ~1,530 with the sled</td><td>Drives itself up the ramp on the sled or a small "get on the trailer" pack, or winched</td><td>Fits 54″ × 120″. Stays in one piece — the joints in a split frame cost weight and stiffness. With the sled fitted it is 84 % of the ramp rating; rolling the sled off first makes the ramp comfortable.</td></tr>
+<tr><td>Battery sled (28.7 kWh nominal, BMS, contactors, DC-DC)</td><td class="n">~475 lb</td><td>Rolls on its own cart; positioned under the car centreline</td><td>Car kneels onto it (airbags) or the cart lifts (scissor/hydraulic); four bolts, two Anderson SB350 plugs, one comms plug. Also lets the pack charge at home off the car.</td></tr>
+<tr><td>Seating modules (pods / lobes / benches)</td><td class="n">~120–135 lb per pod, ~185 driver</td><td>Dollies, two people</td><td>Each with its own rail and LED zone; one connector per module.</td></tr>
 <tr><td>Roof / arches / mast</td><td class="n">≤ 60 lb per piece</td><td>Stacked flat on the trailer</td><td>Same demount logic as the current hoops.</td></tr>
 </table>
 <ul>
-  <li>The ramp is rated 1,810 lb; nothing should approach it. The 3,710 lb trailer load is the sum, and it's roughly what goes on today.</li>
+  <li>The ramp is rated 1,810 lb and the bare car is ~1,530 lb with the sled, ~1,050 without. Everything on the trailer is ~2,740 lb against the 3,710 lb rating, before bikes and camp — but trailer + car is ≈5,030 lb against the 5,000 lb tow rating (section 1), so the sled and the loose modules ride in the RV.</li>
   <li>The ramp is ~20° when the deck is 24″ up. Pushing 500 lb up it is ~170 lb of force plus rolling resistance; a $100 12 V winch on the trailer tongue makes the cart and the dollies a one-person job.</li>
   <li>Small casters sink in playa. Cart and dollies want 8–10″ pneumatic or solid wheels, and a couple of sheets of plywood to roll on at camp.</li>
   <li>Hot-connecting a 48 V pack needs a precharge circuit in the sled so the plug doesn't arc into the controller capacitors.</li>
@@ -203,6 +221,11 @@
     <li>Round platform with a central mast (2, 8, 9) vs rectangle with a spine (the rest) — this decides track, wheelbase and how the roof comes apart for transport.</li>
   <li>Does the base need to fit the 57″ ramp with its own power, or is the plan to winch it up on separate ramps?</li>
   <li>Target passenger count. The sketches range from 8 to 14.</li>
+  <li>Trailer loading: trailer + car ≈ 5,030 lb against the used RV's 5,000 lb rating before cargo — decide what rides in the RV (sled, ottomans, stairs, panels) and check the hitch's tongue rating.</li>
+  <li>Stair handrail: the DMV requires a secure railing on any stairs; the stair module needs one (the cloverleaf's inner posts are the grab handles at the top). The 26″ pod rims are not a licensing item at a 24″ floor.</li>
+  <li>Kneel: ~5.6″ as drawn (bag stroke through the motion ratio, then the receiver sleeves). Enough? Or move the spring seat toward the axle / go to the D2600 and shorten the sleeves.</li>
+  <li>Vendor data before any machining: QS205 car-motor drawing and wheel-end load rating for the ordered variant, continuous torque and temperature at 75–85 rpm; the EVE cell revision's current rating; a rack with ~5″ of travel and matched brake rotors/calipers for the hub.</li>
+  <li>First physical prototype: one front corner and a rack fixture, loaded to the corner reactions and cycled through travel and lock, before the chassis is frozen.</li>
 </ul>
 
 <script>
@@ -249,7 +272,7 @@ const DESIGNS = [
     pods: [{ x: -64, y: 0, r: 24 }, { x: -24, y: -27, r: 24 }, { x: -24, y: 27, r: 24 }, { x: 24, y: -27, r: 24 }, { x: 24, y: 27, r: 24 }, { x: 64, y: 0, r: 24 }],
     seats: [{ x: -64, y: 0, w: 36, d: 16, rot: 90 }, { x: -24, y: -27, w: 36, d: 16, rot: 0 }, { x: -24, y: 27, w: 36, d: 16, rot: 0 }, { x: 24, y: -27, w: 36, d: 16, rot: 0 }, { x: 24, y: 27, w: 36, d: 16, rot: 0 }, { x: 64, y: 0, w: 36, d: 16, rot: 90 }],  // last pod is the driver's, facing forward
     figures: [{ x: -64, y: -10, face: 'in' }, { x: -64, y: 10, face: 'in' }, { x: -34, y: -27, face: 'in' }, { x: -14, y: -27, face: 'in' }, { x: -34, y: 27, face: 'in' }, { x: -14, y: 27, face: 'in' }, { x: 14, y: -27, face: 'in' }, { x: 34, y: -27, face: 'in' }, { x: 14, y: 27, face: 'in' }, { x: 34, y: 27, face: 'in' }, { x: 64, y: -10, face: 'fwd' }, { x: 64, y: 10, face: 'fwd' }],
-    notes: 'Body on the 54″ × 120″ chassis, with six two-seat pods cantilevered past the deck edge on all sides — the part of the original carousel sketch Selina wants to keep. Pods demount for transport; the chassis rolls on under its own power. Pods are 48″ across at 24″ radius — the largest six that fit around the base without overlapping; end pods sit 4″ past the base ends. The front pod is the driver's and faces forward; its back is toward the car. Overall envelope ~176″ × 102″.'
+    notes: 'Body on the 54″ × 120″ chassis, with six two-seat pods cantilevered past the deck edge on all sides — the part of the original carousel sketch Selina wants to keep. Pods demount for transport; the chassis rolls on under its own power. Pods are 48″ across at 24″ radius — the largest six that fit around the base without overlapping; end pods sit 4″ past the base ends. The front pod is the driver\'s and faces forward; its back is toward the car. Overall envelope ~176″ × 102″.'
   },
   {
     id: 3, name: 'Lounge', shape: 'rect', L: 216, W: 96, deckH: 30,

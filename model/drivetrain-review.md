@@ -1,5 +1,7 @@
 # Drivetrain review — 12 September 2026
 
+> **Status 2026-09-13:** addressed item by item in [`drivetrain-review-response.md`](drivetrain-review-response.md); the models and notes referenced below have been revised accordingly.
+
 The four independent hub motors can be bought, but the proposed suspension and steering corners are custom mechanisms. Expect welding and fixture work plus a small, consequential package of outsourced machining. The motor's axle interface, torque reaction, steering pivots and brake alignment are the hard parts. A motor is not a complete rated automotive wheel end.
 
 Reviewed README.md, loveseat.md, all four existing HTML studies and the laser-model parameter source. Existing files include uncommitted design work; this review and the new model are additive. The later frame model (66 in wheelbase, 43 in track, 24 in deck) is the working baseline; the notebook and laser model contain earlier geometry.
@@ -54,13 +56,17 @@ Open `drivetrain-3d.html`. It is an engineering packaging study, not manufacturi
 
 - Baseline: frame-model 120×54 in envelope, 66 in wheelbase, 43 in tire-center track, 24 in deck datum, rails centered ±14 in.
 - Tire candidate: Carlstar Multi-Trac C/S 574353, nominal 23×10.50-12, catalog mounted dimensions 571.2×259.3 mm (22.49×10.21 in), specified 8.5 in rim width; table lists 798.3 kg rated load, 16.1 km/h and 32 psi. Those ratings require the manufacturer's conditions and do not rate the motor, rim or complete corner. Tire deflection/contact patch is not simulated. [Carlstar table](https://www.carlstar.com/our-products/product-detail/multi-trac/).
-- Motor: QS205 car 50H V3 candidate; flange 4×100 mm, CB60 and M24×1.5 per variant text. Legacy dimension envelope is mixed-revision and visibly marked provisional. Internal bearings are diagrammatic, with no inferred bearing part number or capacity.
+- Motor: QS205 car 50H V3 candidate; flange 4×100 mm, CB60 and M24×1.5 per variant text. Legacy dimension envelope is mixed-revision and visibly marked provisional. Motor internal bearings are not modeled or rated; the pivot and kingpin bushings are diagrammatic.
 - Air spring: D2500 58343 dimensions from manufacturer; bellows contour is illustrative.
 - Controller candidate: Kelly KLS4830S; manufacturer lists 36–48 V nominal, 30–62 V operating, 120 A continuous / 300 A one-minute boost. Those are controller ratings, not demonstrated wheel torque. Body envelope in this model is an allowance, not a drilling template. Full-charge regen coordination and voltage margin need analysis. [Kelly KLS-S](https://kellycontroller.com/shop/kls-s/).
 - Brakes, rack, dampers, kingpin and fastener sizes are labeled proposed/unselected; no implied catalog compatibility. Service and parking brake shapes illustrate separate functions.
 - The revised 12 in tire is larger than the old tire. With 26 in receiver spacing, 2.5 in sleeves and the catalog 22.49 in diameter, nominal fore/aft clearance is only about 0.51 in per side at straight-ahead ride height. This does not include tire growth, compliance or steering sweep.
 - Positive kneel lowers the sprung frame while keeping tire centers at catalog radius above ground; arms maintain 16 in center length. The front knuckle follows its arm, so caster changes. Rear arms are mirrored leading arms. This exposes a disadvantage of this layout rather than concealing it.
-- Steering angles are solved separately from constant tie-rod lengths in 3D. No solution is explicitly reported. The ideal Ackermann values are shown as comparison only. Neither smooth animation nor a passed limited interference screen establishes safe travel.
+- Steering angles are solved separately from constant tie-rod lengths in 3D. No solution is explicitly reported. The unequal solved wheel angles do not imply ideal Ackermann. No tire-slip or steering-effort simulation is performed. Neither smooth animation nor a passed limited interference screen establishes safe travel.
 - OBJ export preserves named mesh parts in **meters, Y up** for Blender/Fusion; an accompanying MTL preserves fabrication colors. Browser orbit views and exported geometry use the same scene. No .blend file is claimed.
 
 Before freezing the chassis, the most useful next physical prototype is **one front corner and a rack fixture**, tested at intended vertical/side loads through its full travel and steer range. First obtain an exact, load-rated motor/wheel/brake package and a continuous low-speed motor test. Those decisions control the rest of the geometry.
+
+### Verification of this revision
+
+Headless Chrome loaded the model without JavaScript errors. Checks verified fixed tie-rod lengths at three rack positions, mirror symmetry, explicit linkage failure at 8 in kneel, finite named OBJ geometry, the exploded view and narrow-screen overflow. At +1.5 in rack travel the proposed linkage gives 17.5° / 14.4° wheel angles and the sampled screen detects tire/side-rail intersection. At 3 in drop with centered rack, the linkage has no solution in its ±55° search interval. These failures are findings of this particular proposal, not universal limits on a redesigned chassis. The nominal model contains 1,343 mesh objects, including repeated tread blocks and fasteners; this is not a BOM count.

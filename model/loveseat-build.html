@@ -56,7 +56,7 @@
 
 <div id="app">
   <aside>
-    <h1>Pod loveseat · build<small>steel tube frame, ply shell, lit wall · U or D outline · inches · deck at 24"</small></h1>
+    <h1>Pod loveseat · build<small>steel tube frame, ply shell, lit wall · U or D outline · inches · deck at 24" · rev 2026-09-13 after the drivetrain review</small></h1>
 
     <section>
       <h2>Structure</h2>
@@ -79,8 +79,9 @@
       </select></div>
       <div class="sel"><label for="arm">Receiver arms</label><select id="arm">
         <option value="2x2x0.120">2" sq × 0.120" wall</option>
-        <option value="2x2x0.188" selected>2" sq × 0.188" wall</option>
+        <option value="2x2x0.188">2" sq × 0.188" wall</option>
         <option value="2x2x0.250">2" sq × 0.250" wall</option>
+        <option value="2x3x0.188" selected>2" × 3" × 0.188" on edge, 2½ × 3½ receivers</option>
       </select></div>
       <div class="sel"><label for="wallShape">Wall outline</label><select id="wallShape">
         <option value="U" selected>U — half round + straight legs over the deck</option>
@@ -124,15 +125,15 @@
       <div class="ctl"><label for="seatH">Seat height, uncompressed</label><output for="seatH">17</output><input type="range" id="seatH" min="13" max="21" step="0.5" value="17"></div>
       <div class="ctl"><label for="rimH">Rim / backrest top</label><output for="rimH">25</output><input type="range" id="rimH" min="20" max="34" step="0.5" value="25"></div>
       <div class="ctl"><label for="podR">Pod radius</label><output for="podR">24</output><input type="range" id="podR" min="21" max="30" step="0.5" value="24"></div>
-      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">26</output><input type="range" id="armGap" min="10" max="32" step="1" value="26"></div>
+      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
     </section>
 
     <section>
       <h2>Chassis under the pod</h2>
       <div class="ctl"><label for="kneel">Kneel (frame dropped, tire rises)</label><output for="kneel">0</output><input type="range" id="kneel" min="0" max="8" step="0.5" value="0"></div>
-      <div class="ctl"><label for="fenderH">Fender / footrest box over the well, above the deck</label><output for="fenderH">4</output><input type="range" id="fenderH" min="0" max="12" step="0.5" value="4"></div>
+      <div class="ctl"><label for="fenderH">Fender / footrest box over the well, above the deck</label><output for="fenderH">6</output><input type="range" id="fenderH" min="0" max="12" step="0.5" value="6"></div>
       <div class="toggles"><label><input type="checkbox" id="wheelWell" checked> Wheel well in the deck</label></div>
-      <p class="note">The tire sits under the side pod at the real position from frame-3d: centred 5.5" inboard of the pod centre line, 20" across along the car, between the two receiver stubs. That is the riders' foot space, not the seat: only the outer 2–3" of tire is under the seat edge. Use the kneel slider with the riders on to see what the fender does to shins.</p>
+      <p class="note">The tire sits under the side pod at the real position from frame-3d: 22.5" OD × 10.2" (Carlstar 23×10.50-12 on a 12" rim), centred 5.5" inboard of the pod centre line, between the two receiver stubs. That is the riders' foot space, not the seat: only the outer 2–3" of tire is under the seat edge. The chassis rail is 12" inboard of the pod centre line, so the legs stop at the rail face. Use the kneel slider with the riders on to see what the fender does to shins; frame-3d puts the usable kneel at ~5.7" (air spring and receiver limits).</p>
     </section>
 
     <section>
@@ -144,7 +145,7 @@
       <div class="ctl"><label for="gateH">Front gate height</label><output for="gateH">12</output><input type="range" id="gateH" min="0" max="24" step="1" value="12"></div>
       <div class="toggles" style="margin-top:6px"><label><input type="checkbox" id="driverStep" checked> Fold-down step under the gate</label></div>
       <div class="ctl" style="margin-top:8px"><label for="wheelH">Wheel hub above the pod floor</label><output for="wheelH">27</output><input type="range" id="wheelH" min="22" max="34" step="0.5" value="27"></div>
-      <p class="note">Same U module mounted the other way round: the half round faces the car and the driver looks forward through the open end. One spring-return throttle pedal (regen on lift) and a dead pedal; F / N / R switch and the hand brake on the left console, lighting panel on the right; the low gate hangs between the leg posts and is the way in. Arms run the full length under the floor.</p>
+      <p class="note">Same U module mounted the other way round: the half round faces the car and the driver looks forward through the open end. Right foot: spring-return throttle (regen on lift) and a hydraulic service-brake pedal (tandem master cylinder under the floor, four calipers); left foot: dead pedal. F / N / R switch and the mechanical parking-brake lever (cable to two rear calipers) on the left console, lighting panel on the right; the low gate hangs between the leg posts and is the way in. Arms run the full length under the floor.</p>
     </section>
 
     <section>
@@ -187,7 +188,7 @@
     <section>
       <div class="row2"><button id="showCut">Cut list</button><button id="copyCut">Copy cut list</button></div>
       <button id="copyObj" style="width:100%; margin-top:6px">Copy OBJ to clipboard</button>
-      <p class="note">Weights are computed from the members drawn; costs are 2026 ballpark retail and live in the <code>COST</code> table. Riders are the same 50th-percentile adults as loveseat-3d. Receiver check uses 400 lb of riders plus the computed pod mass, ×3 for playa, against tube yield.</p>
+      <p class="note">Weights are computed from the members drawn; costs are 2026 ballpark retail and live in the <code>COST</code> table. Riders are the same 50th-percentile adults as loveseat-3d. Receiver check: 400 lb of riders plus the computed pod mass with lever arms measured from the chassis rail face (not the pod centre), ×3 for playa, against tube yield; it also reports the sleeve reaction couple over the 13" engagement. Pin, weld and anti-rattle details are not checked.</p>
     </section>
   </aside>
 
@@ -204,13 +205,15 @@
   const $ = id => document.getElementById(id);
   const P = {
     // ergonomics (defaults match loveseat-3d)
-    seatH: 17, seatFoam: 4, rimH: 25, backFoam: 2, backTilt: 15, podR: 24, riderAng: 40, armGap: 26, kneel: 0, fenderH: 4, wheelWell: true,
+    seatH: 17, seatFoam: 4, rimH: 25, backFoam: 2, backTilt: 15, podR: 24, riderAng: 40, armGap: 28, kneel: 0, fenderH: 6, wheelWell: true,
     wallT: 1.5, seatSpan: 200, seatDepth: 20, deckH: 24, compress: 2,
     // structure
-    wall: 'steel', tube: '0.75x0.75x0.065', postTube: '1x1x0.065', arm: '2x2x0.188', openSeat: true, chordSec: '1x2x0.065', seatType: 'slats', modPly: 0.125, kickPly: 0.125, modules: true, modDepth: 2, consoleDepth: 4.5, laserW: 19, laserH: 11, facets: 6, wallSpan: 210, wallShape: 'U', legLen: 12, driver: false, driverLeg: 16, gateH: 12, wheelH: 27, driverW: 52, squareness: 0.4, driverStep: true, bandH: 6, ledRows: 4, floorPly: 0.375, innerPly: 0.25, smooth: false,
+    wall: 'steel', tube: '0.75x0.75x0.065', postTube: '1x1x0.065', arm: '2x3x0.188', openSeat: true, chordSec: '1x2x0.065', seatType: 'slats', modPly: 0.125, kickPly: 0.125, modules: true, modDepth: 2, consoleDepth: 4.5, laserW: 19, laserH: 11, facets: 6, wallSpan: 210, wallShape: 'U', legLen: 12, driver: false, driverLeg: 16, gateH: 12, wheelH: 27, driverW: 52, squareness: 0.4, driverStep: true, bandH: 6, ledRows: 4, floorPly: 0.375, innerPly: 0.25, smooth: false,
     showRiders: true, showChassis: true, showPly: true, showSoft: true, showDiffuser: true, showLeds: true, showSkirt: true, showStep: false,
   };
   const R = { hipW: 15, shW: 18, bk: 23, eye: 31, torsoH: 22, torsoD: 8, headR: 4.2 };
+  const TIRE = { r: 11.25, w: 10.2 };     // Carlstar 23x10.50-12, mounted 22.49 x 10.21
+  const armY = () => -1.75 - (TUBE[P.arm].h || TUBE[P.arm].w) / 2;   // arm centreline: top face under the floor ring
 
   // ---------- materials + costs (edit here) ----------
   // steel tube: lb/ft, $/ft, section modulus S (in^3) for the arms
@@ -230,6 +233,7 @@
     'ply 0.75x2.5':   { w: 2.5, h: 0.75, lbft: 0.54, usd: 1.6, I: 0.088, S: 0.23, yield: 6000, E: 1.5e6, wood: true },    // flat rail
     '2x2x0.188':      { w: 2,    lbft: 4.64, usd: 8.5,  S: 0.754 },
     '2x2x0.250':      { w: 2,    lbft: 5.95, usd: 10.5, S: 0.911 },
+    '2x3x0.188':      { w: 2, h: 3, lbft: 5.9, usd: 10, I: 2.06, S: 1.37 },       // on edge, 3" vertical; receivers become 2.5 x 3.5
   };
   const COST = {
     ply: { 0.0625: { lbsf: 0.20, usdSheet: 12, sheet: [12, 20] }, 0.125: { lbsf: 0.40, usdSheet: 35, sheet: [48, 96] }, 0.375: { lbsf: 1.1, usdSheet: 65, sheet: [60, 60] }, 0.25: { lbsf: 0.75, usdSheet: 50, sheet: [60, 60] }, 0.5: { lbsf: 1.5, usdSheet: 85, sheet: [60, 60] }, 0.75: { lbsf: 2.3, usdSheet: 110, sheet: [60, 60] } },
@@ -368,9 +372,9 @@
       C.add(box(2, 4, 54, M.steelDark, railX + 1, -2, 0, 'end_rail'));
       C.add(box(30, 0.75, 54, M.deck, railX + 17, -0.375, 0, 'deck_plate'));
       for (const z of [-P.armGap / 2, P.armGap / 2]) {
-        C.add(box(16, 2.5, 2.5, M.steel, railX + 2 + 8, -2.75, z, 'receiver_tube'));
+        C.add(box(16, (TUBE[P.arm].h || 2) + 0.5, 2.5, M.steel, railX + 2 + 8, armY(), z, 'receiver_tube'));
         const pin = mesh(new THREE.CylinderGeometry(0.31, 0.31, 4.5, 12), M.skirt, 'hitch_pin');
-        pin.rotation.x = Math.PI / 2; pin.position.set(railX + 8, -2.75, z); C.add(pin);
+        pin.rotation.x = Math.PI / 2; pin.position.set(railX + 8, armY(), z); C.add(pin);
       }
       C.add(box(2, 3, 50, M.steelDark, railX + 18, -1.5, 0, 'cross_member'));
       model.add(C);
@@ -379,20 +383,20 @@
       const rx = -(U ? legLen : 12);                                                     // rail face; the pod centre line is the envelope edge
       C.add(box(2, 4, 100, M.steelDark, rx - 1, -2, 0, 'side_rail'));
       // deck plate from 28" inboard of the rail out to the envelope edge, with the wheel well cut out
-      const wx0 = -11.5, wx1 = 0.5, wz = 11.5, dx0 = rx - 28, dx1 = 0, dy = -0.375;
+      const wx0 = -11.5, wx1 = 0.5, wz = TIRE.r + 0.25, dx0 = rx - 28, dx1 = 0, dy = -0.375;
       if (P.wheelWell) {
         C.add(box(wx0 - dx0, 0.75, 100, M.deck, (dx0 + wx0) / 2, dy, 0, 'deck_plate'));
         for (const s of [-1, 1]) C.add(box(dx1 - wx0, 0.75, 50 - wz, M.deck, (wx0 + dx1) / 2, dy, s * (wz + (50 - wz) / 2), 'deck_plate'));
       } else C.add(box(dx1 - dx0, 0.75, 100, M.deck, (dx0 + dx1) / 2, dy, 0, 'deck_plate'));
       for (const z of [-P.armGap / 2, P.armGap / 2]) {
-        C.add(box(16, 2.5, 2.5, M.steel, -8, -2, z, 'receiver_tube'));                    // through the rail, ends at the envelope edge
+        C.add(box(16, (TUBE[P.arm].h || 2) + 0.5, 2.5, M.steel, -8, armY(), z, 'receiver_tube'));   // through the rail, ends at the envelope edge
         C.add(box(2, 3, 2 * Math.abs(rx) - 2, M.steelDark, rx - 1 - 2, -1.5, z, 'cross_member'));
         const pin = mesh(new THREE.CylinderGeometry(0.31, 0.31, 4.5, 12), M.skirt, 'hitch_pin');
-        pin.rotation.x = Math.PI / 2; pin.position.set(rx - 3, -2, z); C.add(pin);
+        pin.rotation.x = Math.PI / 2; pin.position.set(rx - 3, armY(), z); C.add(pin);
       }
-      // the tire under this pod: 20 x 10, axle 10" up, centred 5.5" inboard of the pod centre line; rises with the kneel
-      const t = mesh(new THREE.CylinderGeometry(10, 10, 10, 48), M.tire, 'tire'); t.rotation.z = Math.PI / 2; t.position.set(-5.5, -P.deckH + 10 + P.kneel, 0); C.add(t);
-      const hub = mesh(new THREE.CylinderGeometry(5, 5, 5.5, 32), M.skirt, 'hub_motor'); hub.rotation.z = Math.PI / 2; hub.position.set(-5.5, -P.deckH + 10 + P.kneel, 0); C.add(hub);
+      // the tire under this pod: 22.5 x 10.2 (Carlstar 23x10.50-12), axle 11.25" up, centred 5.5" inboard of the pod centre line; rises with the kneel
+      const t = mesh(new THREE.CylinderGeometry(TIRE.r, TIRE.r, TIRE.w, 48), M.tire, 'tire'); t.rotation.z = Math.PI / 2; t.position.set(-5.5, -P.deckH + TIRE.r + P.kneel, 0); C.add(t);
+      const hub = mesh(new THREE.CylinderGeometry(4.375, 4.375, 2.7, 32), M.skirt, 'hub_motor'); hub.rotation.z = Math.PI / 2; hub.position.set(-5.5, -P.deckH + TIRE.r + P.kneel, 0); C.add(hub);
       if (P.fenderH > 0) {                                                                // fender box: top and three sides (open to the outboard edge under the pod floor)
         const fh = P.fenderH + 0.75, fy = -0.75 + fh / 2;
         C.add(box(wx1 - wx0 + 1, 0.5, 2 * wz + 1, M.plyDark, (wx0 + wx1) / 2, -0.75 + fh - 0.25, 0, 'fender_top'));
@@ -402,7 +406,7 @@
       if (P.showStep) {
         // boarding step for the walkway between pods: hangs off the rail on a spare receiver stub
         const zs = podR + 22; const S = new THREE.Group(); S.name = 'step';
-        member(S, V(-13, -2.75, zs), V(6, -2.75, zs), P.arm, 'step_stub', 'in a spare receiver');
+        member(S, V(-13, armY(), zs), V(6, armY(), zs), P.arm, 'step_stub', 'in a spare receiver');
         member(S, V(6, -3, zs - 10), V(6, -3, zs + 10), P.tube, 'step_hanger_top');
         for (const z of [zs - 10, zs + 10]) {
           member(S, V(6, -3, z), V(6, -13, z), P.tube, 'step_drop');
@@ -422,8 +426,8 @@
     // receiver arms: 13" inside the receiver, out to the floor ring
     for (const z of [-P.armGap / 2, P.armGap / 2]) {
       const xEnd = Math.sqrt(Math.max(1, rp * rp - z * z)) - 0.5;
-      if (driver) member(G, V(railX + 2 + 13, -2.75, z), V(-legLen + 1, -2.75, z), P.arm, 'receiver_arm', '13" in the end-rail receiver, then the full length under the floor to the gate');
-      else member(G, V(-13, -2.75, z), V(xEnd, -2.75, z), P.arm, 'receiver_arm', '13" engages the receiver; ends at the floor ring');
+      if (driver) member(G, V(railX + 2 + 13, armY(), z), V(-legLen + 1, armY(), z), P.arm, 'receiver_arm', '13" in the end-rail receiver, then the full length under the floor to the gate');
+      else member(G, V(-13, armY(), z), V(xEnd, armY(), z), P.arm, 'receiver_arm', '13" engages the receiver; ends at the floor ring');
     }
     // driver pod: the legs carry a floor (nothing under them but playa) — side tubes, front chord, two joists, ply
     if (driver) {
@@ -690,9 +694,13 @@
         if (P.showPly) G.add(box(7, 0.5, 20, M.ply, sx, sy + 0.5, 0, 'step_tread'));
         panel('step tread', 'ply', 20, 7, 0.5, 'fold-down, one rung; the gate post is the handhold');
       }
-      // one throttle pedal (right foot), spring return, regen on lift; a dead pedal for the left foot
+      // right foot: throttle (spring return, regen on lift) and a hydraulic service-brake pedal; left foot: dead pedal
       const px = gx + 3.5, pedal = box(3, 5.5, 2.5, M.steelDark, px, 2.75, 8, 'throttle_pedal'); pedal.rotation.z = 0.4; G.add(pedal);
       G.add(box(3, 0.5, 4, M.steelDark, px, 0.25, 8, 'pedal_base'));
+      const brake = box(3, 5, 3.5, M.b, px, 2.5, 3.5, 'brake_pedal'); brake.rotation.z = 0.35; G.add(brake);
+      G.add(box(3, 0.5, 4.5, M.steelDark, px, 0.25, 3.5, 'brake_pedal_base'));
+      const mc = mesh(new THREE.CylinderGeometry(0.9, 0.9, 6, 16), M.skirt, 'tandem_master_cylinder'); mc.rotation.z = Math.PI / 2; mc.position.set(px + 4.5, -3, 3.5); G.add(mc);
+      for (const x of [px + 3, px + 5.5]) G.add(box(1.8, 2, 1.8, M.b, x, -1.4, 3.5, 'brake_reservoir'));
       const dead = box(3, 4, 3.5, M.steelDark, px, 2, -8, 'dead_pedal'); dead.rotation.z = 0.5; G.add(dead);
       // steering: shaft along the arm side under the floor from the rail, u-joint, column up to the wheel
       const zc = 9, j0 = V(railX + 4, -4.2, zc), j1 = V(-3, -4.2, zc), hub = V(-12, P.wheelH, zc);
@@ -713,7 +721,7 @@
       G.add(box(6, 0.6, 3.5, M.steelDark, -8, rimH + 0.3, zR, 'lighting_panel'));
       const seatFront = seatIn, pedalFace = px + 1.5;
       drv = { legRoom: seatFront - pedalFace, backToPedal: (rTop - lean) - pedalFace, colAng, hubX: -12, gateH: gh, armLen: railX + 2 + 13 + legLen - 1 };
-      panel('console top, driver left', 'note', 0, 0, 0, 'F/N/R three-position lever (controller direction + enable), hand brake lever (cable to two rear calipers, doubles as park brake)');
+      panel('console top, driver left', 'note', 0, 0, 0, 'F/N/R three-position lever (controller direction + enable), mechanical parking-brake lever (cable to two rear calipers). Service brake is the pedal: tandem master under the floor, hydraulic to four calipers.');
     }
     model.add(G);
 
@@ -753,16 +761,22 @@
     const podLb = steelLb + woodLb + plyLb + diffLb + foamLb + fabricLb + ledLb + skirtLb + hwLb;
     const podUsd = steelUsd + woodUsd + plyUsd + diffUsd + foamUsd + fabricUsd + ledUsd + skirtUsd + hwUsd;
 
-    // ---- receiver check ----
-    const xRiders = rb - 6, xPod = 0.55 * podR;
+    // ---- receiver check: lever arms from the supporting rail face, not the pod centre (drivetrain review, item 13) ----
+    // passenger pod: rail face is legLen inboard of the pod centre line; driver pod: end-rail face at railX, riders sit in the arc next to it
+    const inset = driver ? railX : legLen;
+    const xRiders = driver ? railX - 0.77 * rb : rb - 6 + inset;                  // riders' CG from the rail face
+    const xPod = driver ? railX - 0.1 * podR : 0.35 * podR + inset;               // pod CG from the rail face (U outline)
+    const xRim = driver ? railX + legLen : podR + inset;                          // someone standing on the far rim
     const mStatic = 400 * xRiders + podLb * xPod;
     const mDesign = 3 * mStatic;
-    const mStand = mStatic + 200 * podR * 1.5;
-    const S = TUBE[P.arm].S;
-    const stress = Math.max(mDesign, mStand) / 2 / S;
+    const mStand = mStatic + 200 * xRim * 1.5;
+    const S = TUBE[P.arm].S, engage = 13;
+    const mArm = Math.max(mDesign, mStand) / 2;                                    // per arm
+    const stress = mArm / S;
+    const sleeveR = mArm / engage;                                                 // reaction couple at the sleeve mouth and end, per arm
     const rSh = P.modules ? rTop - backFoam : rb;   // shoulders bear on the top of the tilted backrest
     const hipGap = 2 * (rb - 5) * Math.sin(rad(P.riderAng)) - R.hipW, shGap = 2 * (rSh - 4) * Math.sin(rad(P.riderAng)) - R.shW;
-    D = { podR, driver, drv, U, legLen, wallSpan, woodLen, wood, woodLb, floorFrameLb, floorLb, slat, armLb, bareLb, modClear, rTop, ssB: typeof ssBOut !== 'undefined' ? ssBOut : null, bays, hipGap, shGap, consoleEdge, wallIn, lean, chordSec, Lc, chordM, chordStress, chordSag, storage, ys, rb, seatIn, rp, steelLb, steelUsd, steelLen, plyLb, plyUsd, sheets, diffLb, diffUsd, diffSheets, dc, foamLb, foamUsd, fabricYd, fabricLb, fabricUsd, ledN, ledM, ledLb, ledUsd, skirtLb, skirtUsd, hwLb, hwUsd, podLb, podUsd, mStatic, mDesign, mStand, stress, arcOut, arcIn, diffH, wallH, faceted, nF, postAng, xChord, panTop };
+    D = { podR, driver, drv, U, legLen, wallSpan, woodLen, wood, woodLb, floorFrameLb, floorLb, slat, armLb, bareLb, modClear, rTop, inset, xRiders, xPod, sleeveR, engage, ssB: typeof ssBOut !== 'undefined' ? ssBOut : null, bays, hipGap, shGap, consoleEdge, wallIn, lean, chordSec, Lc, chordM, chordStress, chordSag, storage, ys, rb, seatIn, rp, steelLb, steelUsd, steelLen, plyLb, plyUsd, sheets, diffLb, diffUsd, diffSheets, dc, foamLb, foamUsd, fabricYd, fabricLb, fabricUsd, ledN, ledM, ledLb, ledUsd, skirtLb, skirtUsd, hwLb, hwUsd, podLb, podUsd, mStatic, mDesign, mStand, stress, arcOut, arcIn, diffH, wallH, faceted, nF, postAng, xChord, panTop };
     readout();
   }
 
@@ -809,10 +823,13 @@
       ['Diffuser', `${D.diffSheets}× ${D.dc.sheet[0]}×${D.dc.sheet[1]}`],
       ['LEDs', `${D.ledN} (${D.ledM.toFixed(1)} m), ${(D.ledN * COST.led.wMaxPerLed).toFixed(0)} W max`],
       ['Fabric', D.fabricYd.toFixed(1) + ' yd'],
-      ['sub', 'Receiver arms'],
-      ['Static moment', (D.mStatic / 1000).toFixed(1) + 'k in·lb'],
+      ['sub', 'Receiver arms (moments about the rail face)'],
+      ['Lever arms: riders / pod CG', D.xRiders.toFixed(0) + '" / ' + D.xPod.toFixed(0) + '" from the rail'],
+      ['Static moment, both arms', (D.mStatic / 1000).toFixed(1) + 'k in·lb'],
       ['Design moment (×3 / rim stand)', (Math.max(D.mDesign, D.mStand) / 1000).toFixed(1) + 'k in·lb'],
       ['Arm stress vs yield', (D.stress / 1000).toFixed(0) + ' ksi · ' + (util * 100).toFixed(0) + '%', util > 0.67 ? 'bad' : util > 0.5 ? 'warn' : ''],
+      ['Sleeve reaction couple (13" engagement), per arm', D.sleeveR.toFixed(0) + ' lb at each end', D.sleeveR > 4000 ? 'warn' : ''],
+      ['Rim above the pod floor (BRC guardrail rule starts at 84" above the playa; floor is 24")', (P.rimH + 0.5).toFixed(0) + '"', ''],
       ['sub', 'Seat front chord'],
       ['Section · span', D.chordSec + ' · ' + D.Lc.toFixed(0) + '"'],
       ['Stress (worst case)', (D.chordStress / 1000).toFixed(0) + ' ksi · ' + (D.chordStress / yc * 100).toFixed(0) + '%', D.chordStress / yc > 0.6 ? 'bad' : D.chordStress / yc > 0.4 ? 'warn' : ''],
@@ -834,10 +851,10 @@
       ['Posts', String(D.postAng.length + (D.U ? 2 : 0))],
       ...(!D.driver ? [
         ['sub', 'Chassis under the pod'],
-        ['Tire top vs deck, kneeled ' + P.kneel + '"', `${(-4 + P.kneel).toFixed(1)}"`, (-4 + P.kneel) > (P.fenderH > 0 ? P.fenderH - 0.5 : -0.75) ? 'bad' : ''],
-        ['Fender box height', P.fenderH > 0 ? `${P.fenderH}" (tire needs ${Math.max(0, -4 + P.kneel + 0.5).toFixed(1)}")` : 'none'],
-        ['Tire between the receivers', `${(P.armGap / 2 - 1 - 10).toFixed(1)}" each side`, (P.armGap / 2 - 1 - 10) < 0.5 ? 'bad' : (P.armGap / 2 - 1 - 10) < 1 ? 'warn' : ''],
-        ['Under the seat edge', `outer ${Math.max(0, 4.5 - 2).toFixed(1)}" of tire; the rest is foot space`],
+        ['Tire top vs deck, kneeled ' + P.kneel + '"', `${(2 * TIRE.r - P.deckH + P.kneel).toFixed(1)}"`, (2 * TIRE.r - P.deckH + P.kneel) > (P.fenderH > 0 ? P.fenderH - 0.5 : -0.75) ? 'bad' : ''],
+        ['Fender box height', P.fenderH > 0 ? `${P.fenderH}" (tire needs ${Math.max(0, 2 * TIRE.r - P.deckH + P.kneel + 0.5).toFixed(1)}")` : 'none'],
+        ['Tire chord vs the receivers at this kneel', (() => { const dy = P.deckH - 3.25 - P.kneel - TIRE.r, half = dy >= TIRE.r ? 0 : Math.sqrt(TIRE.r ** 2 - Math.max(0, dy) ** 2), gap = P.armGap / 2 - 1.25 - half; return `${gap.toFixed(1)}" each side (chord ${(2 * half).toFixed(0)}" at sleeve height)`; })(), (() => { const dy = P.deckH - 3.25 - P.kneel - TIRE.r, half = dy >= TIRE.r ? 0 : Math.sqrt(TIRE.r ** 2 - Math.max(0, dy) ** 2); return P.armGap / 2 - 1.25 - half; })() < 1 ? 'bad' : ''],
+        ['Under the seat edge', `outer ${Math.max(0, TIRE.w / 2 - 5.5 + 2.5).toFixed(1)}" of tire; the rest is foot space`],
       ] : []),
       ...(D.driver ? [
         ['sub', 'Driver pod'],
@@ -902,19 +919,20 @@
       L.push('DRIVER POD');
       L.push(`  ${P.driverW}" wide (two people, the driver facing forward), back drawn as a superellipse n = ${(2 + 2 * P.squareness).toFixed(1)}: the width and the tangent points stay put, the corners fill out toward the square.${P.driverStep ? ' Fold-down step under the gate, one rung halfway to the playa, hinged at the front chord.' : ''}`);
       L.push(`  Same U module turned round: the half round goes to the end rail, the ${D.legLen}" legs point forward and carry a floor (side tubes, front chord, two joists, ${P.floorPly}" ply). Arms ${D.drv.armLen.toFixed(0)}" long run 13" into the end-rail receivers and the full length under the floor to the gate; consider 0.120" wall here, the riders sit close to the rail.`);
-      L.push(`  One spring-return throttle pedal on the right (regen on lift, so the car slows when the foot comes off), dead pedal on the left; seat back to pedal face ${D.drv.backToPedal.toFixed(0)}", seat front edge to pedal ${D.drv.legRoom.toFixed(0)}".`);
+      L.push(`  Right foot: spring-return throttle (regen on lift, so the car slows when the foot comes off) and the service-brake pedal; dead pedal on the left; seat back to pedal face ${D.drv.backToPedal.toFixed(0)}", seat front edge to pedal ${D.drv.legRoom.toFixed(0)}".`);
       L.push(`  Steering: shaft under the floor beside the right arm at z = 9 (quick-disconnect at the rail), u-joint at x = -3, column ${D.drv.colAng.toFixed(0)}° from vertical to a 13" wheel with its hub 12" ahead of the pod centre and ${P.wheelH}" above the floor. Hole in the leg floor ply at the u-joint.`);
       L.push(`  Front gate ${D.drv.gateH}" high between the leg posts: two stiles, top rail${D.drv.gateH > 6 ? ', mid rail' : ''}, 1/8" ply or open; two weld-on hinges on the left post, latch on the right. This is the way in — the driver walks up the front of the car.`);
-      L.push('  Consoles: left top carries the F/N/R lever (a three-position switch to the controllers\' direction + enable lines; software refuses a direction change unless the car is stopped) and the hand brake (cable or hydraulic to two rear calipers; also the park brake). Right top carries the lighting panel and the pack readout. One cup each, as on the passenger pods.');
+      L.push('  Consoles: left top carries the F/N/R lever (a three-position switch to the controllers\' direction + enable lines; software refuses a direction change unless the car is stopped) and the mechanical parking-brake lever (cable to two rear calipers). Right top carries the lighting panel and the pack readout. One cup each, as on the passenger pods.');
+      L.push('  Brakes: service brake is a pedal (right foot, beside the throttle) on a tandem master cylinder under the leg floor, hydraulic to four calipers; regen and the parking lever are not the service brake.');
       L.push('');
     }
-    L.push('  Hardware: 2 × 5/8" hitch pins + clips, 2 anti-rattle clamps, 1/4-20 T-nuts for the ply, #8 washer-head screws for the diffuser');
+    L.push(`  Hardware: 2 × 5/8" hitch pins + clips, 2 anti-rattle clamps, 1/4-20 T-nuts for the ply, #8 washer-head screws for the diffuser. Receivers on the car: ${TUBE[P.arm].h ? '2½ × 3½' : '2½ × 2½'} × 0.188" tube, 16" long, through the rail into the cross member.`);
     L.push('');
     L.push('WEIGHT + COST (rough)');
     L.push(`  steel ${D.steelLb.toFixed(0)} lb / ${usd(D.steelUsd)} · ply ${D.plyLb.toFixed(0)} lb / ${usd(D.plyUsd)} · diffuser ${D.diffLb.toFixed(0)} lb / ${usd(D.diffUsd)} · foam+fabric ${(D.foamLb + D.fabricLb).toFixed(0)} lb / ${usd(D.foamUsd + D.fabricUsd)} · LEDs ${D.ledLb.toFixed(0)} lb / ${usd(D.ledUsd)} · skirt+hardware ${(D.skirtLb + D.hwLb).toFixed(0)} lb / ${usd(D.skirtUsd + D.hwUsd)}`);
     L.push(`  POD ${D.podLb.toFixed(0)} lb / ${usd(D.podUsd)}      SIX PODS ${(6 * D.podLb).toFixed(0)} lb / ${usd(6 * D.podUsd)}`);
     L.push(`  Seat front chord ${D.chordSec}, ${D.Lc.toFixed(0)}" span: ${(D.chordStress / 1000).toFixed(0)} ksi worst case (200 lb on the edge at midspan), ${D.chordSag.toFixed(2)}" sag` + (D.storage ? `; under-seat storage ${D.storage.w.toFixed(0)} × ${D.storage.h.toFixed(0)} × ${D.storage.d.toFixed(0)}` : ''));
-    L.push(`  Receiver: static ${(D.mStatic / 1000).toFixed(1)}k in·lb, design ${(Math.max(D.mDesign, D.mStand) / 1000).toFixed(1)}k in·lb → ${(D.stress / 1000).toFixed(0)} ksi in each ${P.arm} arm (${(D.stress / COST.steelYield * 100).toFixed(0)}% of yield)`);
+    L.push(`  Receiver (moments about the rail face, ${D.inset.toFixed(0)}" from the pod centre line): static ${(D.mStatic / 1000).toFixed(1)}k in·lb, design ${(Math.max(D.mDesign, D.mStand) / 1000).toFixed(1)}k in·lb → ${(D.stress / 1000).toFixed(0)} ksi in each ${P.arm} arm (${(D.stress / COST.steelYield * 100).toFixed(0)}% of yield); sleeve reaction couple ${D.sleeveR.toFixed(0)} lb per arm end over ${D.engage}" of engagement. Pins retain, they do not carry the moment; check welds, anti-rattle and wall bearing separately.`);
     L.push('');
     L.push('BUILD ORDER');
     L.push('  1. Jig: bolt two receiver tubes to a straight bar at the real spacing; keep both arms inserted while welding so they end up parallel.');

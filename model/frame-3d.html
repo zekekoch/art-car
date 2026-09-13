@@ -38,6 +38,10 @@
   .readout dd.sub { font-size: 13px; color: var(--muted); }
   .readout dd.sub.warn { color: var(--warn); }
   .readout dd.sub.bad { color: var(--bad); }
+  .readout dt.head { grid-column: 1 / -1; color: var(--accent); font-family: var(--cond); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; margin-top: 8px; border-bottom: 1px solid var(--line); }
+  .readout dd.head { display: none; }
+  .sel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; font-size: 13px; }
+  select { max-width: 185px; font-family: var(--sans); font-size: 13px; background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 4px 6px; }
   .legend { display: flex; gap: 10px 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   .note { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 0; }
@@ -52,7 +56,7 @@
 
 <div id="app">
   <aside>
-    <h1>Chassis frame<small>54" × 120" steel ladder · single-shaft hub motors on trailing arms · six pods · aluminium roof: rectangle, petals or cloverleaf · inches</small></h1>
+    <h1>Chassis frame<small>54" × 120" steel ladder · QS205 car hub motors on trailing arms, air springs · six pods · aluminium roof: rectangle, petals or cloverleaf · inches · rev 2026-09-13 after the drivetrain review</small></h1>
 
     <section>
       <h2>Views</h2>
@@ -87,15 +91,17 @@
         <label><input type="checkbox" id="stackMode"> stacked for transport — pods, stairs and roof piled on the bare car inside the trailer</label>
         <label><input type="checkbox" id="stackArms"> arms stay on the pods (else pulled and stowed)</label>
       </div>
+      <div class="ctl" style="margin-top:8px"><label for="cargoLb">Cargo on the trailer besides the car (e-bikes, spares, tools)</label><output for="cargoLb">250</output><input type="range" id="cargoLb" min="0" max="800" step="25" value="250"></div>
     </section>
 
     <section>
       <h2>Frame</h2>
-      <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">12</output><input type="range" id="railInset" min="0" max="16" step="0.5" value="12"></div>
+      <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">14</output><input type="range" id="railInset" min="0" max="16" step="0.5" value="14"></div>
       <div class="ctl"><label for="railH">Side rail height (2" wide tube)</label><output for="railH">4</output><input type="range" id="railH" min="2" max="6" step="0.5" value="4"></div>
-      <div class="ctl"><label for="sleeveLen">Receiver sleeve length (2½" sq)</label><output for="sleeveLen">16</output><input type="range" id="sleeveLen" min="10" max="24" step="1" value="16"></div>
-      <div class="ctl"><label for="armSpacing">Pod arm spacing (sleeve centres)</label><output for="armSpacing">26</output><input type="range" id="armSpacing" min="8" max="32" step="1" value="26"></div>
+      <div class="ctl"><label for="sleeveLen">Receiver sleeve length (2½" × 3½", for 2 × 3 pod arms on edge)</label><output for="sleeveLen">16</output><input type="range" id="sleeveLen" min="10" max="24" step="1" value="16"></div>
+      <div class="ctl"><label for="armSpacing">Pod arm spacing (sleeve centres)</label><output for="armSpacing">28</output><input type="range" id="armSpacing" min="8" max="32" step="1" value="28"></div>
       <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="sleeveTop"> receivers on top of the rail (only needed if the arms have to pass over a tire)</label></div>
+      <div class="sel" style="margin-top:8px"><label for="deckMat">Deck plate</label><select id="deckMat"><option value="ply50" selected>1/2" ply (1.5 lb/ft²)</option><option value="ply75">3/4" ply (2.3 lb/ft²)</option><option value="al125">1/8" aluminium tread plate (1.8 lb/ft²)</option><option value="st188">3/16" steel plate (7.65 lb/ft²)</option></select></div>
     </section>
 
     <section>
@@ -105,6 +111,7 @@
         <button id="psU" type="button" class="on">U · flat sides</button>
       </div>
       <div class="ctl"><label for="podX">Side pods, distance from centre (end pods follow, tangent)</label><output for="podX">33</output><input type="range" id="podX" min="24" max="40" step="0.5" value="33"></div>
+      <div class="ctl"><label for="podLegLen">U pods: leg length over the deck (48" × 36" outline stacks two across the trailer)</label><output for="podLegLen">12</output><input type="range" id="podLegLen" min="4" max="16" step="0.5" value="12"></div>
       <div class="ctl"><label for="bump">Suspension bump travel to allow for</label><output for="bump">3</output><input type="range" id="bump" min="0" max="6" step="0.5" value="3"></div>
       <div class="ctl"><label for="driverW">Driver pod: width (front end pod)</label><output for="driverW">52</output><input type="range" id="driverW" min="48" max="58" step="1" value="52"></div>
       <div class="ctl"><label for="driverLeg">Driver pod: leg length (legs point forward, carry the pedal floor and the gate)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
@@ -122,9 +129,11 @@
       <h2>Wheel / motor</h2>
       <div class="ctl"><label for="wheelX">Axle distance from centre</label><output for="wheelX">33</output><input type="range" id="wheelX" min="24" max="54" step="0.5" value="33"></div>
       <div class="ctl"><label for="track">Track (hub centre to hub centre)</label><output for="track">43</output><input type="range" id="track" min="36" max="52" step="0.5" value="43"></div>
-      <div class="ctl"><label for="wheelD">Tire outside diameter (ATV 20×10-10 / 22×11-10)</label><output for="wheelD">20</output><input type="range" id="wheelD" min="18" max="26" step="0.5" value="20"></div>
-      <div class="toggles" style="margin-bottom:8px"><label><input type="checkbox" id="wheelWells" checked> wheel wells: deck plate and pod floor cut out over the tires, so the car can kneel until the tire meets the seat pan</label></div>
-      <div class="ctl"><label for="tireW">Tire width</label><output for="tireW">10</output><input type="range" id="tireW" min="3" max="12" step="0.5" value="10"></div>
+      <div class="ctl"><label for="wheelD">Tire outside diameter (Carlstar 23×10.50-12 on a 12 × 8.5 rim mounts 22.5)</label><output for="wheelD">22.5</output><input type="range" id="wheelD" min="18" max="26" step="0.1" value="22.5"></div>
+      <div class="ctl"><label for="tireW">Tire section width</label><output for="tireW">10.2</output><input type="range" id="tireW" min="3" max="12" step="0.1" value="10.2"></div>
+      <div class="toggles" style="margin-bottom:8px"><label><input type="checkbox" id="wheelWells" checked> wheel wells: deck plate and pod floor cut out over the tires, a fender box in the pod foot space</label></div>
+      <div class="ctl"><label for="fenderH">Fender / footrest box height above the deck</label><output for="fenderH">6</output><input type="range" id="fenderH" min="0" max="12" step="0.5" value="6"></div>
+      <p class="note">Motor: QS205 <em>car</em> variant (3 kW class, 4×100 PCD, CB60, M24×1.5 shaft, 222 mm barrel) drawn as a 8.75" × 2.7" disc with its stationary shaft protruding inboard into a clamped torque block. Exact variant drawing and wheel-end load rating still to come from QS.</p>
     </section>
 
     <section>
@@ -132,13 +141,23 @@
       <div class="ctl"><label for="armLen">Arm length, pivot to axle</label><output for="armLen">16</output><input type="range" id="armLen" min="8" max="22" step="0.5" value="16"></div>
       <div class="ctl"><label for="pivotSpan">Pivot bearing spacing</label><output for="pivotSpan">10</output><input type="range" id="pivotSpan" min="4" max="14" step="0.5" value="10"></div>
       <div class="ctl"><label for="springOff">Spring position, from axle toward pivot</label><output for="springOff">6</output><input type="range" id="springOff" min="0" max="14" step="0.5" value="6"></div>
-      <div class="ctl"><label for="springD">Spring diameter</label><output for="springD">6</output><input type="range" id="springD" min="4" max="8" step="0.25" value="6"></div>
+      <div class="ctl"><label for="springD">Spring diameter (Air Lift D2500 is 7")</label><output for="springD">7</output><input type="range" id="springD" min="4" max="8" step="0.25" value="7"></div>
+      <div class="ctl"><label for="legIn">Front A-arm: inner leg inboard of the kingpin plane</label><output for="legIn">4.5</output><input type="range" id="legIn" min="2" max="9" step="0.5" value="4.5"></div>
+      <div class="ctl"><label for="kneel">Kneel: frame dropped, wheels on the ground</label><output for="kneel">0</output><input type="range" id="kneel" min="-3" max="8" step="0.1" value="0"></div>
+      <p class="note">Bag height is measured from the geometry (arm swings about its pivot, the seat rides on the arm). Kneel and bump share the bag's stroke down to 2.8"; the readout lists every stop and the first one reached. Dampers, bump stops and the fender box are drawn as reserved envelopes.</p>
     </section>
 
     <section>
       <h2>Steering</h2>
-      <div class="ctl"><label for="kpOff">Kingpin inboard of tire face (spindle length)</label><output for="kpOff">5</output><input type="range" id="kpOff" min="2.5" max="9" step="0.5" value="5"></div>
-      <div class="ctl"><label for="steer">Steer angle (mean of both wheels)</label><output for="steer">0</output><input type="range" id="steer" min="-30" max="30" step="1" value="0"></div>
+      <div class="ctl"><label for="scrubHub">Kingpin inboard of the hub centre plane (scrub at hub height)</label><output for="scrubHub">8</output><input type="range" id="scrubHub" min="6.5" max="12" step="0.5" value="8"></div>
+      <div class="ctl"><label for="kpi">Kingpin inclination (top inboard)</label><output for="kpi">12</output><input type="range" id="kpi" min="0" max="20" step="1" value="12"></div>
+      <div class="ctl"><label for="kpD">Kingpin diameter</label><output for="kpD">1.75</output><input type="range" id="kpD" min="0.75" max="2.25" step="0.125" value="1.75"></div>
+      <div class="ctl"><label for="ackAng">Steering arm angle, forward and outward (Ackermann)</label><output for="ackAng">12</output><input type="range" id="ackAng" min="0" max="30" step="1" value="12"></div>
+      <div class="ctl"><label for="rackHalf">Rack inner pivots, half spacing</label><output for="rackHalf">5</output><input type="range" id="rackHalf" min="2" max="10" step="0.5" value="5"></div>
+      <div class="ctl"><label for="rackDx">Rack pivots: fore/aft of the ball joints (+ forward)</label><output for="rackDx">0</output><input type="range" id="rackDx" min="-8" max="8" step="0.5" value="0"></div>
+      <div class="ctl"><label for="rackDy">Rack pivots: above the ball joints</label><output for="rackDy">0</output><input type="range" id="rackDy" min="-4" max="6" step="0.25" value="0"></div>
+      <div class="ctl"><label for="rackTravel">Rack travel (+ turns right)</label><output for="rackTravel">0</output><input type="range" id="rackTravel" min="-2.5" max="2.5" step="0.05" value="0"></div>
+      <p class="note">The steering arms point forward and outward from the kingpins, 3" above the hub centre so the rods clear the arm legs; the rack sits on the frame at the ball joints' own height and station, so the transverse rods are square to the ball joints' arc and the toe change over bump is second order (the readout shows it; a centre-take-off rack with the pivots near the centreline halves it again). Each wheel's angle is solved from its fixed-length tie rod ("no solution" when a rod cannot close). The readout compares the outer wheel with ideal Ackermann for the inner, sweeps the rack to find lock against the arm legs, spring, rail and receivers, and reports the toe change over ±bump travel. 6.5" is about the least hub-height scrub this single-sided motor package allows; kingpin inclination brings the ground-level figure down.</p>
     </section>
 
     <section>
@@ -167,8 +186,9 @@
 
     <section>
       <h2>Corner loads</h2>
-      <div class="ctl"><label for="cornerLoad">Vertical load on one corner</label><output for="cornerLoad">600</output><input type="range" id="cornerLoad" min="300" max="1500" step="50" value="600"></div>
-      <div class="ctl"><label for="sideLoad">Side load at the contact patch</label><output for="sideLoad">400</output><input type="range" id="sideLoad" min="100" max="1000" step="50" value="400"></div>
+      <div class="ctl"><label for="cornerLoad">Vertical load on one corner (see the load cases in the readout)</label><output for="cornerLoad">1250</output><input type="range" id="cornerLoad" min="300" max="2500" step="50" value="1250"></div>
+      <div class="ctl"><label for="sideLoad">Side load at the contact patch</label><output for="sideLoad">600</output><input type="range" id="sideLoad" min="100" max="1500" step="50" value="600"></div>
+      <p class="note">Static loads only. The readout's pivot and kingpin numbers are moment-couple estimates for sizing a first drawing, not bearing ratings; ruts, braking and drive torque add to them.</p>
     </section>
 
     <section>
@@ -192,7 +212,7 @@
         <span><i style="background:#5a4632"></i>ottoman</span>
         <span><i style="background:#8e939c;opacity:.5"></i>trailer rails</span>
       </div>
-      <p class="note" style="margin-top:10px">Corners use single-shaft (ATV / golf-cart style) hub motors bolted to a spindle, so every arm is single-sided on a wide pivot. Fronts end in a kingpin; a rack ahead of the axle drives tie rods; the column runs under the driver pod to a wheel, with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow the numbers in podcar_model.py and loveseat.md. Everything else is a proposal to argue with.</p>
+      <p class="note" style="margin-top:10px">Corners: QS205 car hub motors whose stationary shaft is clamped in a torque block (rear: on the L-arm; front: on a knuckle around an inclined kingpin), so every arm is single-sided on a wide pivot. The front arm's two legs both sit inboard of the tire's steering sweep. A rack behind the front axle drives fixed-length tie rods; the column runs under the end rail to the driver pod with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow loveseat.md; drivetrain-3d.html carries the detailed corner. Everything here is a proposal to argue with; see drivetrain-review.md and its response for what is and is not established.</p>
     </section>
   </aside>
 
@@ -209,24 +229,28 @@
   // ---- parameters (real inches; X = length, +X front; Y = up; Z = across, +Z right) ----
   const P = {
     deckL: 120, deckW: 54, deckH: 24,
-    railW: 2, railH: 4, crossH: 3, railInset: 12,
-    sleeve: 2.5, sleeveLen: 16,
-    podX: 33, podZ: 27, podR: 24, endPodX: 64, armSpacing: 26, sleeveTop: false, bump: 3, wheelWells: true,
-    podWallH: 25, podWallSpan: 220, seatH: 17, seatSpan: 200, riderSpread: 38, podShape: 'U', podLeg: 8, driverLeg: 16, driverW: 52,
+    railW: 2, railH: 4, crossH: 3, railInset: 14,                                               // rails 24" apart: 3.4" from the tire's inner face so the tire chord clears them at lock
+    sleeve: 2.5, sleeveH: 3.5, sleeveLen: 16,                                                  // receivers 2.5 wide x 3.5 tall for 2 x 3 pod arms on edge
+    podX: 33, podZ: 27, podR: 24, endPodX: 64, armSpacing: 28, sleeveTop: false, bump: 3, wheelWells: true,
+    podWallH: 25, podWallSpan: 220, seatH: 17, seatSpan: 200, riderSpread: 38, podShape: 'U', podLeg: 12, podLegLen: 12, driverLeg: 16, driverW: 52,
     stairDepth: 24, riserMax: 8, stairLb: 35, showStair: true, stackMode: false, stackArms: false,
     trailerL: 143, trailerW: 72, trailerRail: 30, rampW: 57, rampLb: 1810, trailerLoadLb: 3710, trailerDeckH: 24,
-    wheelX: 33, track: 43, wheelD: 20, tireW: 10, hubD: 10, hubW: 5,
-    armLen: 16, springOff: 6, springD: 6, pivotSpan: 10,
-    kpOff: 5, steer: 0, steerArm: 7, ackermann: 15,
+    wheelX: 33, track: 43, wheelD: 22.5, tireW: 10.2, hubD: 8.75, hubW: 2.7, fenderH: 6,                 // Carlstar 23x10.50-12 mounts 22.49 x 10.21; QS205 barrel 222 x 68 mm
+    armLen: 16, springOff: 6, springD: 7, pivotSpan: 10, legIn: 4.5, kneel: 0, bagMin: 2.8, bagMax: 10.5, bagMaxLb: 2096, unsprungLb: 110,
+    scrubHub: 8, kpi: 12, kpD: 1.75, rackTravel: 0, rackMax: 2.5, rackHalf: 5, rackDx: 0, rackDy: 0, armUp: 3, steerArm: 7, ackAng: 12,
     roofH: 102, roofOver: 38, postX: 52, postZ: 14, panelLb: 10, petalOver: 6, roofStyle: 'clover',
     leafR: 32, leafX: 24, leafZ: 21, rimD: 3, cPostXo: 50, cPostXi: 10, cPostZ: 13, flexW: 41, flexD: 21, flexLb: 4.5, ledPerFt: 18.3, rimRows: 2,
     showOttoman: true, ottomanW: 18, ottomanH: 17,
-    sledL: 46, sledW: 21, sledH: 9, sledLb: 475, podLb: 120,
-    cornerLoad: 600, sideLoad: 400,
+    sledL: 50, sledW: 21, sledH: 10.5, sledX: -5, sledMin: 3, sledLb: 475, podLb: 135, driverPodLb: 185, riderLb: 200, deckMat: 'ply50',
+    trailerEmptyLb: 2290, towLimitLb: 5000, cargoLb: 250,                                    // used Cruise America RV: 5,000 lb tow rating; cargo = e-bikes, spares, tools
+    cornerLoad: 1350, sideLoad: 600,
     showCorners: true, showSteering: true, showPods: true, showRiders: true, showRoof: true, showSolar: true,
     showSled: true, showDeck: false, showTrailer: false,
   };
-  const SLIDERS = ['railInset', 'railH', 'sleeveLen', 'armSpacing', 'podX', 'bump', 'driverW', 'driverLeg', 'stairDepth', 'riserMax', 'wheelX', 'track', 'wheelD', 'tireW', 'armLen', 'pivotSpan', 'springOff', 'springD', 'kpOff', 'steer', 'roofH', 'roofOver', 'petalOver', 'postX', 'postZ', 'leafR', 'leafX', 'leafZ', 'rimD', 'cPostXo', 'cPostXi', 'cPostZ', 'ottomanW', 'cornerLoad', 'sideLoad'];
+  const SLIDERS = ['railInset', 'railH', 'sleeveLen', 'armSpacing', 'podX', 'podLegLen', 'bump', 'cargoLb', 'driverW', 'driverLeg', 'stairDepth', 'riserMax', 'wheelX', 'track', 'wheelD', 'tireW', 'armLen', 'pivotSpan', 'springOff', 'springD', 'legIn', 'kneel', 'fenderH', 'scrubHub', 'kpi', 'kpD', 'rackTravel', 'rackHalf', 'rackDx', 'rackDy', 'ackAng', 'roofH', 'roofOver', 'petalOver', 'postX', 'postZ', 'leafR', 'leafX', 'leafZ', 'rimD', 'cPostXo', 'cPostXi', 'cPostZ', 'ottomanW', 'cornerLoad', 'sideLoad'];
+  // parts weights (lb each) for the CG and corner reactions: catalog masses where known, allowances elsewhere
+  const WEIGHTS = { motor: 35.3, rim: 15, tire: 23, knuckle: 30, brake: 8, spring: 6, damper: 4, controller: 7, air: 30, harness: 40, brakes: 12, misc: 60, ottoman: 25 };
+  const DECK = { ply50: { name: '1/2" ply', lbsf: 1.5 }, ply75: { name: '3/4" ply', lbsf: 2.3 }, al125: { name: '1/8" aluminium tread plate', lbsf: 1.8 }, st188: { name: '3/16" steel plate', lbsf: 7.65 } };
   const TOGGLES = ['sleeveTop', 'wheelWells', 'showCorners', 'showSteering', 'showPods', 'showRiders', 'showRoof', 'showSolar', 'showSled', 'showStair', 'showDeck', 'showTrailer', 'stackMode', 'stackArms', 'showOttoman'];
 
   // ---- scene ----
@@ -258,7 +282,7 @@
   const M = {
     steel: std(0xa7adb6, { metalness: 0.55, roughness: 0.45 }), steel2: std(0x8e949d, { metalness: 0.55 }),
     sleeve: std(0xb78cff, { metalness: 0.3 }), arm: std(0x62d4c8, { metalness: 0.3 }),
-    spring: std(0xe0655a, { metalness: 0, roughness: 0.75 }), springCap: std(0x3a3f47, { metalness: 0.6 }),
+    spring: std(0xe0655a, { metalness: 0, roughness: 0.75 }), springCap: std(0x3a3f47, { metalness: 0.6 }), damper: std(0x7a8290, { metalness: 0.5, roughness: 0.5 }),
     steer: std(0xf0b35c, { metalness: 0.5 }), disconnect: std(0xe0655a, { metalness: 0.2 }),
     tire: std(0x24262b, { metalness: 0, roughness: 0.95 }), hub: std(0xd9dde3, { metalness: 0.7, roughness: 0.3 }), hubRing: std(0x5c6470, { metalness: 0.7 }),
     sled: std(0x4f8fd6, { metalness: 0.1, transparent: true, opacity: 0.85 }),
@@ -276,7 +300,7 @@
     stair: std(0xb0895a, { metalness: 0, roughness: 0.85 }), stairFrame: std(0x8e949d, { metalness: 0.55 }),
   };
 
-  let root = null, DRY = false;                            // DRY: tally lengths without adding meshes
+  let root = null, DRY = false, lastGeo = null;                            // DRY: tally lengths without adding meshes
   const steel = { lengths: {} };
   const tally = (k, len) => { if (k) steel.lengths[k] = (steel.lengths[k] || 0) + len; };
   function box(cx, cy, cz, lx, ly, lz, mat, key) {
@@ -299,6 +323,16 @@
     const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 20), mat);
     m.position.copy(va).addScaledVector(d, 0.5);
     m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+    m.castShadow = m.receiveShadow = true; root.add(m);
+    tally(key, len); return m;
+  }
+  function beam(a, b, w, h, mat, key) {                    // rectangular tube from point a to point b (w across, h up)
+    const va = new THREE.Vector3(...a), vb = new THREE.Vector3(...b);
+    const d = new THREE.Vector3().subVectors(vb, va), len = d.length();
+    if (DRY) { tally(key, len); return null; }
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, len), mat);
+    m.position.copy(va).addScaledVector(d, 0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), d.normalize());
     m.castShadow = m.receiveShadow = true; root.add(m);
     tally(key, len); return m;
   }
@@ -345,7 +379,7 @@
   const SECTIONS = {
     rail: { name: '2×4×0.120 side rails', w: lbft(2, 4, 0.12) }, end: { name: '2×4×0.120 end rails', w: lbft(2, 4, 0.12) },
     cross: { name: '2×3×0.120 cross members', w: lbft(2, 3, 0.12) }, string: { name: '2×3×0.120 stringers', w: lbft(2, 3, 0.12) },
-    sleeve: { name: '2½×2½×0.188 receivers', w: lbft(2.5, 2.5, 0.188) }, arm: { name: '2×3×0.188 trailing arms', w: lbft(2, 3, 0.188) },
+    sleeve: { name: '2½×3½×0.188 receivers', w: lbft(2.5, 3.5, 0.188) }, arm: { name: '2×3×0.188 trailing arms', w: lbft(2, 3, 0.188) },
     post: { name: '2×2×0.125 6061 posts + 3×3 mast', w: lbft(2, 2, 0.125, 0.0975) }, roof: { name: '2×2×0.095 6061 roof frame', w: lbft(2, 2, 0.095, 0.0975) }, petal: { name: '1½×0.095 6061 petal members', w: lbft(1.5, 1.5, 0.095, 0.0975) },
     spoke: { name: '1×1×0.065 6061 spokes + braces', w: lbft(1, 1, 0.065, 0.0975) }, rim: { name: '1" × 0.065 6061 round rim chords', w: Math.PI * (0.5 ** 2 - 0.435 ** 2) * 0.0975 * 12 },
   };
@@ -356,7 +390,7 @@
     root = new THREE.Group(); scene.add(root);
     steel.lengths = {};
 
-    const L = P.deckL, W = P.deckW, top = P.deckH, rh = P.railH, rw = P.railW, ch = P.crossH;
+    const L = P.deckL, W = P.deckW, top = P.deckH - (P.stackMode ? 0 : P.kneel), rh = P.railH, rw = P.railW, ch = P.crossH;   // the frame drops by the kneel; tires stay on the ground
     const railZ = W / 2 - P.railInset - rw / 2, railY = top - rh / 2, crossY = top - ch / 2, railBottom = top - rh;
     const inner = 2 * railZ - rw, endX = L / 2 - rw / 2;
     const sleeveY = P.sleeveTop ? top + P.sleeve / 2 : top - rh / 2;             // receiver centreline
@@ -371,96 +405,222 @@
     const stations = [], sleeveXs = [P.podX - P.armSpacing / 2, P.podX + P.armSpacing / 2];
     for (const e of [-1, 1]) for (const sx of sleeveXs) {
       const x = e * sx;
-      for (const s of [-1, 1]) box(x, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeve, P.sleeveLen, M.sleeve, 'sleeve');
+      for (const s of [-1, 1]) box(x, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeveH, P.sleeveLen, M.sleeve, 'sleeve');
       stations.push(x - e * (P.sleeve / 2 + rw / 2));
     }
     if (P.showStair) {                                                                           // stair stubs at mid-length, one per side, with their own cross member
-      for (const s of [-1, 1]) box(0, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeve, P.sleeveLen, M.sleeve, 'sleeve');
+      for (const s of [-1, 1]) box(0, sleeveY, s * (W / 2 - P.sleeveLen / 2), P.sleeve, P.sleeveH, P.sleeveLen, M.sleeve, 'sleeve');
       stations.push(0);
     }
     const endCrossX = L / 2 - P.sleeveLen - rw / 2;
     for (const e of [-1, 1]) {
-      for (const s of [-1, 1]) box(e * (L / 2 - P.sleeveLen / 2), sleeveY, s * P.armSpacing / 2, P.sleeveLen, P.sleeve, P.sleeve, M.sleeve, 'sleeve');
+      for (const s of [-1, 1]) box(e * (L / 2 - P.sleeveLen / 2), sleeveY, s * P.armSpacing / 2, P.sleeveLen, P.sleeveH, P.sleeve, M.sleeve, 'sleeve');
       stations.push(e * endCrossX);
     }
     for (const cx of stations) box(cx, crossY, 0, rw, ch, inner, M.steel2, 'cross');
-    for (const s of [-1, 1]) box(0, crossY, s * (P.sledW / 2 + 1), 2 * endCrossX - rw, ch, rw, M.steel2, 'string');
+    if (P.sledW / 2 + 1 + rw / 2 < railZ - rw / 2 - 0.5) for (const s of [-1, 1]) box(0, crossY, s * (P.sledW / 2 + 1), 2 * endCrossX - rw, ch, rw, M.steel2, 'string');   // stringers either side of the sled, only if they fit inside the rails
 
-    // ---- corners: single-sided trailing arms on wide pivots, single-shaft hub motors ----
+    // ---- corners: trailing arms on wide pivots; QS205 car hub motors (stationary shaft clamped in a torque block, wheel flange rotates) ----
+    // The frame drops by `kneel` while the tires stay on the ground; the arms swing up about their pivots and the axles walk toward the pivots.
+    const kneel = P.stackMode ? 0 : P.kneel;
     const axleY = P.wheelD / 2, R = axleY, armH = 3, armW = 2;
     const tireIn = P.track / 2 - P.tireW / 2, tireOut = P.track / 2 + P.tireW / 2;
-    const zArmR = tireIn - 2;                 // rear arm leg, just inboard of the motor flange
-    const zKp = tireIn - P.kpOff;             // front kingpin
-    const pivotX = P.wheelX + P.armLen;
-    const geo = { railZ, railBottom, tireIn, tireOut, axleY, zArmR, zKp, pivotX, lock: 0, sleeveY, podFloor };
+    const zArmR = tireIn - 2;                                        // rear arm leg, just inboard of the tire
+    const scrubHub = P.scrubHub, zKp = P.track / 2 - scrubHub;        // front kingpin plane: scrubHub inboard of the hub centre plane
+    const pivotX = P.wheelX + P.armLen;                              // pivot, along the car
+    const angAt = k => Math.asin(Math.max(-1, Math.min(1, k / P.armLen)));
+    const armAng = angAt(kneel), axX = pivotX - P.armLen * Math.cos(armAng), pivotY = axleY - kneel;
+    // point on an arm at kneel k: d from the pivot toward the axle, dy up (arm-fixed), z across (world)
+    const armPtAt = (k, e, d, dy, z) => { const a = angAt(k); return [e * (pivotX - d * Math.cos(a) + dy * Math.sin(a)), axleY - k + d * Math.sin(a) + dy * Math.cos(a), z]; };
+    const armPt = (e, d, dy, z) => armPtAt(kneel, e, d, dy, z);
+    const kpi = P.kpi * D2R;
+    const geo = { railZ, railBottom, tireIn, tireOut, axleY, zArmR, zKp, scrubHub, pivotX, axX, kneel, armAng, sleeveY, podFloor, top };
 
-    function pivot(e, s, zOuter) {            // frame side: shaft + hangers + outrigger; the arm's cross tube spans pivotSpan inboard of zOuter
+    // air spring: seat on the arm (armLen - springOff from the pivot), plate under the rail; bag height between two 1/2" caps
+    const springD_ = P.armLen - P.springOff;
+    const springEnds = (k, e, z) => [armPtAt(k, e, springD_, armH / 2, z), [e * (pivotX - springD_), railBottom - k, z]];
+    const bagHeightAt = k => { const [lo, hi] = springEnds(k, 1, 0); return Math.hypot(hi[0] - lo[0], hi[1] - lo[1]) - 1; };
+    geo.motionRatio = springD_ / P.armLen;                            // bag travel per inch of wheel travel (small angles)
+    geo.bagH = bagHeightAt(kneel); geo.bagH0 = bagHeightAt(0);
+
+    function pivot(e, s, zOuter) {            // frame side: shaft + hangers + outrigger; the arm's sleeve spans pivotSpan inboard of zOuter
       const px = e * pivotX, zi = zOuter - P.pivotSpan, zc = s * (zi + zOuter) / 2;
-      cyl(px, axleY, zc, 0.6, P.pivotSpan + 4, 'z', M.hub, 20);
-      for (const z of [zi - 1.5, zOuter + 1.5]) box(px, (railBottom + axleY - 1.5) / 2, s * z, 4, railBottom - axleY + 1.5, 0.375, M.steel2);
-      cyl(px, axleY, zc, 1.25, P.pivotSpan, 'z', M.arm, 24);
+      cyl(px, pivotY, zc, 0.6, P.pivotSpan + 4, 'z', M.hub, 20);
+      for (const z of [zi - 1.5, zOuter + 1.5]) box(px, (railBottom + pivotY - 1.5) / 2, s * z, 4, railBottom - pivotY + 1.5, 0.375, M.steel2);
+      cyl(px, pivotY, zc, 1.25, P.pivotSpan, 'z', M.arm, 24);
       box(px, crossY, s * (railZ + W / 2) / 2, rw, ch, W / 2 - railZ, M.steel2, 'cross');
     }
-    function armLeg(e, s, z) { box(e * (pivotX + P.wheelX) / 2, axleY, s * z, P.armLen + 3, armH, armW, M.arm, 'arm'); }
+    function armLeg(e, s, z) { beam(armPt(e, -1.5, 0, s * z), armPt(e, P.armLen + 1.5, 0, s * z), armW, armH, M.arm, 'arm'); }
     function spring(e, s, z) {
-      const sx = e * (P.wheelX + P.springOff), sBottom = axleY + armH / 2, sTop = railBottom, sh = sTop - sBottom;
-      if (sh <= 0.5) return;
-      cyl(sx, (sBottom + sTop) / 2, s * z, P.springD / 2, sh - 1, 'y', M.spring, 32);
-      cyl(sx, sBottom + 0.25, s * z, P.springD / 2 + 0.3, 0.5, 'y', M.springCap, 32);
-      cyl(sx, sTop - 0.25, s * z, P.springD / 2 + 0.3, 0.5, 'y', M.springCap, 32);
-      box(sx, sTop - 0.25, s * z, P.springD + 1.5, 0.5, P.springD + 1.5, M.steel2);
+      const [lo, hi] = springEnds(kneel, e, s * z), h = Math.hypot(hi[0] - lo[0], hi[1] - lo[1]);
+      if (h <= 1.2) return;
+      const lerp = t => [lo[0] + (hi[0] - lo[0]) * t, lo[1] + (hi[1] - lo[1]) * t, lo[2]];
+      bar(lerp(0.5 / h), lerp(1 - 0.5 / h), P.springD / 2, M.spring);
+      bar(lo, lerp(0.5 / h), P.springD / 2 + 0.3, M.springCap); bar(lerp(1 - 0.5 / h), hi, P.springD / 2 + 0.3, M.springCap);
+      box(hi[0], hi[1] - 0.25, hi[2], P.springD + 1.5, 0.5, P.springD + 1.5, M.steel2);
     }
-    function wheel(g, x, y, z, s) {           // motor + tire; single shaft and flange face inboard
+    function damper(e, s, z) {                // separate damper: arm near the axle up to the frame; bump stop under the rail above the arm
+      const lo = armPt(e, P.armLen - 2.5, armH / 2, s * z), hi = [e * (pivotX - P.armLen + 7), railBottom, s * z];
+      const mid = [lo[0] + (hi[0] - lo[0]) * 0.55, lo[1] + (hi[1] - lo[1]) * 0.55, lo[2]];
+      bar(lo, mid, 0.7, M.damper); bar(mid, hi, 0.25, M.hub);
+      cyl(e * (pivotX - P.armLen + 3), railBottom - 0.75, s * z, 0.8, 1.5, 'y', M.damper, 16);
+    }
+    function wheel(g, x, y, z, s) {           // tire + motor: 222 mm barrel, 68 mm wide, single stationary shaft protruding inboard
       const c = (r, len, mat, dz) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 48), mat); m.rotation.x = Math.PI / 2; m.position.set(x, y, z + (dz || 0)); m.castShadow = m.receiveShadow = true; g.add(m); };
-      c(P.hubD / 2, P.hubW, M.hub); c(P.hubD / 2 + 0.6, 1.2, M.hubRing); c(R, P.tireW, M.tire);
-      c(2.2, P.tireW / 2 + 1, M.hub, -s * (P.tireW / 4 + 0.5));
+      c(P.hubD / 2, P.hubW, M.hub); c(P.hubD / 2 * 0.55, 0.6, M.hubRing, s * (P.hubW / 2 + 0.2)); c(R, P.tireW, M.tire);
+      c(0.55, 4.6, M.hub, -s * (P.hubW / 2 + 2.3));                                            // stationary shaft, clamped in the torque block
     }
-    const steerArmEnds = [];
+
+    // ---- steering geometry: steering arms forward and outward, fixed-length tie rods, rack on the frame ----
+    // Bump steer: the ball joint moves on an arc about the arm pivot axis (mostly up and down). A transverse rod at the ball joint's own
+    // height and station is square to that motion, so the toe change is second order; the readout reports it over the bump travel.
+    // (A rod pivot on the pivot axis itself would be exact, but the pivot hangers live there.)
+    const AX = new THREE.Vector3(1, 0, 0), AY = new THREE.Vector3(0, 1, 0), AZ = new THREE.Vector3(0, 0, 1);
+    const aa = P.ackAng * D2R, sa = P.steerArm;
+    const kingpinAt = (k, s) => new THREE.Vector3(...armPtAt(k, 1, P.armLen, 0, s * zKp));
+    // knuckle offsets are given in world orientation at straight-ahead ride height; `local` expresses them in the inclined-kingpin frame
+    const local = (v, s) => new THREE.Vector3(...v).applyAxisAngle(AX, s * kpi);
+    // knuckle-fixed point -> world: steer about the inclined kingpin, then the kingpin's inclination, then the arm's swing
+    const knuckleToWorld = (v, k, s, th) => local(v, s).applyAxisAngle(AY, th).applyAxisAngle(AX, -s * kpi).applyAxisAngle(AZ, -angAt(k)).add(kingpinAt(k, s));
+    const armEndOff = s => [sa * Math.cos(aa), P.armUp, s * sa * Math.sin(aa)];
+    const armEnd = (k, s, th) => knuckleToWorld(armEndOff(s), k, s, th);
+    const bj0 = knuckleToWorld(armEndOff(1), 0, 1, 0), bjR = Math.hypot(bj0.x - pivotX, bj0.y - axleY);   // ball joint at ride: distance from the pivot axis
+    const rackX = bj0.x + P.rackDx, rackY0 = bj0.y + P.rackDy;                                            // rack pivots level with the ball joints, offset by the sliders
+    const rackPt = (k, s, travel) => new THREE.Vector3(rackX, rackY0 - k, s * P.rackHalf + travel);
+    const rodLen = armEnd(0, 1, 0).distanceTo(rackPt(0, 1, 0));
+    function solveWheel(k, s, travel) {       // fixed-length rod: th with |armEnd - rack| = rodLen, nearest root to the small-angle guess
+      const f = th => armEnd(k, s, th).distanceTo(rackPt(k, s, travel)) - rodLen, guess = travel / sa;
+      const roots = []; let lo = -60 * D2R, fl = f(lo);
+      for (let i = 1; i <= 240; i++) {
+        const hi = (-60 + i * 0.5) * D2R, fh = f(hi);
+        if (fl * fh <= 0) { let a = lo, b = hi, fa = fl; for (let j = 0; j < 30; j++) { const m = (a + b) / 2, fm = f(m); if (fa * fm <= 0) b = m; else { a = m; fa = fm; } } roots.push((a + b) / 2); }
+        lo = hi; fl = fh;
+      }
+      roots.sort((a, b) => Math.abs(a - guess) - Math.abs(b - guess));
+      return roots.length ? { th: roots[0], ok: true } : { th: guess, ok: false };
+    }
+    const tireCentre = (k, e, s, th) => e > 0 ? knuckleToWorld([0, 0, s * scrubHub], k, s, th) : new THREE.Vector3(-(pivotX - P.armLen * Math.cos(angAt(k))), axleY, s * P.track / 2);
+    // plan-view rectangle of a tire (its chord at height y above the axle) after steering th at kneel k
+    function tireRect(k, e, s, th, dyAbove) {
+      const dy = Math.max(0, dyAbove), half = dy >= R ? 0 : Math.sqrt(R * R - dy * dy);
+      if (half <= 0) return null;
+      const c = tireCentre(k, e, s, th), h = [Math.cos(th), -Math.sin(th)], n = [Math.sin(th), Math.cos(th)], w = P.tireW / 2;
+      return [[c.x + h[0] * half + n[0] * w, c.z + h[1] * half + n[1] * w], [c.x + h[0] * half - n[0] * w, c.z + h[1] * half - n[1] * w],
+              [c.x - h[0] * half - n[0] * w, c.z - h[1] * half - n[1] * w], [c.x - h[0] * half + n[0] * w, c.z - h[1] * half + n[1] * w]];
+    }
+    function polyHitsBox(poly, b) {           // separating-axis test, convex quad vs axis-aligned box [x0,x1,z0,z1]
+      if (!poly) return false;
+      const bx = [[b[0], b[2]], [b[1], b[2]], [b[1], b[3]], [b[0], b[3]]];
+      const axes = [[1, 0], [0, 1]];
+      for (let i = 0; i < 4; i++) { const p = poly[i], q = poly[(i + 1) % 4]; axes.push([-(q[1] - p[1]), q[0] - p[0]]); }
+      for (const [ax, az] of axes) {
+        const pr = pts => { let lo = Infinity, hi = -Infinity; for (const [x, z] of pts) { const d = x * ax + z * az; lo = Math.min(lo, d); hi = Math.max(hi, d); } return [lo, hi]; };
+        const [a0, a1] = pr(poly), [b0, b1] = pr(bx); if (a1 < b0 || b1 < a0) return false;
+      }
+      return true;
+    }
+    // obstacles in plan for each front tire, with the height (above the axle) at which the tire chord is taken
+    function frontObstacles(k, s) {
+      const a = angAt(k), ax = pivotX - P.armLen * Math.cos(a), obs = [];
+      for (const zl of [zKp - P.legIn, zKp - P.pivotSpan]) obs.push({ name: 'front arm leg', box: [Math.min(ax, pivotX) - 1.5, pivotX + 1.5, s * zl - 1, s * zl + 1], dy: 0 });
+      const zs = zKp - (P.legIn + P.pivotSpan) / 2, sx = pivotX - springD_;
+      obs.push({ name: 'front air spring', box: [sx - P.springD / 2 - 0.3, sx + P.springD / 2 + 0.3, s * zs - P.springD / 2 - 0.3, s * zs + P.springD / 2 + 0.3], dy: armH / 2 + 0.5 - 0 });
+      obs.push({ name: 'side rail', box: [-L / 2, L / 2, s * (railZ - rw / 2), s * (railZ + rw / 2)], dy: railBottom - k - axleY });
+      for (const sx2 of [P.podX - P.armSpacing / 2, P.podX + P.armSpacing / 2]) obs.push({ name: 'receiver sleeve', box: [sx2 - P.sleeve / 2, sx2 + P.sleeve / 2, s * (W / 2 - P.sleeveLen), s * W / 2], dy: sleeveY - P.sleeveH / 2 - k - axleY });
+      obs.push({ name: 'pivot cross member', box: [pivotX - rw / 2, pivotX + rw / 2, s * railZ, s * W / 2], dy: crossY - ch / 2 - k - axleY });
+      return obs;
+    }
+    function rearObstacles(k, s) {
+      const obs = [];
+      obs.push({ name: 'side rail', box: [-L / 2, L / 2, s * (railZ - rw / 2), s * (railZ + rw / 2)], dy: railBottom - k - axleY });
+      for (const sx2 of [P.podX - P.armSpacing / 2, P.podX + P.armSpacing / 2]) obs.push({ name: 'receiver sleeve', box: [-sx2 - P.sleeve / 2, -sx2 + P.sleeve / 2, s * (W / 2 - P.sleeveLen), s * W / 2], dy: sleeveY - P.sleeveH / 2 - k - axleY });
+      obs.push({ name: 'pivot cross member', box: [-pivotX - rw / 2, -pivotX + rw / 2, s * railZ, s * W / 2], dy: crossY - ch / 2 - k - axleY });
+      return obs;
+    }
+    function firstHit(k, e, s, th) {
+      for (const o of (e > 0 ? frontObstacles(k, s) : rearObstacles(k, s))) { const box = o.box.slice(); if (box[2] > box[3]) { const t = box[2]; box[2] = box[3]; box[3] = t; } if (polyHitsBox(tireRect(k, e, s, th, o.dy), box)) return o.name; }
+      return null;
+    }
+    // solved wheel angles at this rack travel and kneel
+    const steer = { L: solveWheel(kneel, -1, P.rackTravel), R: solveWheel(kneel, 1, P.rackTravel) };
+    geo.steer = steer; geo.rackX = rackX; geo.rackY = rackY0; geo.rodLen = rodLen; geo.bjR = bjR;
+    // lock: push the rack each way until a rod cannot close or a front tire meets something
+    function lock(dir) {
+      let best = { travel: 0, thL: 0, thR: 0, limit: 'rack travel' };
+      for (let t = 0.05; t <= P.rackMax + 1e-9; t += 0.05) {
+        const tr = dir * t, sl = solveWheel(kneel, -1, tr), sr = solveWheel(kneel, 1, tr);
+        if (!sl.ok || !sr.ok) { best.limit = 'tie rods cannot close'; break; }
+        const hit = firstHit(kneel, 1, -1, sl.th) || firstHit(kneel, 1, 1, sr.th);
+        if (hit) { best.limit = 'tire meets the ' + hit; break; }
+        best = { travel: tr, thL: sl.th, thR: sr.th, limit: 'rack travel' };
+      }
+      return best;
+    }
+    geo.lockL = lock(1); geo.lockR = lock(-1);                       // positive travel turns left
+    geo.clashNow = [1, -1].map(s => firstHit(kneel, 1, s, (s > 0 ? steer.R : steer.L).th)).concat([1, -1].map(s => firstHit(kneel, -1, s, 0))).filter(Boolean);
+    geo.bumpSteer = [-P.bump, P.bump].map(k => solveWheel(k, 1, 0).th / D2R);
+    // kneel limits: each stop, and the first one reached
+    {
+      const lim = [];
+      let kS = 0; for (let k = 0; k <= 14; k += 0.05) { if (bagHeightAt(k) < P.bagMin) break; kS = k; } lim.push(['air spring at its ' + P.bagMin + '" compressed height', kS]);
+      const stopY = P.wheelWells ? Math.min(podFloor + P.fenderH, podFloor + P.seatH - 3.5) : P.deckH;
+      lim.push([P.wheelWells ? (P.fenderH < P.seatH - 3.5 ? 'tire meets the fender box' : 'tire meets the seat pan') : 'tire meets the deck plate', Math.max(0, stopY - 0.5 - P.wheelD)]);
+      lim.push(['sled ' + P.sledMin + '" off the ground', Math.max(0, railBottom - P.sledH - P.sledMin)]);
+      let kR = 0; for (let k = 0; k <= 14; k += 0.1) { if ([1, -1].some(e => firstHit(k, e, 1, e > 0 ? solveWheel(k, 1, 0).th : 0))) break; kR = k; } lim.push(['tire meets a sleeve or rail (axle walks toward the pivot)', kR]);
+      let kT = 0; for (let k = 0; k <= 14; k += 0.1) { if (!solveWheel(k, 1, 0).ok) break; kT = k; } lim.push(['tie rods cannot close at centred rack', kT]);
+      geo.kneelLimits = lim; geo.kneelMax = Math.min(...lim.map(l => l[1]));
+    }
+
     if (P.showCorners) for (const e of [-1, 1]) for (const s of [-1, 1]) {
-      const ax = e * P.wheelX, az = s * P.track / 2;
+      const az = s * P.track / 2;
       if (e === -1) {
         pivot(e, s, zArmR); armLeg(e, s, zArmR);
-        box(e * pivotX, axleY, s * (zArmR - P.pivotSpan / 2), 2, armH, P.pivotSpan, M.arm, 'arm');          // arm's own cross member (L-arm)
-        box(ax, axleY, s * (zArmR + tireIn - 1) / 2, 5, 5, tireIn - 1 - zArmR + 1, M.steel2);            // spindle block, arm → motor flange
-        wheel(root, ax, axleY, az, s);
-        spring(e, s, zArmR - 2);
+        const pc = armPt(e, 0, 0, s * (zArmR - P.pivotSpan / 2));
+        box(pc[0], pc[1], pc[2], 2, armH, P.pivotSpan, M.arm, 'arm');                                    // arm's own cross member at the pivot (L-arm)
+        const tip = armPt(e, P.armLen, 0, s * (zArmR + tireIn - 1) / 2);
+        box(tip[0], tip[1], tip[2], 5, 5, tireIn - 1 - zArmR + 1, M.steel2);                             // torque block, arm -> motor shaft
+        const ax = armPt(e, P.armLen, 0, 0);
+        wheel(root, ax[0], ax[1], az, s);
+        spring(e, s, zArmR - 3); damper(e, s, zArmR - 3 - P.springD / 2 - 1.6);
       } else {
-        pivot(e, s, zKp); armLeg(e, s, zKp); armLeg(e, s, zKp - P.pivotSpan);                             // A-arm: two legs, both inboard of the tire
-        box(ax, axleY, s * (zKp - P.pivotSpan / 2), 2, armH, P.pivotSpan, M.arm, 'arm');                  // tip cross member carrying the kingpin
-        for (const y of [axleY + 4.5, axleY - 4.5]) box(ax, y, s * zKp, 4, 0.5, 3, M.arm);               // kingpin ears
-        cyl(ax, axleY, s * zKp, 0.8, 11, 'y', M.steel2, 20);                                             // kingpin
-        const k = new THREE.Group(); k.position.set(ax, axleY, s * zKp); k.rotation.y = P.steer * D2R; root.add(k);
-        const kb = (dx, dy, dz, lx, ly, lz, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(lx, ly, lz), mat); m.position.set(dx, dy, dz); m.castShadow = m.receiveShadow = true; k.add(m); };
-        kb(0, 0, s * (tireIn - 1 - zKp) / 2, 4, 6, tireIn - 1 - zKp, M.steel2);                        // spindle: kingpin boss → motor flange
-        kb(0, 0, 0, 3.5, 7.5, 3.5, M.steel2);                                                            // kingpin boss
-        const sa = P.steerArm, aa = P.ackermann * D2R, ex = sa * Math.cos(aa), ez = -s * sa * Math.sin(aa);
-        const armM = new THREE.Mesh(new THREE.BoxGeometry(sa, 1, 1.2), M.steer); armM.position.set(ex / 2, -1.5, ez / 2); armM.rotation.y = s * aa; k.add(armM);
-        wheel(k, 0, 0, az - s * zKp, s);
-        const th = P.steer * D2R;                                                                        // arm end in world coords after steering
-        steerArmEnds.push([ax + ex * Math.cos(th) + ez * Math.sin(th), axleY - 1.5, s * zKp - ex * Math.sin(th) + ez * Math.cos(th), s]);
-        spring(e, s, zKp - P.pivotSpan / 2);
+        const zLegs = [zKp - P.legIn, zKp - P.pivotSpan];                                                  // both legs inboard of the tire's sweep
+        pivot(e, s, zKp); for (const zl of zLegs) armLeg(e, s, zl);
+        const tip = armPt(e, P.armLen, 0, s * (zKp - P.pivotSpan / 2 + 0.5));
+        beam(armPt(e, P.armLen, 0, s * (zKp - P.pivotSpan - 1)), armPt(e, P.armLen, 0, s * (zKp + 1)), 2, armH, M.arm, 'arm');   // tip cross member out to the kingpin
+        const kp = armPt(e, P.armLen, 0, s * zKp);
+        const kt = new THREE.Group(); kt.position.set(...kp); kt.rotation.set(-s * kpi, 0, -e * armAng, 'ZXY'); root.add(kt);   // inclined kingpin, swings with the arm
+        const kb = (g, dx, dy, dz, lx, ly, lz, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(lx, ly, lz), mat); m.position.set(dx, dy, dz); m.castShadow = m.receiveShadow = true; g.add(m); return m; };
+        for (const y of [4.5, -4.5]) kb(kt, 0, y, 0, 4, 0.5, 3, M.arm);                                     // kingpin ears on the arm
+        const kpc = new THREE.Mesh(new THREE.CylinderGeometry(P.kpD / 2, P.kpD / 2, 11, 20), M.steel2); kpc.castShadow = true; kt.add(kpc);
+        const th = (s > 0 ? steer.R : steer.L).th;
+        const k = new THREE.Group(); k.rotation.y = th; kt.add(k);
+        kb(k, 0, 0, 0, 3.5, 7.5, 3.5, M.steel2);                                                          // knuckle body on the kingpin
+        const blk = scrubHub - P.hubW / 2 - 0.8;
+        kb(k, 0, 0, s * (1.7 + blk) / 2, 3.2, 3.6, blk - 1.7, M.steel2);                                  // torque block: clamps the stationary shaft
+        const ae = local(armEndOff(s), s), armM = new THREE.Mesh(new THREE.BoxGeometry(sa, 1, 1.2), M.steer); armM.position.copy(ae).multiplyScalar(0.5); armM.rotation.y = s * aa; k.add(armM);
+        const wc = local([0, 0, s * scrubHub], s); const wg = new THREE.Group(); wg.position.copy(wc); wg.rotation.x = s * kpi; k.add(wg);   // wheel centre level with the kingpin point
+        wheel(wg, 0, 0, 0, s);
+        spring(e, s, zKp - (P.legIn + P.pivotSpan) / 2); damper(e, s, zKp - P.pivotSpan - 2.2);
       }
     }
-    // steering lock: the tire's inner front corner sweeping into the arm leg at zKp (2" wide)
-    { let lock = 0; for (let t = 0; t <= 40; t += 0.5) { const z = -R * Math.sin(t * D2R) + (tireIn - zKp) * Math.cos(t * D2R); if (z - 1 < 0.25) break; lock = t; } geo.lock = lock; }
 
-    // ---- steering: rack ahead of the axle, tie rods, column to the driver pod ----
+    // ---- steering hardware: rack, tie rods, column to the driver pod ----
     if (P.showCorners && P.showSteering) {
-      const rackX = P.wheelX + P.steerArm * Math.cos(P.ackermann * D2R), rackY = axleY - 1.5, rackHalf = 8;
-      const travel = (steerArmEnds[0][2] + steerArmEnds[1][2]) / 2;                                     // mean sideways shift of the arm ends
-      box(rackX, rackY, 0, 3, 3, 6, M.steer);                                                            // pinion housing, fixed to the frame
-      box(rackX, rackY, travel, 1.5, 1.5, 2 * rackHalf + 6, M.steer);                                    // rack bar, slides
-      for (const [x, y, z, s] of steerArmEnds) bar([rackX, rackY, s * rackHalf + travel], [x, y, z], 0.5, M.steer);   // tie rods
+      const rackY = rackY0 - kneel;
+      box(rackX, rackY, 0, 3, 3, 6, M.steer);                                                             // pinion housing on the frame
+      box(rackX, rackY, P.rackTravel, 1.5, 1.5, 2 * P.rackHalf + 6, M.steer);                              // rack bar, slides
+      for (const s of [-1, 1]) box(rackX, (rackY + railBottom - kneel) / 2, s * 3, 2, railBottom - kneel - rackY, 1, M.steel2);   // rack hangers from the frame
+      for (const s of [-1, 1]) { const E = armEnd(kneel, s, (s > 0 ? steer.R : steer.L).th), Rp = rackPt(kneel, s, P.rackTravel); bar([Rp.x, Rp.y, Rp.z], [E.x, E.y, E.z], 0.5, M.steer); }
       if (!P.stackMode) {                                                                                // column and wheel come off with the driver pod
-      const dz = 9, wheelP = [P.frontPodX + 12, podFloor + 28, dz], j1 = [L / 2 + 1, top - 1.5, dz], j0 = [rackX + 2, rackY + 2, dz];
-      bar(j0, j1, 0.6, M.steer); bar(j1, wheelP, 0.6, M.steer);
-      for (const p of [j0, j1]) { const u = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), M.steel2); u.position.set(...p); root.add(u); }
-      const dir = new THREE.Vector3(wheelP[0] - j1[0], wheelP[1] - j1[1], 0).normalize();
-      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
-      const dc = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.4, 10, 24), M.disconnect); dc.position.set(j1[0] + dir.x * 3, j1[1] + dir.y * 3, dz); dc.quaternion.copy(q); root.add(dc);
-      const sw = new THREE.Mesh(new THREE.TorusGeometry(6.5, 0.6, 12, 40), M.steer); sw.position.set(...wheelP); sw.quaternion.copy(q); root.add(sw);
-      const perp = new THREE.Vector3(-dir.y, dir.x, 0);
-      for (const a of [90, 210, 330]) { const v = perp.clone().multiplyScalar(Math.cos(a * D2R)).add(new THREE.Vector3(0, 0, Math.sin(a * D2R))); bar(wheelP, [wheelP[0] + 6.5 * v.x, wheelP[1] + 6.5 * v.y, wheelP[2] + 6.5 * v.z], 0.4, M.steer); }
+        const dz = 4, wheelP = [P.frontPodX + 12, podFloor + 28, dz], j1 = [L / 2 + 1, railBottom - 1.5, dz], j0 = [rackX + 2, rackY + 1, dz];
+        bar(j0, j1, 0.6, M.steer); bar(j1, wheelP, 0.6, M.steer);
+        for (const p of [j0, j1]) { const u = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), M.steel2); u.position.set(...p); root.add(u); }
+        const dir = new THREE.Vector3(wheelP[0] - j1[0], wheelP[1] - j1[1], 0).normalize();
+        const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+        const dc = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.4, 10, 24), M.disconnect); dc.position.set(j1[0] + dir.x * 3, j1[1] + dir.y * 3, dz); dc.quaternion.copy(q); root.add(dc);
+        const sw = new THREE.Mesh(new THREE.TorusGeometry(6.5, 0.6, 12, 40), M.steer); sw.position.set(...wheelP); sw.quaternion.copy(q); root.add(sw);
+        const perp = new THREE.Vector3(-dir.y, dir.x, 0);
+        for (const a of [90, 210, 330]) { const v = perp.clone().multiplyScalar(Math.cos(a * D2R)).add(new THREE.Vector3(0, 0, Math.sin(a * D2R))); bar(wheelP, [wheelP[0] + 6.5 * v.x, wheelP[1] + 6.5 * v.y, wheelP[2] + 6.5 * v.z], 0.4, M.steer); }
       }
     }
 
@@ -470,7 +630,7 @@
       { x: P.podX, z: -P.podZ, dir: -90 }, { x: P.podX, z: P.podZ, dir: 90 }, { x: P.frontPodX, z: 0, dir: 180 },
     ];
     // U pods: half round outboard, straight legs back to the rail face; D pods: the full 48" disc
-    const legDefault = P.podShape === 'U' ? P.podZ - (railZ + rw / 2) : 0, leg = legDefault;
+    const legDefault = P.podShape === 'U' ? P.podLegLen : 0, leg = legDefault;          // legs need not reach the rail: the deck fills the strip, and 48 x 36 stacks two across the trailer
     P.podLeg = leg;
     const isDriver = pd => pd.z === 0 && pd.x > 0;                                             // front end pod
     function drawPod(x, z, dir, floorY, legOverride, Rovr) {
@@ -503,8 +663,8 @@
       drawPod(pd.x, pd.z, pd.dir, podFloor, isDriver(pd) ? P.driverLeg : undefined, isDriver(pd) ? P.driverR : undefined);
       const endPod = pd.z === 0, dirx = Math.sign(pd.x), dirz = Math.sign(pd.z);
       for (const q of [-1, 1]) {
-        if (endPod) box(pd.x - dirx * (P.podR * 0.3 + 2), sleeveY, q * P.armSpacing / 2, P.sleeveLen + P.podR * 0.6 + 4, 2, 2, M.steel2);
-        else box(pd.x + q * P.armSpacing / 2, sleeveY, pd.z - dirz * (P.podR * 0.3 + 2), 2, 2, P.sleeveLen + P.podR * 0.6 + 4, M.steel2);
+        if (endPod) box(pd.x - dirx * (P.podR * 0.3 + 2), sleeveY, q * P.armSpacing / 2, P.sleeveLen + P.podR * 0.6 + 4, 3, 2, M.steel2);
+        else box(pd.x + q * P.armSpacing / 2, sleeveY, pd.z - dirz * (P.podR * 0.3 + 2), 2, 3, P.sleeveLen + P.podR * 0.6 + 4, M.steel2);
       }
       if (P.showRiders) for (const q of [-1, 1]) {
         const ra = a + q * P.riderSpread * D2R, rr = P.podR - 9;
@@ -756,27 +916,79 @@
 
     // ---- sled, deck, trailer ----
     if (P.showSled) {
-      box(0, railBottom - P.sledH / 2, 0, P.sledL, P.sledH, P.sledW, M.sled);
-      for (const e of [-1, 1]) for (const s of [-1, 1]) cyl(e * (P.sledL / 2 - 3), railBottom - P.sledH - 2, s * (P.sledW / 2 - 3), 2.5, 4, 'y', M.steel2, 16);
+      box(P.sledX, railBottom - P.sledH / 2, 0, P.sledL, P.sledH, P.sledW, M.sled);                       // shifted rearward so the rack sits clear of its front end
+      for (const e of [-1, 1]) for (const s of [-1, 1]) cyl(P.sledX + e * (P.sledL / 2 - 3), railBottom - P.sledH - 2, s * (P.sledW / 2 - 3), 2.5, 4, 'y', M.steel2, 16);
     }
-    if (P.showDeck) box(0, top + 0.25, 0, L, 0.5, W, M.deck);
+    if (P.showDeck) {
+      box(0, top + 0.25, 0, L, 0.5, W, M.deck);
+      if (P.wheelWells) for (const e of [-1, 1]) for (const s of [-1, 1]) {                             // fender boxes over the wells, in the pod foot space
+        box(e * P.wheelX, top + P.fenderH / 2, s * P.track / 2, P.wheelD + 3, P.fenderH, P.tireW + 3, M.deck);
+      }
+    }
     if (P.showTrailer) {
       loop([[-71.5, 0.2, -36], [71.5, 0.2, -36], [71.5, 0.2, 36], [-71.5, 0.2, 36]], M.trailerLine);
       loop([[71.5, 0.2, -28.5], [128.5, 0.2, -28.5], [128.5, 0.2, 28.5], [71.5, 0.2, 28.5]], M.trailerLine);
     }
-    readout(geo);
+    // ---- weighed items for the CG and corner reactions (lb; positions in inches). Parts weights live in WEIGHTS. ----
+    {
+      const sumK = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
+      const deckArea = (L * W - (P.wheelWells ? 4 * (P.wheelD + 2) * (P.tireW + 2) : 0)) / 144;
+      const items = [
+        { n: 'frame tube', lb: sumK(FRAME_KEYS), x: 0, y: top - 2, z: 0 },
+        { n: 'deck: ' + DECK[P.deckMat].name, lb: deckArea * DECK[P.deckMat].lbsf, x: 0, y: top, z: 0 },
+        { n: 'battery sled: 32 × LF280K + enclosure, BMS, contactors', lb: P.sledLb, x: P.sledX, y: railBottom - P.sledH / 2, z: 0 },
+      ];
+      const corner = WEIGHTS.motor + WEIGHTS.rim + WEIGHTS.tire + WEIGHTS.knuckle + WEIGHTS.brake + WEIGHTS.spring + WEIGHTS.damper;
+      for (const e of [-1, 1]) for (const s of [-1, 1]) items.push({ n: 'corner', lb: corner, x: e * P.wheelX, y: axleY + 1, z: s * P.track / 2, group: '4 corners: motor, rim, tire, knuckle + pivots, brake, spring, damper' });
+      for (const e of [-1, 1]) for (const s of [-1, 1]) items.push({ n: 'controller', lb: WEIGHTS.controller, x: e * 54, y: 25, z: s * 7, group: 'controllers, air supply, harness, brake master, misc' });
+      items.push({ n: 'air supply', lb: WEIGHTS.air, x: 0, y: 26, z: 0, group: 'controllers, air supply, harness, brake master, misc' });
+      items.push({ n: 'harness', lb: WEIGHTS.harness, x: 0, y: 22, z: 0, group: 'controllers, air supply, harness, brake master, misc' });
+      items.push({ n: 'brake master, pedals, lines', lb: WEIGHTS.brakes, x: 70, y: 22, z: 0, group: 'controllers, air supply, harness, brake master, misc' });
+      items.push({ n: 'fenders, guards, controls, lights', lb: WEIGHTS.misc, x: 0, y: 26, z: 0, group: 'controllers, air supply, harness, brake master, misc' });
+      if (P.showPods) for (const pd of pods) items.push({ n: isDriver(pd) ? 'driver pod' : 'passenger pod', lb: isDriver(pd) ? P.driverPodLb : P.podLb, x: pd.x, y: podFloor + 12, z: pd.z, group: `pods: 5 × ${P.podLb} + driver ${P.driverPodLb}` });
+      if (P.showRoof && roofStats[P.roofStyle]) { const c = roofStats[P.roofStyle]; items.push({ n: `roof (${P.roofStyle}) + panels`, lb: c.w + (P.showSolar ? c.panelLb : 0), x: 0, y: P.roofH - 4, z: 0 }); }
+      if (P.showStair) for (const s of [-1, 1]) items.push({ n: 'stair', lb: P.stairLb, x: 0, y: 12, z: s * 40, group: 'stairs' });
+      if (P.showOttoman) for (const e of [-1, 1]) items.push({ n: 'ottoman', lb: WEIGHTS.ottoman, x: e * 30, y: top + 8, z: 0, group: 'ottomans' });
+      geo.items = items;
+      // rider seats: two per pod, where the figures are drawn; CG about 9" above the loaded seat
+      const seats = [];
+      for (const pd of pods) for (const q of [-1, 1]) { const a = pd.dir * D2R + q * P.riderSpread * D2R, rr = P.podR - 9; seats.push({ x: pd.x + rr * Math.cos(a), z: pd.z + rr * Math.sin(a), y: podFloor + P.seatH + 7 }); }
+      geo.seats = seats;
+    }
+    lastGeo = geo; readout(geo);
   }
 
   function readout(g) {
     const rows = [];
     const add = (k, v, cls) => rows.push(`<dt>${k}</dt><dd class="${cls || ''}">${v}</dd>`);
     const sub = (k, v, cls) => rows.push(`<dt class="sub">${k}</dt><dd class="sub ${cls || ''}">${v}</dd>`);
+    const head = t => rows.push(`<dt class="head">${t}</dt><dd class="head"></dd>`);
     const flag = (ok, warnOnly) => ok ? '' : (warnOnly ? 'warn' : 'bad');
+    const deg = r => (r / D2R).toFixed(1) + '°';
     const L = 2 * P.wheelX, T = P.track;
     const sumK = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
     const curRoof = g.roofStats ? g.roofStats[P.roofStyle] : null;
-    const rollingLb = sumK(FRAME_KEYS) + P.sledLb + (P.showRoof && curRoof ? curRoof.w + (P.showSolar ? curRoof.panelLb : 0) : 0) + (P.showPods ? 6 * P.podLb : 0);
 
+    // ---- weights and corner reactions (bilinear split on the CG; equal spring rates, level ground) ----
+    const items = g.items || [], seats = g.seats || [];
+    const carLb = items.reduce((t, i) => t + i.lb, 0);
+    const cases = [
+      { n: 'empty car', r: [] },
+      { n: '12 seated', r: seats },
+      { n: '12 seated + 4 standing in the aisle', r: seats.concat([-20, -7, 7, 20].map(x => ({ x, z: 0, y: g.top + 40 }))) },
+      { n: '6 on the right side only', r: seats.filter(s => s.z > 8) },
+      { n: '12 seated + 4 crowded at the rear', r: seats.concat([-45, -55, -45, -55].map((x, i) => ({ x, z: i % 2 ? 6 : -6, y: g.top + 40 }))) },
+    ].map(c => {
+      const all = items.concat(c.r.map(p => ({ lb: P.riderLb, x: p.x, y: p.y, z: p.z })));
+      const Wt = all.reduce((t, i) => t + i.lb, 0), xc = all.reduce((t, i) => t + i.lb * i.x, 0) / Wt, zc = all.reduce((t, i) => t + i.lb * i.z, 0) / Wt, yc = all.reduce((t, i) => t + i.lb * i.y, 0) / Wt;
+      const fF = 0.5 + xc / L, fR = 0.5 + zc / T;
+      const c4 = { FR: Wt * fF * fR, FL: Wt * fF * (1 - fR), RR: Wt * (1 - fF) * fR, RL: Wt * (1 - fF) * (1 - fR) };
+      return { ...c, W: Wt, xc, zc, yc, c4, max: Math.max(...Object.values(c4)), min: Math.min(...Object.values(c4)), front: fF };
+    });
+    g.cases = cases;
+    const worst = Math.max(...cases.map(c => c.max));
+
+    head('Layout');
     add('Wheelbase / track', `${L.toFixed(1)}" / ${T.toFixed(1)}"`);
     const tireOut = T / 2 + P.tireW / 2;
     add('Tire outer face vs 27" envelope', `${tireOut.toFixed(1)}"`, flag(tireOut <= P.deckW / 2));
@@ -785,14 +997,90 @@
     add('Walkway between side pods', `${walk.toFixed(0)}"`, flag(walk >= 18, walk >= 12));
     const frontEnd = P.frontPodX + P.driverLeg;
     sub('end pods at', `−${P.endPodX.toFixed(1)}" / +${P.frontPodX.toFixed(1)}" (rear rim −${(P.endPodX + P.podR).toFixed(0)}", front +${frontEnd.toFixed(0)}"; overall ${(P.endPodX + P.podR + frontEnd).toFixed(0)}")`);
-    sub('pod outline', P.podShape === 'U' ? `U — 48" × ${(P.podR + P.podLeg).toFixed(0)}" (legs ${P.podLeg.toFixed(0)}" to the rail)` : 'D — 48" disc');
+    sub('pod outline', P.podShape === 'U' ? `U — 48" × ${(P.podR + P.podLeg).toFixed(0)}" (legs ${P.podLeg.toFixed(0)}"; rail face ${(P.podZ - g.railZ - P.railW / 2).toFixed(0)}" from the pod centre line)` : 'D — 48" disc');
     if (g.stair) {
       const s = g.stair;
       add('Stair module', `${s.w.toFixed(0)}" wide · ${s.n} risers of ${s.riser.toFixed(1)}"`, flag(s.riser <= 8 && s.w >= 17, s.riser <= 9 && s.w >= 12));
       sub('treads', `${s.n - 1} × ${s.treadD.toFixed(0)}" deep`);
       sub('bottom nose vs pod rim from centreline', `${s.nose.toFixed(0)}" / ${s.rim.toFixed(0)}"`);
     }
+    add('Pod floor height', `${g.podFloor.toFixed(1)}"`);
+    sub('seat / rim above ground', `${(g.podFloor + P.seatH).toFixed(0)}" / ${(g.podFloor + 1 + P.podWallH).toFixed(0)}"`);
+    const rimAboveFloor = P.podWallH + 1, elevated = g.podFloor >= 84;
+    add('Pod rim above the pod floor', `${rimAboveFloor.toFixed(0)}" (floor ${g.podFloor.toFixed(0)}" above the playa)`, flag(!elevated || rimAboveFloor >= 36));
+    sub('BRC: 36–48" perimeter guardrails apply to levels 84" or more above the playa; any stairs must have a secure railing', elevated ? 'elevated level: guardrails required' : 'not an elevated level — the 26" rims and 12" driver gate are design choices; give the stair module a handrail');
+
+    head('Suspension · kneel ' + g.kneel.toFixed(1) + '"');
+    add('Air spring (D2500 7" bag): height at ride / now', `${g.bagH0.toFixed(2)}" / ${g.bagH.toFixed(2)}"`, flag(g.bagH >= P.bagMin && g.bagH0 >= 5.5 && g.bagH0 <= 7.5, g.bagH >= P.bagMin));
+    sub('design range 5.5–7.5", limits 2.8–10.5"', `stroke to the stops: ${(g.bagH0 - P.bagMin).toFixed(1)}" down / ${(10.5 - g.bagH0).toFixed(1)}" up`);
+    sub('motion ratio (bag travel ÷ wheel travel)', `${g.motionRatio.toFixed(3)} · bag force ≈ ${(1 / g.motionRatio).toFixed(2)} × sprung corner load`);
+    const sprung = P.cornerLoad - P.unsprungLb, bagForce = sprung / g.motionRatio;
+    sub(`bag force at ${P.cornerLoad} lb on the corner (${P.unsprungLb} lb unsprung)`, `${bagForce.toFixed(0)} lb vs ${P.bagMaxLb} lb listed`, flag(bagForce <= P.bagMaxLb * 0.85, bagForce <= P.bagMaxLb));
+    add('Kneel available, parked', `${g.kneelMax.toFixed(1)}"`, flag(g.kneelMax >= 6, g.kneelMax >= 4));
+    for (const [name, k] of g.kneelLimits) sub(name, `${k.toFixed(1)}"`, k <= g.kneelMax + 0.05 ? 'warn' : '');
+    sub('pod floor kneeled / normal', `${(g.podFloor - g.kneelMax).toFixed(1)}" / ${(P.deckH).toFixed(1)}"`);
+    sub('axle walks toward the pivot at full kneel', `${(P.armLen * (1 - Math.cos(Math.asin(Math.min(1, g.kneelMax / P.armLen))))).toFixed(2)}"`);
+    add(`Bump reserve at ride (${P.bump}" asked for)`, `${(g.kneelLimits[0][1]).toFixed(1)}" until the bag bottoms · ${Math.max(0, g.kneelLimits[1][1]).toFixed(1)}" until the tire meets the ${P.wheelWells ? 'fender / seat pan' : 'deck'}`, flag(g.kneelLimits[0][1] >= P.bump && g.kneelLimits[1][1] >= P.bump));
+    sub('bump steer, toe at −' + P.bump + '" / +' + P.bump + '" (right wheel)', `${g.bumpSteer[0].toFixed(2)}° / ${g.bumpSteer[1].toFixed(2)}°`, flag(Math.max(...g.bumpSteer.map(Math.abs)) <= 0.5, Math.max(...g.bumpSteer.map(Math.abs)) <= 1.5));
+    add('Ground clearance, sled bottom (now)', `${(g.railBottom - g.kneel - P.sledH).toFixed(1)}"`, flag(g.railBottom - g.kneel - P.sledH >= P.sledMin));
+    sub('sled 50 × 21 × 10.5" reserved; rack housing to sled end', `${(g.rackX - 1.5 - (P.sledX + P.sledL / 2)).toFixed(1)}"`, flag(g.rackX - 1.5 - (P.sledX + P.sledL / 2) >= 0.5));
+    // side rail vs tire, cross members, receivers
+    const railOuter = g.railZ + P.railW / 2, lateral = g.tireIn - railOuter;
+    add('Side rail inboard of the tire (lateral gap)', `${lateral.toFixed(1)}"`, flag(lateral >= 1, lateral >= 0.5));
+    const sIn = P.podX - P.armSpacing / 2 + P.sleeve / 2, sOut = P.podX + P.armSpacing / 2 - P.sleeve / 2;
+    const dySleeve = g.sleeveY - P.sleeveH / 2 - g.kneel - g.axleY, halfChord = dySleeve >= g.axleY ? 0 : Math.sqrt(g.axleY ** 2 - Math.max(0, dySleeve) ** 2);
+    const gapNow = Math.min(g.axX - halfChord - sIn, sOut - g.axX - halfChord);
+    add('Tire chord vs pod receivers at this kneel (gap each side)', halfChord > 0 ? `${gapNow.toFixed(1)}"` : 'sleeves above the tire', flag(gapNow >= 1, gapNow >= 0.5));
+    sub('receivers at / tire chord at sleeve height', `±${(P.podX - P.armSpacing / 2).toFixed(0)}"–${(P.podX + P.armSpacing / 2).toFixed(0)}" / ${(g.axX - halfChord).toFixed(1)}"–${(g.axX + halfChord).toFixed(1)}"`);
+    const rearSpringClear = g.tireIn - (g.zArmR - 3 + P.springD / 2);
+    add('Rear spring to tire sidewall', `${rearSpringClear.toFixed(1)}"`, flag(rearSpringClear >= 0.5, rearSpringClear >= 0));
+    if (g.clashNow.length) add('Tire intersection at this position', g.clashNow.join(', '), 'bad');
+
+    head('Steering · rack ' + P.rackTravel.toFixed(2) + '"');
+    const st = g.steer, closed = st.L.ok && st.R.ok;
+    add('Wheel angles, left / right (solved from fixed-length rods)', closed ? `${deg(st.L.th)} / ${deg(st.R.th)}` : 'NO SOLUTION — rods cannot close here', flag(closed));
+    if (closed && Math.abs(P.rackTravel) > 0.01) {
+      const inner = Math.max(Math.abs(st.L.th), Math.abs(st.R.th)), outer = Math.min(Math.abs(st.L.th), Math.abs(st.R.th));
+      const ideal = Math.atan(1 / (1 / Math.tan(inner) + 2 * g.zKp / L));
+      sub('inner / outer · ideal Ackermann outer for this inner', `${deg(inner)} / ${deg(outer)} · ${deg(ideal)} (${((outer - ideal) / D2R >= 0 ? '+' : '')}${((outer - ideal) / D2R).toFixed(1)}°)`, flag(Math.abs(outer - ideal) / D2R <= 1.5, Math.abs(outer - ideal) / D2R <= 4));
+      const Rc = L / Math.tan((inner + outer) / 2);
+      sub('turning radius at this angle (centreline)', `${(Rc / 12).toFixed(1)} ft`);
+    }
+    sub('tie rod length · rack inner pivots', `${g.rodLen.toFixed(2)}" · ±${P.rackHalf}" at x ${g.rackX.toFixed(1)}", y ${g.rackY.toFixed(1)}" (ball joints ${g.bjR.toFixed(1)}" from the pivot axis)`);
+    const lk = g.lockL, lr = g.lockR;
+    add('Lock, turning left / right', `${deg(Math.max(Math.abs(lk.thL), Math.abs(lk.thR)))} / ${deg(Math.max(Math.abs(lr.thL), Math.abs(lr.thR)))} inner`, flag(Math.min(Math.abs(lk.thL), Math.abs(lr.thR)) >= 25 * D2R, Math.min(Math.abs(lk.thL), Math.abs(lr.thR)) >= 18 * D2R));
+    sub('limited by', `${lk.limit} (at ${lk.travel.toFixed(2)}") / ${lr.limit} (at ${(-lr.travel).toFixed(2)}")`);
+    const innerLock = Math.min(Math.max(Math.abs(lk.thL), Math.abs(lk.thR)), Math.max(Math.abs(lr.thL), Math.abs(lr.thR)));
+    add('Turning radius at lock (outside tire)', innerLock > 0.01 ? `${((L / Math.tan(innerLock) + T / 2 + P.tireW / 2) / 12).toFixed(1)} ft` : '—');
+    const scrubGround = g.scrubHub - g.axleY * Math.tan(P.kpi * D2R);
+    add('Scrub radius: at hub height / at the ground', `${g.scrubHub.toFixed(1)}" / ${scrubGround.toFixed(1)}"`, flag(scrubGround <= 4, scrubGround <= 6));
+    sub(`kingpin inclination ${P.kpi}°: axis meets the ground`, `${scrubGround.toFixed(1)}" inboard of the contact centre`);
+    const V = P.cornerLoad, S = P.sideLoad, Rr = P.wheelD / 2;
+    const kpM = V * scrubGround + S * Rr, kpS = Math.PI * P.kpD ** 3 / 32;
+    add(`Kingpin bending at ${V} lb vertical + ${S} lb side`, `${kpM.toFixed(0)} in·lb → ${(kpM / kpS / 1000).toFixed(0)} ksi in a ${P.kpD}" pin`, flag(kpM / kpS <= 30000, kpM / kpS <= 46000));
+    sub('kingpin bushings 7.5" apart, couple only', `${(kpM / 7.5).toFixed(0)} lb each — not a bearing rating`);
+
+    head('Pivots · ' + V + ' lb corner, ' + S + ' lb side');
+    const rearOff = T / 2 - g.zArmR;
+    add('Rear pivot: moment couple ÷ bearing spacing', `${((S * Rr + V * rearOff) / P.pivotSpan).toFixed(0)} lb per bearing`);
+    add('Front pivot: moment couple ÷ bearing spacing', `${((S * Rr + V * g.scrubHub) / P.pivotSpan).toFixed(0)} lb per bearing`);
+    sub('plus the direct reaction (V and S shared by both bearings), brake and drive torque, and impact factors', 'compare with a selected bearing\'s rating — these are not ratings');
+
+    head('Weights (lb, from the members drawn + the parts list)');
+    add('Car as drawn, no riders', `≈ ${carLb.toFixed(0)}`);
+    const groups = {};
+    for (const i of items) { const k = i.group || i.n; groups[k] = (groups[k] || 0) + i.lb; }
+    for (const [k, v] of Object.entries(groups)) sub(k, `${v.toFixed(0)}`);
+    sub('frame tube detail', FRAME_KEYS.filter(k => steel.lengths[k]).map(k => `${SECTIONS[k].name.split(' ')[0]} ${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)}`).join(' · '));
+    add('Load cases → heaviest corner', `${worst.toFixed(0)} lb`, flag(worst <= 1300, worst <= 1600));
+    for (const c of cases) sub(`${c.n}: ${c.W.toFixed(0)} lb, ${(c.front * 100).toFixed(0)}% front`, `corners ${c.c4.FL.toFixed(0)} / ${c.c4.FR.toFixed(0)} · ${c.c4.RL.toFixed(0)} / ${c.c4.RR.toFixed(0)}${c.min < 0 ? ' — a wheel lifts' : ''}`, flag(c.min >= 0.1 * c.W, c.min >= 0));
+    const full = cases[1], latG = full.yc > 0 ? (T / 2 - Math.abs(full.zc)) / full.yc : 0;
+    add('Static roll threshold, 12 seated (CG ' + full.yc.toFixed(0) + '" up)', `${latG.toFixed(2)} g lateral`, flag(latG >= 0.4, latG >= 0.3));
+    sub('lateral g at 5 mph on the lock radius · one wheel 4" in a rut', innerLock > 0.01 ? `${(7.33 ** 2 / (L / Math.tan(innerLock) / 12) / 32.2).toFixed(2)} g · ${(full.yc * Math.sin(Math.atan(4 / T))).toFixed(1)}" CG shift` : '—');
+    sub('the corner-load slider should sit at or above the heaviest case', `${P.cornerLoad} lb`, flag(P.cornerLoad >= worst, P.cornerLoad >= 0.9 * worst));
+
     if (g.stack) {
+      head('Transport');
       const k = g.stack, tot = k.top + P.trailerDeckH;
       add('Transport stack', `${k.per} pods per layer · ${k.layers} layer${k.layers > 1 ? 's' : ''}`, flag(k.layers <= 2, k.layers <= 3));
       sub('pod footprint (arms ' + (P.stackArms ? 'on' : 'off') + ')', `${k.fpL.toFixed(0)}" × ${k.fpD.toFixed(0)}" · driver ${(2 * P.driverR).toFixed(0)}" × ${k.fpDd.toFixed(0)}"`);
@@ -802,83 +1090,20 @@
       add('Top of the load above the trailer floor', `${k.top.toFixed(0)}"`);
       sub('pods top / above ground (13\'6" legal)', `${k.podsTop.toFixed(0)}" / ${tot.toFixed(0)}" (${(tot / 12).toFixed(1)} ft)`);
       add(`Ramp: tire faces vs ${P.rampW}" opening`, `${(2 * tireOut).toFixed(0)}"`, flag(2 * tireOut <= P.rampW - 2, 2 * tireOut <= P.rampW));
+      const bare = items.filter(i => !/^(pods|stairs|ottomans)/.test(i.group || '') && !/roof/.test(i.n)).reduce((t, i) => t + i.lb, 0);
+      add(`Drives up the ramp (bare car) vs ${P.rampLb} lb`, `≈ ${bare.toFixed(0)} lb`, flag(bare <= P.rampLb * 0.8, bare <= P.rampLb));
+      add(`Trailer load, everything, vs ${P.trailerLoadLb} lb`, `≈ ${carLb.toFixed(0)} lb`, flag(carLb <= P.trailerLoadLb * 0.8, carLb <= P.trailerLoadLb));
+      sub('before bikes, cargo and camp', '');
+      const gtw = carLb + P.trailerEmptyLb + P.cargoLb;
+      add(`Gross trailer weight vs the ${P.towLimitLb} lb tow rating`, `≈ ${gtw.toFixed(0)} lb (${(gtw / P.towLimitLb * 100).toFixed(0)}%)`, flag(gtw <= P.towLimitLb * 0.9, gtw <= P.towLimitLb));
+      sub(`trailer ${P.trailerEmptyLb} + car ${carLb.toFixed(0)} + cargo ${P.cargoLb}`, gtw > P.towLimitLb ? `${(gtw - P.towLimitLb).toFixed(0)} lb over — the sled (${P.sledLb} lb) and loose modules can ride in the RV` : `${(P.towLimitLb - gtw).toFixed(0)} lb spare`);
+      sub('tongue weight at 10–15 % of that', `${(gtw * 0.10).toFixed(0)}–${(gtw * 0.15).toFixed(0)} lb — check the hitch's tongue rating and place the car to suit`);
+      const inRV = P.sledLb + (P.showStair ? 2 * P.stairLb : 0) + (P.showOttoman ? 2 * WEIGHTS.ottoman : 0);
+      sub('with the sled, stairs and ottomans in the RV instead', `≈ ${(gtw - inRV).toFixed(0)} lb on the trailer`, flag(gtw - inRV <= P.towLimitLb * 0.9, gtw - inRV <= P.towLimitLb));
     }
-    add('Pod floor height', `${g.podFloor.toFixed(1)}"`);
-    sub('seat / rim above ground', `${(g.podFloor + P.seatH).toFixed(0)}" / ${(g.podFloor + 1 + P.podWallH).toFixed(0)}"`);
-    // pod receivers vs tires: the two stubs of each side pod either straddle the tire (then the frame can kneel through them) or pass over it
-    const tireTop = P.wheelD, armBottom = g.sleeveY - 1, Rt = P.wheelD / 2;
-    const sIn = P.podX - P.armSpacing / 2 + P.sleeve / 2, sOut = P.podX + P.armSpacing / 2 - P.sleeve / 2;   // inner faces of the two sleeves
-    const tX0 = P.wheelX - Rt, tX1 = P.wheelX + Rt;
-    const straddle = tX0 >= sIn && tX1 <= sOut;
-    const outside = tX1 <= P.podX - P.armSpacing / 2 - P.sleeve / 2 || tX0 >= P.podX + P.armSpacing / 2 + P.sleeve / 2;
-    if (straddle) {
-      const gap = Math.min(tX0 - sIn, sOut - tX1);
-      add('Tire between the pod receivers (gap each side)', `${gap.toFixed(1)}"`, flag(gap >= 1, gap >= 0.5));
-      sub('receivers at / tire spans', `±${(P.podX - P.armSpacing / 2).toFixed(0)}"–${(P.podX + P.armSpacing / 2).toFixed(0)}" / ${tX0.toFixed(0)}"–${tX1.toFixed(0)}"`);
-    } else if (outside) add('Tire clear of the pod receivers along the car', 'yes');
-    else if (P.sleeveTop) {
-      const bumpClear = armBottom - tireTop - P.bump;
-      add('Tire (at full bump) to pod arm above it', `${bumpClear.toFixed(1)}"`, flag(bumpClear >= 0.5, bumpClear >= 0));
-      sub('static: tire top / arm underside', `${tireTop.toFixed(0)}" / ${armBottom.toFixed(1)}"`);
-    } else add('Pod receiver runs over the tire at rail height', 'clash — widen the arm spacing to straddle it, or put the receivers on top', 'bad');
-    // kneel: how far the frame can drop with the car parked (bump reserve not needed) before something meets the tire
-    const seatPanUnder = g.podFloor + P.seatH - 3 - 0.5;                                              // seat pan underside (storage space under the seat)
-    const stops = [];
-    if (!P.wheelWells) stops.push(['deck plate', P.deckH - 0.5]);
-    stops.push([P.wheelWells ? 'seat pan (through the wells)' : 'deck plate', P.wheelWells ? seatPanUnder : P.deckH - 0.5]);
-    if (!straddle && !outside) stops.push(['pod receiver', armBottom]);
-    if (g.tireIn - (g.railZ + P.railW / 2) < 0.5) stops.push(['side rail', g.railBottom]);
-    const stop = stops.reduce((m, s) => s[1] < m[1] ? s : m);
-    const kneel = Math.max(0, stop[1] - tireTop - 0.5), sledMin = 3;
-    const kneelSled = Math.max(0, g.railBottom - P.sledH - sledMin), kneelOK = Math.min(kneel, kneelSled);
-    add('Kneel available, parked', `${kneelOK.toFixed(1)}"`, flag(kneelOK >= 6, kneelOK >= 3));
-    sub('limited by', kneelOK < kneel ? `sled at ${sledMin}" off the ground` : `${stop[0]} meeting the tire`);
-    sub('pod floor kneeled / normal', `${(g.podFloor - kneelOK).toFixed(1)}" / ${g.podFloor.toFixed(1)}"`);
-    const deckClear = P.deckH - tireTop - P.bump;
-    add('Tire (at full bump) to deck plate', `${deckClear.toFixed(1)}"`, flag(deckClear >= 0.5, deckClear >= 0));
-    // side rail vs tire: the rail hangs railH below the deck, so it must sit inboard of the tire's inner face, or the tire hits it long before the deck
-    const railOuter = g.railZ + P.railW / 2, lateral = g.tireIn - railOuter;
-    if (lateral < 0.5) {
-      const railClear = g.railBottom - tireTop - P.bump;
-      add('Side rail is over the tire — clearance at full bump', `${railClear.toFixed(1)}"`, flag(railClear >= 0.5, railClear >= 0));
-      sub('move the rail inboard: tire inner face / rail outer face', `${g.tireIn.toFixed(1)}" / ${railOuter.toFixed(1)}"`);
-    } else add('Side rail inboard of the tire (lateral gap)', `${lateral.toFixed(1)}"`, flag(lateral >= 1, lateral >= 0.5));
-    const crossBottom = P.deckH - P.crossH, crossClear = crossBottom - tireTop - P.bump;
-    sub('cross members over the tire path, at full bump', lateral < 0.5 ? `${crossClear.toFixed(1)}"` : 'clear (they stop at the rail)');
-    const rearSpringClear = g.tireIn - (g.zArmR - 2 + P.springD / 2);
-    add('Rear spring to tire sidewall', `${rearSpringClear.toFixed(1)}"`, flag(rearSpringClear >= 0.5, rearSpringClear >= 0));
-    const springH = g.railBottom - (g.axleY + 1.5);
-    add('Spring installed height', `${springH.toFixed(1)}"`, flag(springH >= 6 && springH <= 11, springH >= 4));
-    add('Ground clearance, sled bottom', `${(g.railBottom - P.sledH).toFixed(1)}"`);
-
-    add('Steering lock (tire vs front arm)', `±${g.lock.toFixed(0)}°`, flag(g.lock >= 22, g.lock >= 15));
-    const th = Math.abs(P.steer) * D2R;
-    if (th > 0.001) {
-      const Rc = L / Math.tan(th), inn = Math.atan(L / (Rc - T / 2)) / D2R, out = Math.atan(L / (Rc + T / 2)) / D2R;
-      add('Turning radius at this angle (centreline)', `${(Rc / 12).toFixed(1)} ft`);
-      sub('inner / outer wheel (Ackermann)', `${inn.toFixed(0)}° / ${out.toFixed(0)}°`);
-    } else {
-      add('Turning radius at full lock (centreline)', `${(L / Math.tan(g.lock * D2R) / 12).toFixed(1)} ft`);
-    }
-    const scrub = T / 2 - g.zKp;
-    add('Scrub radius (hub centre to kingpin)', `${scrub.toFixed(1)}"`, flag(scrub <= 6, scrub <= 8));
-
-    // tipping about the outside tire contact: car weight on the centreline vs riders outboard of it
-    const carLb = (typeof rollingLb === 'number') ? rollingLb : 1700;
-    const riderZ = P.podZ + (P.podR - 9) * Math.cos(P.riderSpread * D2R), contact = T / 2;
-    const perRider = 200 * (riderZ - contact), restoring = carLb * contact;
-    add('Riders on one side to lift the inside wheels', `${(restoring / perRider).toFixed(1)}`, flag(restoring / perRider >= 6, restoring / perRider >= 4));
-    sub('rider centre / tire contact from centreline', `${riderZ.toFixed(0)}" / ${contact.toFixed(1)}"`);
-    const cgH = g.podFloor + P.seatH + 10;
-    sub('CG shift: 5 mph at full lock · one wheel 4" in a rut', `${(cgH * 7.33 ** 2 / (L / Math.tan(g.lock * D2R) / 12) / 32.2).toFixed(1)}" · ${(cgH * Math.sin(Math.atan(4 / T))).toFixed(1)}"`);
-
-    const V = P.cornerLoad, S = P.sideLoad, Rr = P.wheelD / 2, rearOff = T / 2 - g.zArmR;
-    const rearBrg = (S * Rr + V * rearOff) / P.pivotSpan, frontBrg = (S * Rr + V * scrub) / P.pivotSpan;
-    add('Rear pivot, load per bearing', `${rearBrg.toFixed(0)} lb`, flag(rearBrg <= 1200, rearBrg <= 2500));
-    add('Front pivot, load per bearing', `${frontBrg.toFixed(0)} lb`, flag(frontBrg <= 1200, frontBrg <= 2500));
-    add('Front kingpin bending', `${(V * scrub).toFixed(0)} in·lb`);
 
     if (g.roofStats) {
+      head('Roof');
       const r = g.roofStats.rect, q = g.roofStats.petals, c = g.roofStats.clover;
       const both = (f, unit) => `${f(r)}${unit} · ${f(q)}${unit} · ${f(c)}${unit}`;
       add('Roof options', 'rectangle · petals · cloverleaf');
@@ -898,7 +1123,6 @@
       if (P.roofStyle === 'clover') {
         const onRail = Math.abs(P.cPostZ - g.railZ) <= 1.5;
         add('Cloverleaf posts land on the side rails', onRail ? 'yes' : `no — rail at ${g.railZ.toFixed(1)}"`, flag(onRail, true));
-        // outer posts vs the pods: the side pod legs end at the rail face (a post inboard of that is clear); the rear pod floor starts at its leg ends; the driver pod's half round faces the centre
         const legFace = g.railZ + P.railW / 2, podEndX = P.podX + P.podR, endLegX = P.endPodX - P.podLeg;
         const sideClear = P.cPostZ + 1 <= legFace - 1 + 0.01 ? 99 : (P.cPostXo - 1 > podEndX ? P.cPostXo - 1 - podEndX : -(podEndX - (P.cPostXo - 1)));
         const rearClear = P.cPostZ < P.podR ? endLegX - P.cPostXo - 1 : 99;
@@ -927,26 +1151,6 @@
       sub('storage inside', `${o.storage.toFixed(1)} ft³`);
       sub(`aisle beside the bench (aisle ${o.aisle.toFixed(0)}" between pod legs)`, `${o.beside.toFixed(0)}" each side`, flag(o.beside >= 12, o.beside >= 8));
     }
-
-    const sum = keys => keys.reduce((t, k) => t + (steel.lengths[k] || 0) / 12 * SECTIONS[k].w, 0);
-    const frame = sum(FRAME_KEYS);
-    add('Frame steel (tube only)', `≈ ${frame.toFixed(0)} lb`);
-    for (const k of FRAME_KEYS) if (steel.lengths[k]) sub(SECTIONS[k].name, `${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)} lb`);
-    const cur = g.roofStats ? g.roofStats[P.roofStyle] : null;
-    const roofW = P.showRoof && cur ? cur.w + (P.showSolar ? cur.panelLb : 0) : 0;
-    if (P.showRoof && cur) add(`Roof as shown (${P.roofStyle}) + panels`, `≈ ${roofW.toFixed(0)} lb`);
-    const stairsLb = P.showStair ? 2 * P.stairLb : 0;
-    const rolling = frame + P.sledLb + roofW + (P.showPods ? 6 * P.podLb : 0) + stairsLb;
-    add('Frame + sled + pods + roof' + (P.showStair ? ' + stairs' : ''), `≈ ${rolling.toFixed(0)} lb`);
-    sub('+ 12 riders at 200 lb', `${(rolling + 2400).toFixed(0)} lb`);
-    if (g.stack) {
-      const onRamp = frame + P.sledLb;
-      const podsAll = 6 * P.podLb, roofAll = g.roofStats[P.roofStyle], roofLb = roofAll.w + (P.showSolar ? roofAll.panelLb : 0);
-      const load = frame + P.sledLb + podsAll + stairsLb + roofLb;
-      add(`Drives up the ramp (frame + sled) vs ${P.rampLb} lb`, `≈ ${onRamp.toFixed(0)} lb`, flag(onRamp <= P.rampLb * 0.8, onRamp <= P.rampLb));
-      add(`Trailer load, everything, vs ${P.trailerLoadLb} lb`, `≈ ${load.toFixed(0)} lb`, flag(load <= P.trailerLoadLb * 0.8, load <= P.trailerLoadLb));
-      sub('before bikes, cargo and camp', '');
-    }
     $('readout').innerHTML = rows.join('');
   }
 
@@ -957,6 +1161,8 @@
     build();
   });
   for (const id of TOGGLES) $(id).addEventListener('change', e => { P[id] = e.target.checked; build(); });
+  $('deckMat').addEventListener('change', e => { P.deckMat = e.target.value; build(); });
+  window.frameModel = { P, build, geo: () => lastGeo, setParams: p => { Object.assign(P, p); build(); } };
   const STYLES = [['rsRect', 'rect'], ['rsPetals', 'petals'], ['rsClover', 'clover']];
   for (const [id, style] of STYLES) $(id).addEventListener('click', () => {
     P.roofStyle = style; for (const [i2, s2] of STYLES) $(i2).classList.toggle('on', s2 === style); build();
@@ -994,7 +1200,7 @@
     vNose: () => { target.set(0, 40, 0); az = Math.PI / 2; el = 0.05; dist = 260; },
     vFront: () => { target.set(P.wheelX + 4, 12, P.track / 2 - 6); az = 1.0; el = 0.32; dist = 85; },
     vRear: () => { target.set(-P.wheelX - 4, 12, P.track / 2 - 6); az = 2.3; el = 0.32; dist = 85; },
-    vSteer: () => { target.set(P.wheelX + 10, 16, 0); az = 0.9; el = 0.55; dist = 120; },
+    vSteer: () => { target.set(P.wheelX + 6, 14, 0); az = 0.9; el = 0.55; dist = 120; },
     vUnder: () => { target.set(0, 12, 0); az = 0.5; el = -0.28; dist = 300; },
     vTrailer: () => { if (!P.stackMode) { P.stackMode = true; $('stackMode').checked = true; build(); } target.set(10, 50, 0); az = 0.75; el = 0.3; dist = 420; },
   };

@@ -4,23 +4,38 @@ Working notes for the 48" two-seat pod (design 2). Six pods per car, each a bolt
 
 ## Mounting: hitch receivers (decided 2026-09-11)
 
-Each pod rides on two 2" square steel arms, ~14" apart (one under each rider), that slide into 2-1/2" receiver tubes
-welded through the chassis side rail into a cross member behind it. Retained with hitch pins; anti-rattle wedge
-clamps take up the slop. End pods use the same receivers running longitudinally through the end rail.
+Each pod rides on two 2" x 3" steel arms on edge, 28" apart (they straddle the tire under the side pods), that slide
+into 2-1/2" x 3-1/2" receiver tubes welded through the chassis side rail into a cross member behind it. Retained with
+hitch pins; anti-rattle wedge clamps take up the slop. End pods use the same receivers running longitudinally through
+the end rail. (Revised 2026-09-13 after the drivetrain review: 26" -> 28" so the tire chord clears the sleeves through
+the kneel as the axle walks toward its pivot; 2x2 -> 2x3 after the load case below was corrected.)
 
 Why receivers and not a bolted flange (the original sketch, `sketches/pod-mount-sketch.heic`):
-- The cantilever moment is carried by bearing over the receiver's length, not by bolt tension, so nothing
-  fatigues loose on washboard playa. A bolted butt flange needs a 3/8" plate or gussets and still loosens.
+- The cantilever moment is carried by bearing over the receiver's length, not by bolt tension, which takes the
+  fastener-fatigue problem of a bolted butt flange off the table (a flange needs a 3/8" plate or gussets and still
+  loosens). It does not make the joint fatigue-proof: the sleeve walls, the through-rail welds, the pin holes and the
+  anti-rattle clamp all see the same reversing load on washboard and still need checking.
 - The moment goes into the cross member as bending instead of twisting the side rail.
 - Playa assembly is slide in, drop two pins. No torque wrench, no bolt count.
-- Class III/IV receivers are rated for 500-1,000 lb tongue weight at ~12", which is this load class.
+- Class III/IV hitches are rated for 500-1,000 lb tongue weight at ~12", which is the right load class for intuition,
+  but a complete hitch's rating does not transfer to two raw receiver tubes welded into a rail; this load path has to
+  be worked out on its own (free-body diagram with the sleeve reactions and the rail / cross-member supports).
 - Spare receivers on the rail are free attachment points for anything else (steps, bike rack, bar).
 
-### Load case per pod
-- Two riders at 200 lb with their centre of mass ~14" outboard of the rail, plus ~120 lb of pod: ~7,000 in-lb static.
-- Design for ~20,000 in-lb: 2-3x for ruts, plus one person standing on the outboard rim (200 lb at 24").
-- Two 2x3x0.120" rectangular tube arms (3" vertical) run ~17 ksi at that moment, against ~46 ksi yield.
-  Tip deflection well under 1/4".
+### Load case per pod (corrected 2026-09-13)
+The earlier version measured the lever arms from the pod centre; the support is the chassis rail face, 12" further in.
+- Two riders at 200 lb with their centre of mass ~12.7" outboard of the pod centre line, so ~24.7" from the rail face,
+  plus ~128 lb of pod at ~20": ~12,500 in-lb static (the old 7,000 was short by the 12" inset, as the review said).
+- Design for ~37,500 in-lb: 3x for ruts. One person standing on the outboard rim (200 lb at 36" from the rail, 1.5x)
+  is ~23,000 and does not govern.
+- Two 2x3x0.188" arms on edge run ~14 ksi at the design moment (30% of 46 ksi yield). The 2x2x0.188" arms that were
+  the default run ~25 ksi (53%), too close for a joint that sees washboard all week; 2x2x0.250" is ~21 ksi.
+  loveseat-build has all three selectable and prints the numbers.
+- Over the 13" of engagement the arm bears on the sleeve as a couple of ~1,400 lb per arm at each end (design case);
+  the hitch pins retain, they do not carry the moment, and the anti-rattle wedges are what keep that couple from
+  hammering.
+- Driver pod: ~14,700 in-lb static about the end rail (the riders sit close to the rail but the floor and gate hang
+  forward): ~28 ksi in 2x2x0.188", ~16 ksi in 2x3x0.188".
 - If a bolted flange is ever used instead: 6" bolt spacing puts ~1,650 lb on each top bolt; 1/2" Grade 8
   is good for ~14,000 lb, so bolts were never the weak point, the plate and the vibration were.
 
@@ -70,7 +85,8 @@ Why these materials (the general tradeoffs, condensed):
   seat just as well. The arms weld into the floor frame directly.
 
 ### Frame layout (per pod)
-- Two 2x2x0.188" arms, 13" engaged in the receivers, 14" apart, running out to the floor ring under the floor frame.
+- Two 2x3x0.188" arms on edge, 13" engaged in the receivers, 28" apart, running out to the floor ring under the floor
+  frame (top face under the floor ring).
 - Floor frame at the deck level: chord tube along the rail (0.75" clear of the rail face), a half ring on the arm
   tips, radial joists at +/-45 and +/-72 degrees. 1/2" floor ply flush with the deck.
 - Wall posts on the ring vertices (7 facets over 210 degrees, so 8 posts, ~12" chords). Posts past 90 degrees
@@ -118,7 +134,8 @@ Why these materials (the general tradeoffs, condensed):
   gussets and rivets. The clean version is internal sleeves — 3" of 3/4" bar or tube inside both members at every
   joint, two rivets or bolts per side, nothing visible but fastener heads — with the arms and their node still steel
   and the frame bolted to that node.
-- What matters more than the total is the lift, and the model now reports it: each arm (~13 lb, 9 with 0.120")
+- What matters more than the total is the lift, and the model now reports it: each arm (~15 lb as 2x3x0.188; 13 as
+  2x2x0.188, 9 with 0.120")
   slides into its receiver first; the bare frame with floor and slats (~60 lb, ~50 with 3/4" tube) goes onto the
   arms; modules, consoles, cushions and skirt (~37 lb) go on once the pod is on the car. A cradle at receiver height
   (dollies or a rack on the trailer) removes the lift entirely.
@@ -134,9 +151,9 @@ dropped into the shells on four screws, so they stay swappable while the wall st
 Wood joints get glue plus screws for vibration, and a finish for dew and dust.
 
 ### Numbers from the model (defaults)
-- Pod: ~135 lb and ~$800 in materials; six pods ~800 lb, ~$4,800. Steel is 80 lb of that (64 ft of 1" tube plus
+- Pod: ~128 lb (2x3 arms) and ~$800 in materials; six pods ~800 lb, ~$4,800. Steel is 80 lb of that (64 ft of 1" tube plus
   the arms); 3/4" tube drops it to ~120 lb. The 120 lb placeholder in the load case above was optimistic.
-- Receiver arms at the x3 design moment: ~15 ksi, a third of yield.
+- Receiver arms at the x3 design moment, measured from the rail face: ~14 ksi in 2x3x0.188", 30% of yield.
 - Diffuser developed length 87" x 18.5" — fits one 24x96 sheet. One 1/2" and one 1/4" 5x5 sheet of birch per pod.
 - ~620 WS2812s per pod (10 m), 185 W at full white, ~50 W typical; 3,700 LEDs and ~300 W typical across six pods.
 
@@ -151,15 +168,16 @@ Wood joints get glue plus screws for vibration, and a finish for dew and dust.
 
 ## Outline: U, not D (2026-09-12)
 
-The pod is now a U in plan: a 180° half round outboard, then two straight legs 8" long back over the deck to the rail
-face (48" wide x 32" deep instead of a 48" disc). Reasons, all about the car rather than the seat:
+The pod is now a U in plan: a 180° half round outboard, then two straight legs 12" long back over the deck toward the
+rail face (48" wide x 36" deep instead of a 48" disc; the rails moved 2" further in after the review, so the deck
+fills the last 2" to the rail). Reasons, all about the car rather than the seat:
 - Two adjacent pods present parallel flat faces 18" apart, so the walkway is a rectangular slot and a stair module
   fills it flush from the rail to the pod rims; no deck extension outboard of the 54" rail, so the deck stays on the
   car and the bare car drives onto the trailer (53" over the tire faces through the 57" ramp opening).
 - The straight legs are the consoles: flat boxes are trivial to build, the armrest lands exactly beside the rider
   past the 90° post, and every arc bay becomes a light module. One cup per armrest (decided), which an 8" leg fits.
-- Transport: a 48 x 32 box stacks two rows across the 72" trailer, four per layer, six pods in two layers (76" high
-  on the deck). Discs stack one row, two per layer, three layers (102"). With the receiver arms left on the pods the
+- Transport: a 48 x 36 box stacks two rows across the 72" trailer exactly, four per layer, six pods in two layers
+  (76" high on the deck). Keep the legs at 12": 38" deep drops it to one row and three layers. Discs stack one row, two per layer, three layers (102"). With the receiver arms left on the pods the
   footprint grows 13" and it is back to one row, so the arms come off for the trailer.
 - Seat, backrest, riders and the fit numbers do not move: the 200° seat sits inside the arc, and the wall past 90° was
   already standing on the deck with a sill. Six 30° facets on the arc give the same 12.3" module chord as before.
@@ -174,19 +192,25 @@ and a "Trailer" view with everything stacked on the bare car inside the trailer 
 
 The same U module turned round: the half round goes to the end rail (the driver's back is to the car), the legs point
 forward and carry a floor, and the open end between the leg posts is the front. Decisions so far:
-- One spring-return throttle pedal (right foot), regen on lift so the car slows when the foot comes off; a dead pedal
-  for the left foot. Legs 16" (vs 8" on the passenger pods) put the pedal face ~32" ahead of the seat back.
+- Right foot: a spring-return throttle pedal (regen on lift so the car slows when the foot comes off) and the brake
+  pedal beside it; a dead pedal for the left foot. Legs 16" (vs 12" on the passenger pods) put the pedal face ~32"
+  ahead of the seat back.
 - F / N / R is a three-position lever on the driver's console top wired to the controllers' direction + enable lines
   (nothing mechanical to shift); software refuses a direction change unless the car is stopped. Neutral = controllers
   disabled, motors freewheel, which is also how the car gets pushed around camp.
-- Regen fades to nothing at walking pace and does nothing with a full pack, so there is still a real brake: a hand lever
-  next to the shifter, cable or hydraulic to two rear calipers, doubling as the park brake. The DMV checks for one.
+- Regen fades to nothing at walking pace and does nothing with a full pack, so there is a real service brake: the pedal,
+  on a tandem master cylinder under the leg floor, hydraulic to four calipers, working with a tripped BMS or disabled
+  controllers. The hand lever next to the shifter is the mechanically held parking brake, cable to two rear calipers.
+  The DMV checks for both. (Revised 2026-09-13: the earlier note had only the hand lever, a service-brake gap.)
 - Lighting panel and pack readout on the passenger-side console top. One cup per arm, as everywhere.
-- Low gate (12") between the leg posts, hinged left, latched right: this is the way in, up the front of the car.
+- Low gate (12") between the leg posts, hinged left, latched right: this is the way in, up the front of the car. The
+  DMV's 36-48" guardrail rule applies to levels 84" or more above the playa, so at a 24" floor the gate height is a
+  design choice, not a licensing item.
 - Steering shaft runs under the floor beside the right arm at z = 9 with the quick-disconnect at the rail, u-joint at
   x = -3, column ~16° from vertical to a 13" wheel 12" ahead of the pod centre and 27" above the floor.
-- Arms run 13" into the end-rail receivers and the full length under the floor to the gate (~64"); 0.120" wall is
-  probably enough here because the riders sit close to the rail.
+- Arms run 13" into the end-rail receivers and the full length under the floor to the gate (~64"). The riders sit close
+  to the rail but the floor and gate hang forward, so the moment about the end rail is ~14.7k in-lb static: 2x3x0.188"
+  like the others, not a lighter wall.
 - 52" wide (two people, the driver facing forward, so less cuddly than the loveseats); the back is a superellipse
   (squareness slider, default 0.4) so the corners fill out without the width changing. Outline 52" x 42"; on the
   trailer it rides beside the fifth passenger pod on layer 2 (still two layers).
@@ -194,26 +218,34 @@ forward and carry a floor, and the open end between the leg posts is the front. 
   the playa (hinged, folds flat under the floor); the gate post is the handhold. The arms/consoles do not pivot.
 - Both drivers are left-handed and the driver sits on the left, so the shifter and hand brake on the left console
   are the right way round.
-- Weight is ~185 lb as modelled; 46 lb of that is the two 64" arms (0.120" wall saves ~15 lb) and the rest is the
-  bigger floor and shell. It is lifted onto the car by two people like the others.
+- Weight is ~200 lb as modelled; ~65 lb of that is the two 64" 2x3 arms and the rest is the bigger floor and shell.
+  It is lifted onto the car by two people like the others.
 - Kneel (2026-09-12): wheels moved to sit under the side pods (axles at +-33, wheelbase 66") and each side pod's two
   receiver stubs spread to 26" apart so they straddle the tire (1.8" each side); the receivers go back through the
   rail, so pod floors sit at deck height (24"). With the deck plate and pod floor cut out over the tires (wheel wells)
-  the frame can drop until the tire meets the seat pan underside: ~8" of kneel, limited by the sled at 3" off the
-  ground, pod floors at 16". Without wells it is ~3" (deck plate). Costs: 66" wheelbase puts the end pods 42-58" past
-  the axles (ride at the ends is lively); the wells need an inner fender or the tire throws dust into the storage
-  under the seat. Turning radius drops to ~15 ft. The stair drops with the car; kneeled, its bottom tread is on the
-  playa.
+  the frame can drop until something stops it. Corrected 2026-09-13 with the arms articulated in frame-3d: ~5.6" of
+  kneel, not 8. The D2500 bottoms at 6.0" (3.5" of bag stroke through the 0.625 motion ratio), the tire chord meets
+  the receiver sleeves at 5.6" as the axle walks 1" toward its pivot, the sled is 3" off the ground at 6.5", the 6"
+  fender box stops the tire at 7". Pod floors at ~18.4" kneeled. Without wells it is ~1" (deck plate). Costs: 66"
+  wheelbase puts the end pods 42-58" past the axles (ride at the ends is lively); the wells need an inner fender or
+  the tire throws dust into the storage under the seat. Turning radius ~15.5 ft to the outside tire at 22° of lock.
+  The stair drops with the car; kneeled, its bottom tread is on the playa.
   Where the tire actually is under a side pod: centred 5.5" inboard of the pod centre line (the envelope edge),
   so only the outer 2-3" of tire is under the seat edge; the rest is under the riders' foot space between the seat
-  front and the rail. A kneel therefore needs a fender box in the foot space: ~4" tall allows ~7.5" of kneel, a
-  9" box allows the full 8" and becomes a footrest. `model/loveseat-build.html` now draws the tire, well, fender
-  and receivers under the pod with a kneel slider (Chassis under the pod); legs are 12" to reach the rail at its
-  12" inset and the receivers are 26" apart.
+  front and the rail. The 22.5" tire tops out 1.5" under the deck, so any kneel needs a fender box in the foot space:
+  6" tall covers the 5.6" available with 0.5" spare and doubles as a footrest. `model/loveseat-build.html` draws the
+  tire, well, fender and receivers under the pod with a kneel slider (Chassis under the pod); the legs are 12" and
+  stop at the rail face (rails 14" in from the envelope edge, the deck fills the last 2"), receivers 28" apart.
 `model/loveseat-build.html` "Driver pod" toggle draws all of it (leg length, gate height and wheel height are sliders);
 `model/frame-3d.html` draws the driver pod with its gate at the front and packs it in the transport stack.
 
 ## Open
+- Guards (checked against burningman.org 2026-09-13): the MV Owner's Handbook applies the 36-48" perimeter guardrail
+  rule to levels 84" or more above the playa; the pod floor is 24", so the 25" rim and the 12" driver gate are not
+  licensing items (the criteria page's "sturdy side railings" is general guidance). What does apply: any stairs must
+  have a secure railing, so the stair module gets a handrail, and the DMV reviews loading/unloading procedures.
+- Receiver joint: the numbers above are beam stresses; the sleeve welds, wall bearing, pin holes and anti-rattle
+  retention still need a proper free-body check, and one built pod should be load-tested on a jig at the x3 moment.
 - Driver pod: pedal box, wheel and gate are placeholders from the model; sit in the cardboard mockup before cutting steel.
 - Faceted vs smooth wall: modules argue for faceted (see Structure); smooth is still in the model for comparison.
 - LED pitch in the 2" modules: 4 rows over 18" is a 4.5" pitch, borderline for an even glow at 2" depth; 5-6 rows
