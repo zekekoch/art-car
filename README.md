@@ -4,6 +4,8 @@
 
 **B-248 donor study (13 September):** [retained donor body](https://zekekoch.github.io/art-car/model/b248-3d.html?layout=stock) · [running-gear transplant](https://zekekoch.github.io/art-car/model/b248-3d.html?layout=transplant) · [mechanical capacity and upgrade review](https://github.com/zekekoch/art-car/blob/master/model/b248-review.md) · [dimensioned plan](https://zekekoch.github.io/art-car/model/b248/plan.svg). Compare a retained B-248 body with a proposed 120 × 52 in frame using the donor's axles on a 72 in wheelbase. Six pods and 300 lb per occupied pod are modeled; the listing's 2,450 lb capacity is insufficient at full occupancy under both current and lighter mass scenarios. The factory rating does not transfer to the custom frame.
 
+If the B-248 3D view cannot render, it falls back to the dimensioned plan with working load controls. After a viewer update, reload the page to pick up the fix. Developer smoke checks: `node model/b248/verify-viewer.cjs` (stub renderer; does not verify WebGL pixels).
+
 ![B-248 concept with roof removed](model/b248/uncovered.png)
 
 The original custom-chassis studies below remain available for comparison.
