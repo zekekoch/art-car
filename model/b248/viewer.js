@@ -1,6 +1,9 @@
 (function(){'use strict';
 const $=id=>document.getElementById(id),B=window.B248,T=window.THREE,c=B.cfg;let model,renderer,scene,camera,view='assembly',az=.82,el=.47,dist=340,drag=null;
 const o={...B.defaults,roof:true,riders:true,ghost:false,cg:false};const stage=$('viewport');
+const requestedLayout=new URLSearchParams(window.location.search).get('layout');
+if(['stock','transplant'].includes(requestedLayout))o.layout=requestedLayout;
+$('layout').value=o.layout;
 const fmt=(x,n=0)=>x.toLocaleString(undefined,{maximumFractionDigits:n,minimumFractionDigits:n});
 function readouts(){const q=B.loads(o),tr=B.transport(o),sw=B.sweep(o),dim=B.dimensions(o);$('architectureNote').textContent=o.layout==='transplant'?'Reuses complete axle / motor / brake assemblies on a proposed 72 in wheelbase. Base mass stays at the conservative placeholder until the retained parts are weighed. Factory payload rating is a comparison only, not a rating of this frame.':'Stock body dimensions are catalog references. Actual axle locations need measurement.';$('capacity').innerHTML=`<p class="note">${fmt(q.occupantLoad)} lb occupants + ${fmt(q.added)} lb added equipment</p><div class="stat ${q.headroom<0?'bad':''}">${fmt(Math.abs(q.headroom))} lb ${q.headroom<0?'over':'remaining'}</div><div class="status">${q.headroom<0?'This scenario exceeds the selected payload limit.':'Within this mass allowance only. Axle, frame, brake and stability limits remain unresolved.'}</div>`;
  $('massTable').innerHTML='<tr><th>Added item</th><th>lb</th></tr>'+B.massRows(o).map(([name,lb])=>`<tr><td>${name}</td><td>${fmt(lb)}</td></tr>`).join('');

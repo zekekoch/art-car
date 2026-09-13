@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Art car v2: interactive six-pod designs, Taylor-Dunn B-248 donor studies, and construction concepts.">
+  <title>Art car v2 — design studies</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #eef0e9; color: #23392f; font: 17px/1.6 system-ui, sans-serif; }
+    main { max-width: 1060px; margin: auto; padding: 40px 24px 64px; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.1; margin: 14px 0; }
+    h2 { line-height: 1.25; }
+    a { color: #145842; text-underline-offset: 3px; }
+    a:focus-visible { outline: 3px solid #ba632d; outline-offset: 4px; }
+    .eyebrow { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; }
+    .intro { max-width: 720px; }
+    section { margin-top: 36px; padding: 26px; border: 1px solid #cad2c7; border-radius: 14px; background: #fafbf7; }
+    section h2 { margin-top: 0; }
+    .designs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+    .design { padding: 18px; background: #e8eee3; border-radius: 8px; }
+    .design h3 { margin: 0 0 8px; }
+    .design p { margin: 0 0 16px; }
+    .button { display: inline-block; background: #244e3c; color: white; padding: 9px 16px; border-radius: 6px; }
+    img { display: block; width: 100%; height: auto; margin-top: 24px; border-radius: 8px; }
+    figcaption, .note { font-size: .9rem; color: #526257; }
+    figure { margin: 0; }
+    li { margin: 8px 0; }
+    footer { margin-top: 30px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Burning Man · six pods · electric drive</div>
+    <h1>Art car v2</h1>
+    <p class="intro">Explore the floating loveseat concept, compare donor running gear with a custom chassis, and inspect the models, plans and load assumptions.</p>
+    <a href="https://github.com/zekekoch/art-car">Repository &amp; README ↗</a>
+  </header>
+  <section aria-labelledby="b248-title">
+    <h2 id="b248-title">Taylor-Dunn B-248 donor designs</h2>
+    <p>Two layouts in one interactive model. Adjust loading, compare weight budgets, and switch between the assembled car, plan, running gear and trailer views.</p>
+    <div class="designs">
+      <article class="design">
+        <h3>Retain the donor body</h3>
+        <p>Catalog 121-inch donor body and 55-inch wheelbase, with a 52-inch-wide carrier for the six pods.</p>
+        <a class="button" href="model/b248-3d.html?layout=stock">Open retained-body design</a>
+      </article>
+      <article class="design">
+        <h3>Transplant the running gear</h3>
+        <p>Proposed 120 × 52-inch frame with complete donor axle assemblies on a 72-inch wheelbase.</p>
+        <a class="button" href="model/b248-3d.html?layout=transplant">Open transplant design</a>
+      </article>
+    </div>
+    <p class="note">Concept studies: six pods at 300 lb each exceed the listing's 2,450 lb payload under both modeled body-weight scenarios. A new frame does not inherit the donor's vehicle rating.</p>
+    <ul>
+      <li><a href="https://github.com/zekekoch/art-car/blob/master/model/b248-review.md">Mechanical capacity, upgrade options and donor inspection review</a></li>
+      <li><a href="model/b248/plan.svg">Dimensioned plan</a></li>
+      <li>Saved views: <a href="model/b248/assembly.png">assembled car</a> · <a href="model/b248/uncovered.png">roof removed</a> · <a href="model/b248/running-gear.png">transplanted running gear</a> · <a href="model/b248/side.png">side view</a></li>
+    </ul>
+    <figure>
+      <a href="model/b248-3d.html"><img src="model/b248/uncovered.png" alt="Six-pod B-248 concept with the roof hidden to show the seating and carrier" width="1600" loading="lazy"></a>
+      <figcaption>B-248 concept with the roof hidden. Open either design above to explore it in 3D.</figcaption>
+    </figure>
+  </section>
+  <section aria-labelledby="custom-title">
+    <h2 id="custom-title">Custom chassis and pod studies</h2>
+    <ul>
+      <li><a href="model/frame-3d.html">Whole-car model</a> — custom chassis, six pods, roof and trailer packing.</li>
+      <li><a href="model/drivetrain-3d.html">Detailed drivetrain model</a> — corner modules, steering and suspension.</li>
+      <li><a href="model/loveseat-3d.html">Loveseat model</a> — pod shape, seating and receiver layout.</li>
+      <li><a href="model/loveseat-build.html">Loveseat build model</a> — members, panels, weight and driver-pod options.</li>
+      <li><a href="notebook/art-car-design-notebook.html">Design notebook</a> — constraints, concepts, energy and transport.</li>
+    </ul>
+  </section>
+  <footer class="note">Working design studies; dimensions and component choices continue to evolve. <a href="https://github.com/zekekoch/art-car">View source and current notes on GitHub.</a></footer>
+</main>
+</body>
+</html>
