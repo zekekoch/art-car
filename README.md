@@ -4,6 +4,10 @@ Custom electric chassis (max 54" x 120") with a demountable body: six cantilever
 
 **Start at [`index.html`](index.html)** — the plan of record: goal and constraints, the reference rendering, and one page per system. Open it in a browser; everything is static and works offline.
 
+**B-248 donor study (13 September):** an additive concept study, not the plan of record — [retained donor body](model/b248-3d.html?layout=stock) · [running-gear transplant](model/b248-3d.html?layout=transplant) · [mechanical capacity and upgrade review](model/b248-review.md) · [dimensioned plan](model/b248/plan.svg). Compares a retained Taylor-Dunn B-248 donor body with a proposed 120 × 52 in frame reusing the donor's axles on a 72 in wheelbase. Six pods at 300 lb per occupied pod exceed the listing's 2,450 lb capacity at full occupancy under both scenarios modeled; the factory rating does not transfer to a custom frame. See [How we got here](explorations.html) for how it compares with the plan of record.
+
+![B-248 concept with roof removed](model/b248/uncovered.png)
+
 ## How the repo is organised
 
 | What | Where |
@@ -11,6 +15,7 @@ Custom electric chassis (max 54" x 120") with a demountable body: six cantilever
 | Plan of record (home) | [`index.html`](index.html) |
 | System pages | [`plan/drivetrain.html`](plan/drivetrain.html) · [`plan/pods.html`](plan/pods.html) · [`plan/roof.html`](plan/roof.html) · [`plan/electrical.html`](plan/electrical.html) · [`plan/specification.html`](plan/specification.html) · [`plan/bom.html`](plan/bom.html) · [`plan/construction.html`](plan/construction.html) |
 | How we got here (explorations, alternatives, decision log) | [`explorations.html`](explorations.html) |
+| Alternative: B-248 donor chassis study | [`model/b248-3d.html`](model/b248-3d.html), [`model/b248-review.md`](model/b248-review.md) |
 | Interactive models | [`model/`](model/) — each opens in a **simple** mode (the controls a designer would move) and switches to **advanced** (every parameter and the full readout) with the toggle at the top of the panel or `#advanced` on the URL |
 | Working notes (the record) | [`notebook/art-car-design-notebook.html`](notebook/art-car-design-notebook.html), [`loveseat.md`](loveseat.md), [`model/drivetrain-review.md`](model/drivetrain-review.md), [`model/drivetrain-review-response.md`](model/drivetrain-review-response.md) |
 | Sketches and renderings | [`sketches/`](sketches/) (originals) · [`img/`](img/) (web-sized copies and model screenshots used by the pages) |
@@ -27,12 +32,14 @@ Editing conventions: the plan pages are plain HTML with one shared stylesheet �
 - [`model/podcar_model.py`](model/podcar_model.py) — generates the 1:12 laser sheets from the `REAL` dict (real-world inches). `python3 podcar_model.py` writes `podcar_sheet_N.svg` (12 x 20 in) and `podcar_all.svg` (everything, stacked). No dependencies.
   - blue = score, red = inner cuts (holes/slots), magenta = part outlines; order the Glowforge steps score -> red -> magenta.
   - Material: 1/16" cardboard. Toothpicks for wheel axles and pod pins.
+- [`model/b248-3d.html`](model/b248-3d.html) — donor-study model: retained-body (`?layout=stock`) and running-gear-transplant (`?layout=transplant`) layouts for a Taylor-Dunn B-248 donor cart. Additive concept study, not the plan of record; see [`model/b248-review.md`](model/b248-review.md).
 
 ## Working notes
 
 - [`notebook/art-car-design-notebook.html`](notebook/art-car-design-notebook.html) — constraints (tow limit, BRC rules), chassis and corner-module concept, low-speed torque scenarios, battery decision and energy budget, core shapes, volumetric study of Selina's nine concepts, transport plan, open questions. Self-contained; sketch dimensions are editable in the `DESIGNS` array. Revised 2026-09-13 after the drivetrain review.
 - [`loveseat.md`](loveseat.md) — pod mounting (hitch receivers), load case (corrected for the rail inset), seat ergonomics, fit, structure, weight, U outline, driver pod and kneel notes.
 - [`model/drivetrain-review.md`](model/drivetrain-review.md) (2026-09-12) — errors, component sources, and the buy/fabricate/machine breakdown. [`model/drivetrain-review-response.md`](model/drivetrain-review-response.md) (2026-09-13) — what changed for each of the 13 findings, the four geometry changes they forced (steering layout, kingpin, kneel, pod receivers), and what is still open.
+- [`model/b248-review.md`](model/b248-review.md) (2026-09-13) — B-248 mechanical capacity and upgrade review: factory parts evidence, payload discrepancy, and which upgrades are straightforward.
 - [`sketches/`](sketches/) — Selina's renderings and layout sketches, plus photos of the current car.
 
 ## Key numbers
