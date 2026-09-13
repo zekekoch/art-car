@@ -37,6 +37,10 @@
   .note { font-size: 12px; color: var(--muted); line-height: 1.45; }
   #stage { position: relative; min-width: 0; }
   #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  .mode { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .mode button.on { border-color: var(--accent, #b78cff); color: var(--accent, #b78cff); }
+  #app.simple [data-adv] { display: none !important; }
+  #app.simple .readout .adv { display: none; }
   #hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
   #toast { position: absolute; top: 12px; right: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-size: 13px; opacity: 0; transition: opacity .2s; }
   @media (max-width: 720px) {
@@ -51,11 +55,19 @@
     <h1>Pod loveseat<small>48" two-seater on hitch receivers · inches · deck at 24"</small></h1>
 
     <section>
+      <div class="views mode">
+        <button id="modeSimple" class="on">Simple</button>
+        <button id="modeAdv">Advanced</button>
+      </div>
+      <p class="note" style="margin-top:6px">Simple: seat and rim heights, recline, pod size and how the riders sit. Advanced adds the foam thicknesses, receiver spacing, the cantilever moment and the OBJ export.</p>
+    </section>
+
+    <section>
       <h2>Seat</h2>
       <div class="ctl"><label for="seatH">Seat height, uncompressed</label><output for="seatH">17</output><input type="range" id="seatH" min="13" max="21" step="0.5" value="17"></div>
-      <div class="ctl"><label for="seatFoam">Seat foam</label><output for="seatFoam">4</output><input type="range" id="seatFoam" min="1" max="6" step="0.5" value="4"></div>
+      <div class="ctl" data-adv><label for="seatFoam">Seat foam</label><output for="seatFoam">4</output><input type="range" id="seatFoam" min="1" max="6" step="0.5" value="4"></div>
       <div class="ctl"><label for="rimH">Rim / backrest top</label><output for="rimH">25</output><input type="range" id="rimH" min="20" max="34" step="0.5" value="25"></div>
-      <div class="ctl"><label for="backFoam">Back foam</label><output for="backFoam">2</output><input type="range" id="backFoam" min="1" max="3" step="0.5" value="2"></div>
+      <div class="ctl" data-adv><label for="backFoam">Back foam</label><output for="backFoam">2</output><input type="range" id="backFoam" min="1" max="3" step="0.5" value="2"></div>
       <div class="ctl"><label for="backTilt">Back recline</label><output for="backTilt">15°</output><input type="range" id="backTilt" min="0" max="30" step="1" value="15"></div>
     </section>
 
@@ -63,7 +75,7 @@
       <h2>Pod</h2>
       <div class="ctl"><label for="podR">Pod radius</label><output for="podR">24</output><input type="range" id="podR" min="21" max="30" step="0.5" value="24"></div>
       <div class="ctl"><label for="riderAng">Rider angle from centre</label><output for="riderAng">40°</output><input type="range" id="riderAng" min="20" max="55" step="1" value="40"></div>
-      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
+      <div class="ctl" data-adv><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
     </section>
 
     <section>
@@ -99,7 +111,7 @@
     </section>
 
     <section>
-      <button id="copyObj" style="width:100%">Copy OBJ to clipboard</button>
+      <button id="copyObj" data-adv style="width:100%">Copy OBJ to clipboard</button>
       <p class="note">Riders are 50th-percentile adults: 15" hips, 18" shoulders, 23" buttock-to-knee, seated eye 31" above the seat. Cushions compress ~2" under load. One pod is shown at z = 0 on a 100" run of chassis rail, which sits 12" inboard of the pod centre line; the design moment is taken about that rail face (see loveseat-build for the full check).</p>
     </section>
   </aside>
@@ -303,9 +315,9 @@
       ['Shoulder gap', shGap.toFixed(1) + '"', shGap < 0],
       ['Hip gap', hipGap.toFixed(1) + '"', hipGap < 0],
       ['Knees past pod centre', kneePast.toFixed(1) + '"', kneePast > 0],
-      ['Cantilever moment, design (about the rail face, ×3)', Math.round(3 * (400 * (rb - 6 + P.inset) + 135 * (0.35 * P.podR + P.inset)) / 1000) + 'k in·lb'],
+      ['Cantilever moment, design (about the rail face, ×3)', Math.round(3 * (400 * (rb - 6 + P.inset) + 135 * (0.35 * P.podR + P.inset)) / 1000) + 'k in·lb', false, true],
     ];
-    $('readout').innerHTML = rows.map(([k, v, w]) => `<dt>${k}</dt><dd class="${w ? 'warn' : ''}">${v}</dd>`).join('');
+    $('readout').innerHTML = rows.map(([k, v, w, adv]) => `<dt class="${adv ? 'adv' : ''}">${k}</dt><dd class="${w ? 'warn' : ''}${adv ? ' adv' : ''}">${v}</dd>`).join('');
   }
 
   // ---------- controls ----------
@@ -378,6 +390,17 @@
     try { await navigator.clipboard.writeText(exportOBJ()); toast('OBJ copied — paste into a .obj file'); }
     catch (e) { toast('Clipboard blocked here; the OBJ is also in the repo'); }
   };
+
+  // ---- simple / advanced mode: #advanced in the URL opens the full control set; controls tagged data-adv hide in simple ----
+  function setMode(adv, push) {
+    $('app').classList.toggle('simple', !adv);
+    $('modeSimple').classList.toggle('on', !adv); $('modeAdv').classList.toggle('on', adv);
+    if (push) history.replaceState(null, '', location.pathname + location.search + (adv ? '#advanced' : ''));
+  }
+  $('modeSimple').onclick = () => setMode(false, true);
+  $('modeAdv').onclick = () => setMode(true, true);
+  window.addEventListener('hashchange', () => setMode(location.hash === '#advanced', false));
+  setMode(location.hash === '#advanced', false);
 
   build(); resize(); place();
   (function loop() { renderer.render(scene, camera); requestAnimationFrame(loop); })();

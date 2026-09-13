@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Art car v2 — plan of record</title>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="index.html">Art car v2</a>
+  <nav>
+    <a href="plan/drivetrain.html">Drivetrain</a>
+    <a href="plan/pods.html">Pods</a>
+    <a href="plan/roof.html">Roof</a>
+    <a href="plan/electrical.html">Electrical</a>
+    <a href="plan/specification.html">Specification</a>
+    <a href="plan/bom.html">BOM</a>
+    <a href="plan/construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="explorations.html">How we got here</a>
+    <a href="notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · revised 13 September 2026</p>
+<h1>Art car v2</h1>
+<p class="lede">A small custom electric chassis that drives onto a rented trailer under its own power, with six two-seat pods cantilevered off its sides and ends under a lit cloverleaf roof. Everything the riders sit on is a module that comes off for transport.</p>
+
+<h2>The goal</h2>
+<p>Replace the current car — a ~1,000 lb Taylor-Dunn burden carrier with a plywood body and nine PVC hoops — with a car built for how it is actually used: twelve people on the playa at 5 mph, at night, with the lights on, for a week, and then trailered home behind a rented RV. The riders sit two to a pod facing the car, low, with nothing above their shoulders, so the focus is on the art outside the car; the roof is one lit shape over all of them with solar on top; the floor kneels so people can step on and off.</p>
+<p>The chassis is deliberately small and plain: a welded steel rectangle with a hub motor and an air spring at each corner and the battery as a rolling sled underneath. All the character lives in the modules bolted to it — pods, stairs, roof — which is also what makes it fit on a 6 × 12 trailer and lets any one piece be rebuilt without touching the rest.</p>
+
+<h2>The constraints</h2>
+<p>These are fixed. Every design decision below is downstream of them; the <a href="plan/specification.html">specification</a> carries the exact numbers.</p>
+<div class="cards constraints">
+  <div class="card"><h3>Transport</h3><p>U-Haul 6 × 12 ramp trailer (143″ × 72″ deck, 57″ ramp opening, 3,710 lb load, 1,810 lb on the ramp) towed by a rented Cruise America 30′ RV. Target gross trailer weight 5,000 lb: trailer 2,290 + car ≈ 2,740 = ≈ 5,030 before cargo, so the battery sled and the loose modules ride in the RV.</p></div>
+  <div class="card"><h3>Chassis envelope</h3><p>At most 54″ × 120″. The bare car has to drive up the 57″ ramp on its own wheels, so the deck stays at the chassis width and everything wider is a demountable module hung outside it.</p></div>
+  <div class="card"><h3>Playa</h3><p>BRC speed limit 5 mph, day and night. Mutant-vehicle licensing: radically modified appearance, conventional steering, lit perimeter after dark. The 36–48″ guardrail rule applies to levels 84″ or more above the playa — the pod floors are 24″, so rim heights are a design choice; any stairs need a secure railing. Dust: anything unsealed dies.</p></div>
+  <div class="card"><h3>Service and shop</h3><p>Any corner swappable on the playa with a jack and hand tools; carry a spare. MIG-welded steel throughout the load path; a laser cutter with a 19 × 11″ bed for panels; every module lifted onto the car by two people.</p></div>
+</div>
+
+<h2>What it looks like</h2>
+<figure>
+  <img src="img/reference-pods.jpg" alt="Selina's rendering of the pod concept: six lit two-seat pods cantilevered off a small chassis under a round solar roof at dusk on the playa">
+  <figcaption>Selina's rendering of the pod concept (design 2). The plan of record keeps the pods, the lit rims, the boarding step and the solar roof; the disc roof has since become a cloverleaf, and the pods are U-shaped in plan so a stair module fits between them.</figcaption>
+</figure>
+<figure>
+  <img src="img/model-iso.png" alt="Screenshot of the chassis model: six U-shaped pods with riders, driver pod with a steering wheel at the front, a stair module at the walkway, and a cloverleaf roof of six overlapping leaves carrying solar panels">
+  <figcaption>The parametric chassis model as of 13 September 2026 — <a href="model/frame-3d.html">open it</a> to orbit, change the roof or the pods, and read the numbers. Cloverleaf roof with twelve flex panels, six U-pods, the driver pod at the front, a stair module in the walkway slot.</figcaption>
+</figure>
+
+<h2>The systems</h2>
+<p>Each system has its own page: what it is, what has been decided, the key numbers, the model that draws it, and what is still open.</p>
+<div class="cards">
+  <div class="card">
+    <h3><a href="plan/drivetrain.html">Drivetrain</a></h3>
+    <p>A 54 × 120″ welded steel ladder frame with four independent hub-motor corners on trailing arms and air springs, front steering on inclined kingpins, hydraulic brakes and a ~5.6″ kneel. The battery sled rolls under and bolts up.</p>
+    <p class="nums">Four QS205 car hub motors · 66″ wheelbase, 43″ track · D2500 air springs · ~2,740 lb as drawn</p>
+    <div class="links"><a href="plan/drivetrain.html">Read more →</a><a href="model/frame-3d.html">Chassis model</a><a href="model/drivetrain-3d.html">Drivetrain study</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/pods.html">The pods</a></h3>
+    <p>Six 48″ two-seat loveseats, each a welded steel frame on two hitch-receiver arms that slide into the chassis rail, with a ply shell and a lit diffuser wall. Riders face the car. The front pod is the driver's, turned round with pedals, a wheel and a gate.</p>
+    <p class="nums">U-shaped, 48 × 36″ · ~128 lb each · 25″ rim · 12 light modules per pod</p>
+    <div class="links"><a href="plan/pods.html">Read more →</a><a href="model/loveseat-build.html">Pod build model</a><a href="model/loveseat-3d.html">Ergonomics</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/roof.html">The roof</a></h3>
+    <p>Six overlapping leaves, one over each pod, as two aluminium halves on eight posts at the leaf valleys, with a 3″ lit rim around the edge and two flex solar panels per leaf. Ottoman benches in the aisle under it.</p>
+    <p class="nums">Leaves r = 32″ · rim top at 102″ · ~1,700 rim LEDs · 12 × 100 W · ~210 lb</p>
+    <div class="links"><a href="plan/roof.html">Read more →</a><a href="model/frame-3d.html">Chassis model</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/electrical.html">Electrical</a></h3>
+    <p>A 48 V LiFePO4 sled (two 16S strings of EVE LF280K, 28.7 kWh nominal) feeding four FOC controllers; 12 V rails per lighting zone through DC-DC; ~5,000 addressable LEDs; 1.2 kW of roof solar; nightly generator charging at camp.</p>
+    <p class="nums">51.2 V nominal · 23–26 kWh usable · 4.4–16 kWh per night · 9–11 h to recharge</p>
+    <div class="links"><a href="plan/electrical.html">Read more →</a><a href="model/drivetrain-3d.html#advanced">Range calculator</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/specification.html">Specification</a></h3>
+    <p>Every governing number in one place — envelope, weights and corner loads, wheel and steering geometry, kneel, pod and roof dimensions, pack, transport and BRC — with where each one comes from.</p>
+    <div class="links"><a href="plan/specification.html">Read more →</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/bom.html">Bill of materials</a></h3>
+    <p>What gets bought, what gets welded and cut, and what needs a machine shop, with candidate parts and rough costs per system.</p>
+    <p class="nums">Corners ~$4–6.5k · pack ~$3.6k DIY · pods ~$5.3k · roof, brakes, air, wiring on top</p>
+    <div class="links"><a href="plan/bom.html">Read more →</a></div>
+  </div>
+  <div class="card">
+    <h3><a href="plan/construction.html">Construction</a></h3>
+    <p>The order things get built and proven — one front corner and a rack fixture first, then one pod weighed before the other five — plus how the car travels as modules and goes back together at camp.</p>
+    <div class="links"><a href="plan/construction.html">Read more →</a><a href="model/frame-3d.html">Trailer view</a></div>
+  </div>
+</div>
+
+<h2>The models</h2>
+<p>Four interactive models draw the car from the same numbers the pages quote. Each opens in a <b>simple</b> mode with only the controls a visual designer would want to move; <b>advanced</b> adds every parameter and the full engineering readout. Nothing to install — open the file in a browser.</p>
+<ul class="models">
+  <li><span class="m">model/frame-3d.html</span> — the whole car: frame, corners, steering, pods, stairs, roof, battery sled, and a trailer-stack view. <a href="model/frame-3d.html">simple</a> · <a href="model/frame-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/loveseat-build.html</span> — one pod, every tube and panel, with weight, cost and a cut list; driver-pod toggle. <a href="model/loveseat-build.html">simple</a> · <a href="model/loveseat-build.html#advanced">advanced</a></li>
+  <li><span class="m">model/loveseat-3d.html</span> — the seat ergonomics: two riders in a pod, seat and rim heights, fit. <a href="model/loveseat-3d.html">simple</a> · <a href="model/loveseat-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/drivetrain-3d.html</span> — the corners, steering linkage and battery sled as buy / fabricate / machine parts, with a torque and range calculator. <a href="model/drivetrain-3d.html">simple</a> · <a href="model/drivetrain-3d.html#advanced">advanced</a></li>
+</ul>
+
+<h2>How we got here</h2>
+<p>The plan above is where the project stands; it is not where it started. <a href="explorations.html">How we got here</a> keeps the nine body concepts Selina rendered, the core-shape and roof studies, the alternatives that were modelled and set aside, and a dated decision log. The underlying working documents are still here too: the <a href="notebook/art-car-design-notebook.html">design notebook</a> (constraints, chassis concept, battery, the volumetric study of all nine concepts), the <a href="loveseat.md">pod design notes</a>, and the <a href="model/drivetrain-review.md">drivetrain review</a> with its <a href="model/drivetrain-review-response.md">response</a>.</p>
+
+<footer class="src">Repository: <a href="https://github.com/zekekoch/art-car">github.com/zekekoch/art-car</a>. Renderings and sketches by Selina. Every number on these pages is an estimate from the models unless it cites a vendor sheet.</footer>
+</main>
+</body>
+</html>

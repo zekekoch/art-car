@@ -47,6 +47,9 @@
   .note { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 0; }
   #stage { position: relative; min-width: 0; background: var(--bg); }
   #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  .mode { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #app.simple [data-adv] { display: none !important; }
+  #app.simple .readout .adv { display: none; }
   #hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
   @media (max-width: 720px) {
     #app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -57,6 +60,14 @@
 <div id="app">
   <aside>
     <h1>Chassis frame<small>54" × 120" steel ladder · QS205 car hub motors on trailing arms, air springs · six pods · aluminium roof: rectangle, petals or cloverleaf · inches · rev 2026-09-13 after the drivetrain review</small></h1>
+
+    <section>
+      <div class="views mode">
+        <button id="modeSimple" type="button" class="on">Simple</button>
+        <button id="modeAdv" type="button">Advanced</button>
+      </div>
+      <p class="note" style="margin-top:6px">Simple shows the controls a designer would move: what is shown, the pod outline and spacing, the roof. Advanced adds the frame, wheels, suspension, steering and loads, and the full readout.</p>
+    </section>
 
     <section>
       <h2>Views</h2>
@@ -89,12 +100,12 @@
       </div>
       <div class="toggles" style="margin-top:6px">
         <label><input type="checkbox" id="stackMode"> stacked for transport — pods, stairs and roof piled on the bare car inside the trailer</label>
-        <label><input type="checkbox" id="stackArms"> arms stay on the pods (else pulled and stowed)</label>
+        <label data-adv><input type="checkbox" id="stackArms"> arms stay on the pods (else pulled and stowed)</label>
       </div>
-      <div class="ctl" style="margin-top:8px"><label for="cargoLb">Cargo on the trailer besides the car (e-bikes, spares, tools)</label><output for="cargoLb">250</output><input type="range" id="cargoLb" min="0" max="800" step="25" value="250"></div>
+      <div class="ctl" data-adv style="margin-top:8px"><label for="cargoLb">Cargo on the trailer besides the car (e-bikes, spares, tools)</label><output for="cargoLb">250</output><input type="range" id="cargoLb" min="0" max="800" step="25" value="250"></div>
     </section>
 
-    <section>
+    <section data-adv>
       <h2>Frame</h2>
       <div class="ctl"><label for="railInset">Side rail inset from envelope edge</label><output for="railInset">14</output><input type="range" id="railInset" min="0" max="16" step="0.5" value="14"></div>
       <div class="ctl"><label for="railH">Side rail height (2" wide tube)</label><output for="railH">4</output><input type="range" id="railH" min="2" max="6" step="0.5" value="4"></div>
@@ -111,21 +122,21 @@
         <button id="psU" type="button" class="on">U · flat sides</button>
       </div>
       <div class="ctl"><label for="podX">Side pods, distance from centre (end pods follow, tangent)</label><output for="podX">33</output><input type="range" id="podX" min="24" max="40" step="0.5" value="33"></div>
-      <div class="ctl"><label for="podLegLen">U pods: leg length over the deck (48" × 36" outline stacks two across the trailer)</label><output for="podLegLen">12</output><input type="range" id="podLegLen" min="4" max="16" step="0.5" value="12"></div>
-      <div class="ctl"><label for="bump">Suspension bump travel to allow for</label><output for="bump">3</output><input type="range" id="bump" min="0" max="6" step="0.5" value="3"></div>
+      <div class="ctl" data-adv><label for="podLegLen">U pods: leg length over the deck (48" × 36" outline stacks two across the trailer)</label><output for="podLegLen">12</output><input type="range" id="podLegLen" min="4" max="16" step="0.5" value="12"></div>
+      <div class="ctl" data-adv><label for="bump">Suspension bump travel to allow for</label><output for="bump">3</output><input type="range" id="bump" min="0" max="6" step="0.5" value="3"></div>
       <div class="ctl"><label for="driverW">Driver pod: width (front end pod)</label><output for="driverW">52</output><input type="range" id="driverW" min="48" max="58" step="1" value="52"></div>
-      <div class="ctl"><label for="driverLeg">Driver pod: leg length (legs point forward, carry the pedal floor and the gate)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
+      <div class="ctl" data-adv><label for="driverLeg">Driver pod: leg length (legs point forward, carry the pedal floor and the gate)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
       <p class="note">U: a half round outboard, then straight sides back to the rail. Adjacent pods present two parallel faces and the walkway is a rectangular slot the stair fills flush; the pod also stacks as a 48" × 32" box instead of a 48" disc.</p>
     </section>
 
-    <section>
+    <section data-adv>
       <h2>Stairs</h2>
       <div class="ctl"><label for="stairDepth">Stair run, rail to bottom tread nose</label><output for="stairDepth">24</output><input type="range" id="stairDepth" min="16" max="40" step="1" value="24"></div>
       <div class="ctl"><label for="riserMax">Riser, max (sets the number of steps)</label><output for="riserMax">8</output><input type="range" id="riserMax" min="6" max="10" step="0.5" value="8"></div>
       <p class="note">One stair module per side, in the walkway slot at mid-length, on its own receiver stub at x = 0. Width is the slot minus 1". The deck is the top step; airbag kneel shortens the bottom riser.</p>
     </section>
 
-    <section>
+    <section data-adv>
       <h2>Wheel / motor</h2>
       <div class="ctl"><label for="wheelX">Axle distance from centre</label><output for="wheelX">33</output><input type="range" id="wheelX" min="24" max="54" step="0.5" value="33"></div>
       <div class="ctl"><label for="track">Track (hub centre to hub centre)</label><output for="track">43</output><input type="range" id="track" min="36" max="52" step="0.5" value="43"></div>
@@ -138,16 +149,16 @@
 
     <section>
       <h2>Trailing arm / air spring</h2>
-      <div class="ctl"><label for="armLen">Arm length, pivot to axle</label><output for="armLen">16</output><input type="range" id="armLen" min="8" max="22" step="0.5" value="16"></div>
-      <div class="ctl"><label for="pivotSpan">Pivot bearing spacing</label><output for="pivotSpan">10</output><input type="range" id="pivotSpan" min="4" max="14" step="0.5" value="10"></div>
-      <div class="ctl"><label for="springOff">Spring position, from axle toward pivot</label><output for="springOff">6</output><input type="range" id="springOff" min="0" max="14" step="0.5" value="6"></div>
-      <div class="ctl"><label for="springD">Spring diameter (Air Lift D2500 is 7")</label><output for="springD">7</output><input type="range" id="springD" min="4" max="8" step="0.25" value="7"></div>
-      <div class="ctl"><label for="legIn">Front A-arm: inner leg inboard of the kingpin plane</label><output for="legIn">4.5</output><input type="range" id="legIn" min="2" max="9" step="0.5" value="4.5"></div>
+      <div class="ctl" data-adv><label for="armLen">Arm length, pivot to axle</label><output for="armLen">16</output><input type="range" id="armLen" min="8" max="22" step="0.5" value="16"></div>
+      <div class="ctl" data-adv><label for="pivotSpan">Pivot bearing spacing</label><output for="pivotSpan">10</output><input type="range" id="pivotSpan" min="4" max="14" step="0.5" value="10"></div>
+      <div class="ctl" data-adv><label for="springOff">Spring position, from axle toward pivot</label><output for="springOff">6</output><input type="range" id="springOff" min="0" max="14" step="0.5" value="6"></div>
+      <div class="ctl" data-adv><label for="springD">Spring diameter (Air Lift D2500 is 7")</label><output for="springD">7</output><input type="range" id="springD" min="4" max="8" step="0.25" value="7"></div>
+      <div class="ctl" data-adv><label for="legIn">Front A-arm: inner leg inboard of the kingpin plane</label><output for="legIn">4.5</output><input type="range" id="legIn" min="2" max="9" step="0.5" value="4.5"></div>
       <div class="ctl"><label for="kneel">Kneel: frame dropped, wheels on the ground</label><output for="kneel">0</output><input type="range" id="kneel" min="-3" max="8" step="0.1" value="0"></div>
-      <p class="note">Bag height is measured from the geometry (arm swings about its pivot, the seat rides on the arm). Kneel and bump share the bag's stroke down to 2.8"; the readout lists every stop and the first one reached. Dampers, bump stops and the fender box are drawn as reserved envelopes.</p>
+      <p class="note" data-adv>Bag height is measured from the geometry (arm swings about its pivot, the seat rides on the arm). Kneel and bump share the bag's stroke down to 2.8"; the readout lists every stop and the first one reached. Dampers, bump stops and the fender box are drawn as reserved envelopes.</p>
     </section>
 
-    <section>
+    <section data-adv>
       <h2>Steering</h2>
       <div class="ctl"><label for="scrubHub">Kingpin inboard of the hub centre plane (scrub at hub height)</label><output for="scrubHub">8</output><input type="range" id="scrubHub" min="6.5" max="12" step="0.5" value="8"></div>
       <div class="ctl"><label for="kpi">Kingpin inclination (top inboard)</label><output for="kpi">12</output><input type="range" id="kpi" min="0" max="20" step="1" value="12"></div>
@@ -172,19 +183,19 @@
       <div class="ctl"><label for="leafX">Cloverleaf: side leaf centre, from the car centre (length)</label><output for="leafX">24</output><input type="range" id="leafX" min="12" max="40" step="0.5" value="24"></div>
       <div class="ctl"><label for="leafZ">Cloverleaf: side leaf centre, from the car centre (width)</label><output for="leafZ">21</output><input type="range" id="leafZ" min="8" max="30" step="0.5" value="21"></div>
       <div class="ctl"><label for="rimD">Cloverleaf: rim depth (lit fascia)</label><output for="rimD">3</output><input type="range" id="rimD" min="2" max="6" step="0.5" value="3"></div>
-      <div class="ctl"><label for="cPostXo">Cloverleaf: outer posts, from centre (length)</label><output for="cPostXo">50</output><input type="range" id="cPostXo" min="36" max="60" step="1" value="50"></div>
-      <div class="ctl"><label for="cPostXi">Cloverleaf: inner posts, from centre (length)</label><output for="cPostXi">10</output><input type="range" id="cPostXi" min="4" max="24" step="1" value="10"></div>
-      <div class="ctl"><label for="cPostZ">Cloverleaf: posts, from centre (width)</label><output for="cPostZ">13</output><input type="range" id="cPostZ" min="8" max="26" step="1" value="13"></div>
+      <div class="ctl" data-adv><label for="cPostXo">Cloverleaf: outer posts, from centre (length)</label><output for="cPostXo">50</output><input type="range" id="cPostXo" min="36" max="60" step="1" value="50"></div>
+      <div class="ctl" data-adv><label for="cPostXi">Cloverleaf: inner posts, from centre (length)</label><output for="cPostXi">10</output><input type="range" id="cPostXi" min="4" max="24" step="1" value="10"></div>
+      <div class="ctl" data-adv><label for="cPostZ">Cloverleaf: posts, from centre (width)</label><output for="cPostZ">13</output><input type="range" id="cPostZ" min="8" max="26" step="1" value="13"></div>
       <div class="toggles" style="margin-top:4px"><label><input type="checkbox" id="showOttoman" checked> ottoman benches in the aisle</label></div>
       <div class="ctl"><label for="ottomanW">Ottoman width</label><output for="ottomanW">18</output><input type="range" id="ottomanW" min="10" max="26" step="1" value="18"></div>
       <p class="note">Cloverleaf: six overlapping leaves, one over each pod, as two halves split at mid-length. Each half stands on four posts at the leaf valleys (outer pair at the frame corners, inner pair flanking the walkway, so they double as grab handles). The rim is a shallow box beam whose outboard face is the lit fascia; two 100 W flexible panels lie on each leaf. Leaves centred inboard of the pods close the hole over the aisle; slide leafX / leafZ to trade aisle cover against pod-rim cover.</p>
       <div class="ctl"><label for="roofOver">Rectangle: overhang past the deck</label><output for="roofOver">38</output><input type="range" id="roofOver" min="0" max="48" step="1" value="38"></div>
       <div class="ctl"><label for="petalOver">Petals: overhang past the pod rim</label><output for="petalOver">6</output><input type="range" id="petalOver" min="0" max="16" step="1" value="6"></div>
-      <div class="ctl"><label for="postX">Rectangle posts, distance from centre (length)</label><output for="postX">52</output><input type="range" id="postX" min="20" max="56" step="1" value="52"></div>
-      <div class="ctl"><label for="postZ">Rectangle posts, distance from centre (width)</label><output for="postZ">14</output><input type="range" id="postZ" min="8" max="26" step="1" value="14"></div>
+      <div class="ctl" data-adv><label for="postX">Rectangle posts, distance from centre (length)</label><output for="postX">52</output><input type="range" id="postX" min="20" max="56" step="1" value="52"></div>
+      <div class="ctl" data-adv><label for="postZ">Rectangle posts, distance from centre (width)</label><output for="postZ">14</output><input type="range" id="postZ" min="8" max="26" step="1" value="14"></div>
     </section>
 
-    <section>
+    <section data-adv>
       <h2>Corner loads</h2>
       <div class="ctl"><label for="cornerLoad">Vertical load on one corner (see the load cases in the readout)</label><output for="cornerLoad">1250</output><input type="range" id="cornerLoad" min="300" max="2500" step="50" value="1250"></div>
       <div class="ctl"><label for="sideLoad">Side load at the contact patch</label><output for="sideLoad">600</output><input type="range" id="sideLoad" min="100" max="1500" step="50" value="600"></div>
@@ -212,7 +223,7 @@
         <span><i style="background:#5a4632"></i>ottoman</span>
         <span><i style="background:#8e939c;opacity:.5"></i>trailer rails</span>
       </div>
-      <p class="note" style="margin-top:10px">Corners: QS205 car hub motors whose stationary shaft is clamped in a torque block (rear: on the L-arm; front: on a knuckle around an inclined kingpin), so every arm is single-sided on a wide pivot. The front arm's two legs both sit inboard of the tire's steering sweep. A rack behind the front axle drives fixed-length tie rods; the column runs under the end rail to the driver pod with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow loveseat.md; drivetrain-3d.html carries the detailed corner. Everything here is a proposal to argue with; see drivetrain-review.md and its response for what is and is not established.</p>
+      <p class="note" data-adv style="margin-top:10px">Corners: QS205 car hub motors whose stationary shaft is clamped in a torque block (rear: on the L-arm; front: on a knuckle around an inclined kingpin), so every arm is single-sided on a wide pivot. The front arm's two legs both sit inboard of the tire's steering sweep. A rack behind the front axle drives fixed-length tie rods; the column runs under the end rail to the driver pod with a quick-disconnect at the pod joint (red ring). Pods, riders and roof follow loveseat.md; drivetrain-3d.html carries the detailed corner. Everything here is a proposal to argue with; see drivetrain-review.md and its response for what is and is not established.</p>
     </section>
   </aside>
 
@@ -960,9 +971,10 @@
 
   function readout(g) {
     const rows = [];
-    const add = (k, v, cls) => rows.push(`<dt>${k}</dt><dd class="${cls || ''}">${v}</dd>`);
-    const sub = (k, v, cls) => rows.push(`<dt class="sub">${k}</dt><dd class="sub ${cls || ''}">${v}</dd>`);
-    const head = t => rows.push(`<dt class="head">${t}</dt><dd class="head"></dd>`);
+    let advGrp = false;                                                                         // rows in an advanced group (or flagged adv) hide in simple mode
+    const add = (k, v, cls, adv) => { const a = advGrp || adv ? ' adv' : ''; rows.push(`<dt class="${a}">${k}</dt><dd class="${cls || ''}${a}">${v}</dd>`); };
+    const sub = (k, v, cls, adv) => { const a = advGrp || adv ? ' adv' : ''; rows.push(`<dt class="sub${a}">${k}</dt><dd class="sub ${cls || ''}${a}">${v}</dd>`); };
+    const head = (t, adv) => { advGrp = !!adv; const a = adv ? ' adv' : ''; rows.push(`<dt class="head${a}">${t}</dt><dd class="head${a}"></dd>`); };
     const flag = (ok, warnOnly) => ok ? '' : (warnOnly ? 'warn' : 'bad');
     const deg = r => (r / D2R).toFixed(1) + '°';
     const L = 2 * P.wheelX, T = P.track;
@@ -991,8 +1003,8 @@
     head('Layout');
     add('Wheelbase / track', `${L.toFixed(1)}" / ${T.toFixed(1)}"`);
     const tireOut = T / 2 + P.tireW / 2;
-    add('Tire outer face vs 27" envelope', `${tireOut.toFixed(1)}"`, flag(tireOut <= P.deckW / 2));
-    add('Arm pivot vs end of frame', `${g.pivotX.toFixed(1)}" / ${(P.deckL / 2 - 1.25).toFixed(2)}"`, flag(g.pivotX <= P.deckL / 2 - 1.25));
+    add('Tire outer face vs 27" envelope', `${tireOut.toFixed(1)}"`, flag(tireOut <= P.deckW / 2), true);
+    add('Arm pivot vs end of frame', `${g.pivotX.toFixed(1)}" / ${(P.deckL / 2 - 1.25).toFixed(2)}"`, flag(g.pivotX <= P.deckL / 2 - 1.25), true);
     const walk = 2 * P.podX - 2 * P.podR;
     add('Walkway between side pods', `${walk.toFixed(0)}"`, flag(walk >= 18, walk >= 12));
     const frontEnd = P.frontPodX + P.driverLeg;
@@ -1010,7 +1022,7 @@
     add('Pod rim above the pod floor', `${rimAboveFloor.toFixed(0)}" (floor ${g.podFloor.toFixed(0)}" above the playa)`, flag(!elevated || rimAboveFloor >= 36));
     sub('BRC: 36–48" perimeter guardrails apply to levels 84" or more above the playa; any stairs must have a secure railing', elevated ? 'elevated level: guardrails required' : 'not an elevated level — the 26" rims and 12" driver gate are design choices; give the stair module a handrail');
 
-    head('Suspension · kneel ' + g.kneel.toFixed(1) + '"');
+    head('Suspension · kneel ' + g.kneel.toFixed(1) + '"', true);
     add('Air spring (D2500 7" bag): height at ride / now', `${g.bagH0.toFixed(2)}" / ${g.bagH.toFixed(2)}"`, flag(g.bagH >= P.bagMin && g.bagH0 >= 5.5 && g.bagH0 <= 7.5, g.bagH >= P.bagMin));
     sub('design range 5.5–7.5", limits 2.8–10.5"', `stroke to the stops: ${(g.bagH0 - P.bagMin).toFixed(1)}" down / ${(10.5 - g.bagH0).toFixed(1)}" up`);
     sub('motion ratio (bag travel ÷ wheel travel)', `${g.motionRatio.toFixed(3)} · bag force ≈ ${(1 / g.motionRatio).toFixed(2)} × sprung corner load`);
@@ -1036,7 +1048,7 @@
     add('Rear spring to tire sidewall', `${rearSpringClear.toFixed(1)}"`, flag(rearSpringClear >= 0.5, rearSpringClear >= 0));
     if (g.clashNow.length) add('Tire intersection at this position', g.clashNow.join(', '), 'bad');
 
-    head('Steering · rack ' + P.rackTravel.toFixed(2) + '"');
+    head('Steering · rack ' + P.rackTravel.toFixed(2) + '"', true);
     const st = g.steer, closed = st.L.ok && st.R.ok;
     add('Wheel angles, left / right (solved from fixed-length rods)', closed ? `${deg(st.L.th)} / ${deg(st.R.th)}` : 'NO SOLUTION — rods cannot close here', flag(closed));
     if (closed && Math.abs(P.rackTravel) > 0.01) {
@@ -1060,7 +1072,7 @@
     add(`Kingpin bending at ${V} lb vertical + ${S} lb side`, `${kpM.toFixed(0)} in·lb → ${(kpM / kpS / 1000).toFixed(0)} ksi in a ${P.kpD}" pin`, flag(kpM / kpS <= 30000, kpM / kpS <= 46000));
     sub('kingpin bushings 7.5" apart, couple only', `${(kpM / 7.5).toFixed(0)} lb each — not a bearing rating`);
 
-    head('Pivots · ' + V + ' lb corner, ' + S + ' lb side');
+    head('Pivots · ' + V + ' lb corner, ' + S + ' lb side', true);
     const rearOff = T / 2 - g.zArmR;
     add('Rear pivot: moment couple ÷ bearing spacing', `${((S * Rr + V * rearOff) / P.pivotSpan).toFixed(0)} lb per bearing`);
     add('Front pivot: moment couple ÷ bearing spacing', `${((S * Rr + V * g.scrubHub) / P.pivotSpan).toFixed(0)} lb per bearing`);
@@ -1071,13 +1083,13 @@
     const groups = {};
     for (const i of items) { const k = i.group || i.n; groups[k] = (groups[k] || 0) + i.lb; }
     for (const [k, v] of Object.entries(groups)) sub(k, `${v.toFixed(0)}`);
-    sub('frame tube detail', FRAME_KEYS.filter(k => steel.lengths[k]).map(k => `${SECTIONS[k].name.split(' ')[0]} ${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)}`).join(' · '));
-    add('Load cases → heaviest corner', `${worst.toFixed(0)} lb`, flag(worst <= 1300, worst <= 1600));
-    for (const c of cases) sub(`${c.n}: ${c.W.toFixed(0)} lb, ${(c.front * 100).toFixed(0)}% front`, `corners ${c.c4.FL.toFixed(0)} / ${c.c4.FR.toFixed(0)} · ${c.c4.RL.toFixed(0)} / ${c.c4.RR.toFixed(0)}${c.min < 0 ? ' — a wheel lifts' : ''}`, flag(c.min >= 0.1 * c.W, c.min >= 0));
+    sub('frame tube detail', FRAME_KEYS.filter(k => steel.lengths[k]).map(k => `${SECTIONS[k].name.split(' ')[0]} ${(steel.lengths[k] / 12 * SECTIONS[k].w).toFixed(0)}`).join(' · '), '', true);
+    add('Load cases → heaviest corner', `${worst.toFixed(0)} lb`, flag(worst <= 1300, worst <= 1600), true);
+    for (const c of cases) sub(`${c.n}: ${c.W.toFixed(0)} lb, ${(c.front * 100).toFixed(0)}% front`, `corners ${c.c4.FL.toFixed(0)} / ${c.c4.FR.toFixed(0)} · ${c.c4.RL.toFixed(0)} / ${c.c4.RR.toFixed(0)}${c.min < 0 ? ' — a wheel lifts' : ''}`, flag(c.min >= 0.1 * c.W, c.min >= 0), true);
     const full = cases[1], latG = full.yc > 0 ? (T / 2 - Math.abs(full.zc)) / full.yc : 0;
-    add('Static roll threshold, 12 seated (CG ' + full.yc.toFixed(0) + '" up)', `${latG.toFixed(2)} g lateral`, flag(latG >= 0.4, latG >= 0.3));
-    sub('lateral g at 5 mph on the lock radius · one wheel 4" in a rut', innerLock > 0.01 ? `${(7.33 ** 2 / (L / Math.tan(innerLock) / 12) / 32.2).toFixed(2)} g · ${(full.yc * Math.sin(Math.atan(4 / T))).toFixed(1)}" CG shift` : '—');
-    sub('the corner-load slider should sit at or above the heaviest case', `${P.cornerLoad} lb`, flag(P.cornerLoad >= worst, P.cornerLoad >= 0.9 * worst));
+    add('Static roll threshold, 12 seated (CG ' + full.yc.toFixed(0) + '" up)', `${latG.toFixed(2)} g lateral`, flag(latG >= 0.4, latG >= 0.3), true);
+    sub('lateral g at 5 mph on the lock radius · one wheel 4" in a rut', innerLock > 0.01 ? `${(7.33 ** 2 / (L / Math.tan(innerLock) / 12) / 32.2).toFixed(2)} g · ${(full.yc * Math.sin(Math.atan(4 / T))).toFixed(1)}" CG shift` : '—', '', true);
+    sub('the corner-load slider should sit at or above the heaviest case', `${P.cornerLoad} lb`, flag(P.cornerLoad >= worst, P.cornerLoad >= 0.9 * worst), true);
 
     if (g.stack) {
       head('Transport');
@@ -1097,7 +1109,7 @@
       const gtw = carLb + P.trailerEmptyLb + P.cargoLb;
       add(`Gross trailer weight vs the ${P.towLimitLb} lb tow rating`, `≈ ${gtw.toFixed(0)} lb (${(gtw / P.towLimitLb * 100).toFixed(0)}%)`, flag(gtw <= P.towLimitLb * 0.9, gtw <= P.towLimitLb));
       sub(`trailer ${P.trailerEmptyLb} + car ${carLb.toFixed(0)} + cargo ${P.cargoLb}`, gtw > P.towLimitLb ? `${(gtw - P.towLimitLb).toFixed(0)} lb over — the sled (${P.sledLb} lb) and loose modules can ride in the RV` : `${(P.towLimitLb - gtw).toFixed(0)} lb spare`);
-      sub('tongue weight at 10–15 % of that', `${(gtw * 0.10).toFixed(0)}–${(gtw * 0.15).toFixed(0)} lb — check the hitch's tongue rating and place the car to suit`);
+      sub('tongue weight at 10–15 % of that', `${(gtw * 0.10).toFixed(0)}–${(gtw * 0.15).toFixed(0)} lb — check the hitch's tongue rating and place the car to suit`, '', true);
       const inRV = P.sledLb + (P.showStair ? 2 * P.stairLb : 0) + (P.showOttoman ? 2 * WEIGHTS.ottoman : 0);
       sub('with the sled, stairs and ottomans in the RV instead', `≈ ${(gtw - inRV).toFixed(0)} lb on the trailer`, flag(gtw - inRV <= P.towLimitLb * 0.9, gtw - inRV <= P.towLimitLb));
     }
@@ -1163,6 +1175,16 @@
   for (const id of TOGGLES) $(id).addEventListener('change', e => { P[id] = e.target.checked; build(); });
   $('deckMat').addEventListener('change', e => { P.deckMat = e.target.value; build(); });
   window.frameModel = { P, build, geo: () => lastGeo, setParams: p => { Object.assign(P, p); build(); } };
+  // ---- simple / advanced mode: #advanced in the URL opens the full control set; controls tagged data-adv hide in simple ----
+  function setMode(adv, push) {
+    $('app').classList.toggle('simple', !adv);
+    $('modeSimple').classList.toggle('on', !adv); $('modeAdv').classList.toggle('on', adv);
+    if (push) history.replaceState(null, '', location.pathname + location.search + (adv ? '#advanced' : ''));
+  }
+  $('modeSimple').addEventListener('click', () => setMode(false, true));
+  $('modeAdv').addEventListener('click', () => setMode(true, true));
+  window.addEventListener('hashchange', () => setMode(location.hash === '#advanced', false));
+  setMode(location.hash === '#advanced', false);
   const STYLES = [['rsRect', 'rect'], ['rsPetals', 'petals'], ['rsClover', 'clover']];
   for (const [id, style] of STYLES) $(id).addEventListener('click', () => {
     P.roofStyle = style; for (const [i2, s2] of STYLES) $(i2).classList.toggle('on', s2 === style); build();

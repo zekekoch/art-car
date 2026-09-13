@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Specification — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a href="electrical.html">Electrical</a>
+    <a class="here" href="specification.html">Specification</a>
+    <a href="bom.html">BOM</a>
+    <a href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · specification · rev 13 September 2026</p>
+<h1>Specification</h1>
+<p class="lede">The governing numbers in one place. Everything here is an estimate from the models unless it names a vendor sheet or a rule; the system pages say why each number is what it is, and the models' advanced readouts recompute them when a slider moves.</p>
+
+<h2>Envelope and layout</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Chassis envelope</td><td>≤ 54 × 120″ (4.5 × 10 ft); deck at 24″ above the playa</td><td>constraint (57″ ramp), README</td></tr>
+<tr><td>Side rails</td><td>2 × 4″ tube at ±12″ (14″ in from the envelope edge); receiver sleeves 2½ × 3½″ through the rails at deck level</td><td>frame-3d</td></tr>
+<tr><td>Wheelbase / track</td><td>66″ (axles at ±33″) / 43″ hub to hub; tire outer faces at 53″</td><td>frame-3d</td></tr>
+<tr><td>Pods</td><td>six, r = 24″, U-shaped 48 × 36″ (driver 52 × 42″); side pods at (±33, ±27), end pods tangent; walkway slot 18″</td><td>frame-3d, loveseat.md</td></tr>
+<tr><td>Overall footprint with pods</td><td>~188″ long (rear rim ~−97″, driver gate ~+91″) × 102″ wide</td><td>loveseat.md, frame-3d readout</td></tr>
+<tr><td>Heights</td><td>pod floor 24″ (~18.4″ kneeled); seat ~41″; pod rim ~50″; seated eyes ~70″; roof underside 99″, rim top 102″</td><td>loveseat.md, frame-3d</td></tr>
+<tr><td>Riders</td><td>12 seated (two per pod), 4–6 more briefly on the ottomans; driver in the front pod</td><td>plan</td></tr>
+</table></div>
+
+<h2>Weights and loads</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Car as drawn, no riders</td><td>≈ 2,740 lb: frame 365, deck 55, sled 475, four corners 485, electrics 170, pods 860, roof 210, stairs 70, ottomans 50</td><td>frame-3d weights readout</td></tr>
+<tr><td>Bare car (drives up the ramp)</td><td>≈ 1,550 lb with the sled, ≈ 1,050 without; ramp rated 1,810 lb</td><td>frame-3d transport readout</td></tr>
+<tr><td>Gross, 12 seated</td><td>≈ 5,140 lb (200 lb per rider)</td><td>frame-3d</td></tr>
+<tr><td>Corner loads</td><td>empty ~700 / 660; 12 seated ~1,235 / 1,325; 16 aboard ~1,435 / 1,525; 6 on one side 570 inside / 1,400 outside; 12 + 4 crowded at the rear 1,130 / 1,830</td><td>frame-3d load cases</td></tr>
+<tr><td>Design corner load</td><td>1,350 lb vertical + 600 lb side for the kingpin and pivot sizing; the crowded-rear case exceeds it</td><td>frame-3d</td></tr>
+<tr><td>Static roll threshold</td><td>~0.56 g lateral with 12 seated (CG from the model)</td><td>frame-3d</td></tr>
+<tr><td>Pod cantilever</td><td>~12,500 in·lb static per passenger pod about the rail face; design ×3 = 37,500; driver pod ~14,700 static about the end rail</td><td>loveseat.md load case</td></tr>
+<tr><td>Pod weight</td><td>~128 lb per passenger pod, ~200 lb driver pod; six pods ~765 lb (the chassis model allows 135 / 185)</td><td>loveseat-build</td></tr>
+</table></div>
+
+<h2>Drivetrain, suspension and steering</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Motors</td><td>4 × QS205 car variant (50H V3), 3 kW class, 16 kg, stationary shaft in a torque block, 4 × 100 flange (to be confirmed)</td><td>QS pages; notebook §3</td></tr>
+<tr><td>Wheels and tires</td><td>12 × 8.5 rims; Carlstar 23 × 10.50-12 turf, 22.5 × 10.2″ mounted, 798 kg rated</td><td>Carlstar sheet</td></tr>
+<tr><td>Speed</td><td>5 mph operating (BRC), 84 rpm at the wheel</td><td>BRC</td></tr>
+<tr><td>Torque per wheel</td><td>12 seated: 49 / 99 / 165 N·m at C<sub>rr</sub> 0.03 / 0.06 / 0.10; +33 for 2 % grade; +25 for 0.15 m/s²</td><td>notebook §3</td></tr>
+<tr><td>Controllers</td><td>4 × 48 V FOC, Kelly KLS4830S class: 30–62 V, 120 A continuous, 300 A boost</td><td>notebook §3</td></tr>
+<tr><td>Corner module</td><td>16″ trailing arm, 10″ pivot span; Air Lift D2500 (7″, 2.8–10.5″, design 5.5–7.5″, 2,096 lb) seated 10″ from the pivot, installed ~6.25″; motion ratio 0.625; separate damper, bump stop, droop strap; unsprung ~110 lb</td><td>frame-3d</td></tr>
+<tr><td>Kneel</td><td>~5.6″ available (bag bottoms 6.0″, tire chord meets sleeves 5.6″, sled 3″ off the ground at 6.5″, fender 7″); bump reserve shares the same 3.5″ of bag stroke</td><td>frame-3d</td></tr>
+<tr><td>Wheel wells</td><td>deck and pod floor cut out over the tires; 6″ fender/footrest box in the pod foot space</td><td>frame-3d, loveseat.md</td></tr>
+<tr><td>Steering</td><td>kingpins 8″ inboard of the hub centre, 12° inclination, scrub ~5.6″ at the ground, 1¾″ pins; steering arms forward and outward; rack at the ball-joint station, ±2.5″ travel, fixed-length tie rods</td><td>frame-3d</td></tr>
+<tr><td>Lock and radius</td><td>22° inner / 21° outer; ~15.5 ft to the outside tire; Ackermann 1.5° under ideal; toe change 1.4° over ±3″ of travel</td><td>frame-3d, verify.cjs</td></tr>
+<tr><td>Kingpin bending</td><td>~14,300 in·lb → 27 ksi at 1,350 lb vertical + 600 lb side</td><td>frame-3d</td></tr>
+<tr><td>Brakes</td><td>service: pedal, tandem master cylinder, four hydraulic calipers; parking: hand lever to two rear mechanical calipers; regen on throttle lift</td><td>loveseat.md driver pod</td></tr>
+</table></div>
+
+<h2>Pods</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Mount</td><td>two 2 × 3 × 0.188″ arms on edge, 28″ apart, 13″ engaged; hitch pins + anti-rattle wedges; ~14 ksi at the design moment (30 % of 46 ksi yield); sleeve couple ~1,400 lb per arm end</td><td>loveseat.md</td></tr>
+<tr><td>Frame</td><td>¾ × 0.065″ square steel (posts 1″); 1 × 2 × 0.065″ front chord; welded with the arms as one unit</td><td>loveseat.md structure</td></tr>
+<tr><td>Seat</td><td>17″ uncompressed / ~15″ loaded, 20″ deep, ~5° tilt; 11 × ½ × 2½″ birch slats; 4″ HR or closed-cell foam</td><td>loveseat.md</td></tr>
+<tr><td>Rim / backrest</td><td>25″ above the pod floor; backrest ¼″ ply at 15° with 2″ foam; fabric band 6″ at the top of the wall</td><td>loveseat.md</td></tr>
+<tr><td>Wall</td><td>six 30° facets on the arc; twelve ¼″-ply light modules (two per bay) ~12.3 × 9.25 × 2″ with opal acrylic lids; two 4.5″ end consoles with one cup sleeve each</td><td>loveseat.md</td></tr>
+<tr><td>Ply</td><td>floor ⅜″; modules, consoles, kick ⅛″; backrest ¼″; one 5 × 5 sheet each of ½″, ⅜″, ¼″ and ⅛″ per pod</td><td>loveseat-build</td></tr>
+<tr><td>Fit at ±40°</td><td>~3.5″ shoulder gap, ~2.7″ hip gap; knees ~2″ past centre (feet on the deck)</td><td>loveseat-3d</td></tr>
+<tr><td>Driver pod</td><td>52″ wide, legs 16″, 12″ gate, fold-down step ~13″ above the playa, 13″ wheel 27″ above the floor, column ~16° from vertical; F/N/R and hand brake on the left console</td><td>loveseat.md driver pod</td></tr>
+<tr><td>Stairs</td><td>one per side at mid-length: 17″ wide, three 8″ risers, 24″ run; handrail required</td><td>frame-3d</td></tr>
+</table></div>
+
+<h2>Roof</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Cloverleaf</td><td>six leaves r = 32″ at (±24, ±21) and over the end pods; two halves; 8 posts at (±10, ±13) and (±50, ±13)</td><td>frame-3d</td></tr>
+<tr><td>Height / rim</td><td>rim top 102″, underside 99″; 3″ lit fascia, ~47 ft, ~1,700 LEDs in two rows</td><td>README</td></tr>
+<tr><td>Solar</td><td>12 × 41 × 21″ flex panels, ~100 W / 4.5 lb each: ~1.2 kW, ~54 lb</td><td>frame-3d</td></tr>
+<tr><td>Weight / transport</td><td>~155 lb aluminium tube + ~54 lb panels ≈ 210 lb; six pieces (four 56 × 53″ sides, two 64 × 64″ ends), ~30 lb each with panels</td><td>frame-3d</td></tr>
+<tr><td>Ottomans</td><td>two (46″ and 34″ long) × 18″ wide × 17″ high in the aisle, ~25 lb each; six extra seats</td><td>frame-3d</td></tr>
+</table></div>
+
+<h2>Electrical</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Pack</td><td>32 × EVE LF280K in 2 × 16S: 28.7 kWh nominal, 22.9–25.8 usable; 51.2 V nominal, 58.4 V full; ~7 kW continuous per string</td><td>notebook §4</td></tr>
+<tr><td>Sled</td><td>50 × 21 × 10.5″ reserved, ~475 lb, 5″ rearward of centre; 4 bolts, 2 × Anderson SB350, 1 comms plug; precharge in the sled</td><td>notebook §4, §7</td></tr>
+<tr><td>Bus</td><td>48 V drive; 12 V per lighting zone via DC-DC; 12 V air compressor</td><td>notebook §2</td></tr>
+<tr><td>Lighting</td><td>~530 LEDs per pod (~3,200 in six), ~1,740 in the roof rim; ~45 W typical / ~160 W max per pod; rim ~210 W typical / ~780 W full white</td><td>loveseat.md, README</td></tr>
+<tr><td>Energy</td><td>4.4–16 kWh per night net; 0.46 / 0.90 / 1.49 kWh per mile with 12 aboard; 40 / 21 / 12 miles per charge after 6 kWh of lights</td><td>notebook §4</td></tr>
+<tr><td>Charging</td><td>EU3200i → 48 V 40 A charger ≈ 2.2 kW: 9–11 h and 3–4 gal per night</td><td>notebook §4</td></tr>
+</table></div>
+
+<h2>Transport</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Trailer</td><td>U-Haul 6 × 12 ramp: 143 × 72″ deck, 57″ ramp opening, 30″ rails, 2,290 lb empty, 3,710 lb load, 1,810 lb on the ramp, 55 mph</td><td>U-Haul</td></tr>
+<tr><td>Tow vehicle</td><td>rented Cruise America 30′ (C30); target gross trailer weight 5,000 lb (used-unit rating; the rental contract's 2,500 lb never governed)</td><td>notebook §1</td></tr>
+<tr><td>Gross trailer weight</td><td>trailer 2,290 + car ≈ 2,740 = ≈ 5,030 before cargo; with the sled, stairs and ottomans in the RV ≈ 4,700 with ~250 lb of cargo</td><td>frame-3d transport readout</td></tr>
+<tr><td>Tongue weight</td><td>10–15 % of gross: 500–750 lb — check the hitch rating</td><td>notebook §1</td></tr>
+<tr><td>Stack</td><td>U pods four per layer, two layers; roof pieces flat on top; load tops out ~104″ above the trailer floor, ~128″ above ground (13′ 6″ legal); ramp 57″ vs 53″ tire faces</td><td>frame-3d trailer view</td></tr>
+</table></div>
+
+<h2>Rules</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Source</th></tr>
+<tr><td>Speed</td><td>5 mph, day and night</td><td>BRC</td></tr>
+<tr><td>Guardrails</td><td>36–48″ perimeter guardrail applies to levels ≥ 84″ above the playa; pod floors are 24″, so the 26″ rims and 12″ driver gate are design choices</td><td>MV Owner's Handbook (checked 13 Sep 2026)</td></tr>
+<tr><td>Stairs</td><td>any stairs must have a secure railing; the DMV reviews loading/unloading procedures</td><td>MV Owner's Handbook</td></tr>
+<tr><td>Licensing</td><td>mutant vehicle: radically modified appearance, conventional steering preferred, lit perimeter after dark; service and parking brakes checked</td><td>BRC DMV</td></tr>
+</table></div>
+
+<footer class="src">Sources: <a href="../README.md">README key numbers</a> · <a href="../notebook/art-car-design-notebook.html">notebook</a> · <a href="../loveseat.md">loveseat.md</a> · <a href="../model/frame-3d.html#advanced">frame-3d readout</a> · <a href="../model/loveseat-build.html#advanced">loveseat-build readout</a> · <a href="../model/drivetrain-review-response.md">review response</a></footer>
+</main>
+</body>
+</html>

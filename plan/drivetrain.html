@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Drivetrain — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a class="here" href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a href="electrical.html">Electrical</a>
+    <a href="specification.html">Specification</a>
+    <a href="bom.html">BOM</a>
+    <a href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · drivetrain · rev 13 September 2026</p>
+<h1>Drivetrain</h1>
+<p class="lede">A 54 × 120″ welded steel ladder frame with a bolt-on corner module at each end of each rail: a direct-drive hub motor in a trailing arm with an air spring and a damper above it. The front pair steer on inclined kingpins from a rack; hydraulic brakes on all four; the battery sled rolls under the middle and bolts up. The whole frame drops about 5.6″ on the airbags to kneel for boarding.</p>
+
+<figure>
+  <img src="../model/drivetrain/drivetrain-overview.png" alt="Drivetrain study: ladder frame, four hub motors on trailing arms, battery sled, rack and tie rods, driver controls, coloured by buy / fabricate / machine">
+  <figcaption>The drivetrain study (<a href="../model/drivetrain-3d.html">model/drivetrain-3d.html</a>) with parts coloured by how they get made: teal is bought, ochre is welded or cut, purple is machined. Rev 2, after the 12 September design review.</figcaption>
+</figure>
+
+<h2>What has been decided</h2>
+<ul class="decisions">
+  <li><b>Platform.</b> A welded steel ladder: two 2 × 4″ side rails 24″ apart (14″ in from the 54″ envelope edge, so the tire chord clears them at full lock), cross members, and 2½ × 3½″ receiver sleeves welded through the rails at deck level to carry the pods. The roof posts land on the frame, never on the pods. <span class="tag decided">decided</span></li>
+  <li><b>Drive.</b> Four independent 48 V hub motors, one per corner, traction and torque split by software; not skid steer. The candidate is the QS205 <em>car</em> variant (3 kW class, stationary shaft, rotating 4 × 100 flange) on a 12 × 8.5 rim with a Carlstar 23 × 10.50-12 turf tire, 22.5″ mounted. Direct drive because a 4,300 rpm motor would need ~50:1 of reduction to turn a 20″ wheel at 5 mph. <span class="tag direction">direction — pending vendor drawing</span></li>
+  <li><b>Wheel placement.</b> Axles at ±33″ so the wheels sit under the side pods (wheelbase 66″), track 43″ hub to hub, tire outer faces at 53″ so the bare car fits the 57″ ramp. Each side pod's two receiver arms are 28″ apart and straddle the tire, which is what lets the frame kneel until the tire comes up into the space under the seat. <span class="tag decided">decided</span></li>
+  <li><b>Corner module.</b> A 16″ trailing arm on a 10″-wide pivot with the motor's stationary shaft clamped in a torque block, an Air Lift Dominator D2500 (7″ bag, installed at ~6.25″) seated 10″ from the pivot for a 0.625 motion ratio, a separate damper, bump stop and droop strap. The front arm's two legs both sit inboard of the kingpin plane so the tire can sweep to lock; the rear is an L-arm beside the motor. Each corner comes off with one phase/hall connector, the air line, the brake hose, the damper, the torque-block clamp and (front) the tie-rod end. Carry one complete spare. <span class="tag direction">direction</span></li>
+  <li><b>Steering.</b> Kingpins 8″ inboard of the hub centre plane — about the least a single-sided hub motor allows — inclined 12° so the axis meets the ground ~5.6″ inboard of the contact patch; 1¾″ pins. Steering arms point forward and outward; the rack sits on the frame at the ball joints' own station and height with fixed-length tie rods, so the model solves the actual wheel angles: 22° inner / 21° outer at ±2.5″ of rack travel (1.5° under ideal Ackermann), ~15.5 ft to the outside tire, 1.4° of toe change over ±3″ of travel. <span class="tag direction">direction</span></li>
+  <li><b>Suspension and kneel.</b> Air springs for kneel, levelling on ruts and ride height for the ramp; never plumbed left/right together. As drawn the kneel is <b>~5.6″</b>: the bag bottoms at 6.0″ of drop through the motion ratio, the tire chord meets the receiver sleeves at 5.6″ as the axle walks toward its pivot, the sled is 3″ off the ground at 6.5″. Wheel wells in the deck and pod floors with a 6″ fender box in the pod foot space make that possible; without wells it is ~1″. <span class="tag decided">decided (wells)</span> <span class="tag open">spring choice open</span></li>
+  <li><b>Brakes.</b> Regen fades at walking pace and does nothing on a full pack, so there is a real service brake: a pedal on a tandem master cylinder under the driver's floor, hydraulic to four calipers, working with a tripped BMS. The hand lever beside the shifter is a mechanically held parking brake, cable to two rear calipers. The DMV checks for both. <span class="tag decided">decided</span> <span class="tag open">sizing open</span></li>
+  <li><b>Driver controls.</b> One spring-return throttle pedal with regen on lift, the brake pedal beside it, a dead pedal for the left foot; a three-position F / N / R lever wired to the controllers' direction and enable lines (software refuses a direction change unless the car is stopped; neutral disables the controllers so the car can be pushed around camp). Steering column runs under the driver pod's floor with a quick-disconnect at the rail. Both drivers are left-handed and the driver sits on the left, so the shifter and hand brake are on the left console. <span class="tag decided">decided</span></li>
+</ul>
+
+<h2>Key numbers</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Where it comes from</th></tr>
+<tr><td>Frame</td><td>54 × 120″ envelope; rails 2 × 4″ tube at ±12″; receivers 2½ × 3½″ through the rails, 28″ apart per side pod</td><td>frame-3d, README</td></tr>
+<tr><td>Wheelbase / track</td><td>66″ / 43″; tire faces at 53″</td><td>frame-3d layout readout</td></tr>
+<tr><td>Motor + wheel</td><td>QS205 car (50H V3), 3 kW class, 16 kg; 12 × 8.5 rim; Carlstar 23 × 10.50-12, 22.5 × 10.2″ mounted, 798 kg rated</td><td>notebook §3</td></tr>
+<tr><td>Speed</td><td>5 mph = 84 rpm on 22.5″ tires; 10 mph is a capability, not an operating speed</td><td>BRC rules; notebook §1</td></tr>
+<tr><td>Torque per wheel, 12 seated (2,350 kg)</td><td>49 / 99 / 165 N·m at C<sub>rr</sub> 0.03 / 0.06 / 0.10; +33 for a 2 % grade, +25 for 0.15 m/s²</td><td>notebook §3 scenario table</td></tr>
+<tr><td>Air spring</td><td>D2500: 2.8–10.5″ height, design 5.5–7.5″, 2,096 lb listed; motion ratio 0.625 so bag force ≈ 1.6 × sprung corner load</td><td>Air Lift sheet; frame-3d</td></tr>
+<tr><td>Kneel available</td><td>~5.6″ (bag 6.0″, sleeves 5.6″, sled 6.5″, fender 7″); pod floors 24″ → ~18.4″</td><td>frame-3d suspension readout</td></tr>
+<tr><td>Steering</td><td>kingpin 8″ inboard, 12° inclination, 1¾″ pin; rack ±2.5″; 22° inner lock; ~15.5 ft outside-tire radius; toe change 1.4° over ±3″</td><td>frame-3d steering readout</td></tr>
+<tr><td>Kingpin bending</td><td>~14,300 in·lb at a 1,350 lb corner with 600 lb of side load → 27 ksi</td><td>frame-3d</td></tr>
+<tr><td>Car as drawn, no riders</td><td>≈ 2,740 lb (frame 365, deck 55, sled 475, four corners 485, electrics 170, pods 860, roof 210, stairs 70, ottomans 50)</td><td>frame-3d weights readout</td></tr>
+<tr><td>Corner loads</td><td>empty ~700; 12 seated ~1,325; 16 aboard ~1,525; 12 seated + 4 crowded at the rear ~1,830 (exceeds the D2500)</td><td>frame-3d load cases</td></tr>
+<tr><td>Static roll threshold</td><td>~0.56 g lateral with 12 seated; six on one side leaves ~570 lb on each inside wheel</td><td>frame-3d</td></tr>
+</table></div>
+
+<h2>Models and drawings</h2>
+<ul class="models">
+  <li><span class="m">model/frame-3d.html</span> — the whole chassis with articulated arms, the steering solver, kneel, load cases and the trailer stack. <a href="../model/frame-3d.html">simple</a> · <a href="../model/frame-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/drivetrain-3d.html</span> — the corners, knuckles, rack and sled as buy / fabricate / machine parts; rack and kneel motion; exploded front corner; torque and range calculators; OBJ export for Blender. <a href="../model/drivetrain-3d.html">simple</a> · <a href="../model/drivetrain-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/drivetrain/</span> — saved diagrams (<a href="../model/drivetrain/drivetrain-front-corner.png">front corner</a>, <a href="../model/drivetrain/drivetrain-steering-plan.png">steering plan</a>), the OBJ/MTL export, and <code>verify.cjs</code>, which checks rod lengths, symmetry, toe, clashes and the kneel stops headlessly. <a href="../model/drivetrain/README.md">README</a></li>
+</ul>
+
+<h2>Open items</h2>
+<p>In the order they block the build:</p>
+<ol>
+  <li>Vendor data for the QS205 car motor: the drawing and wheel-end load rating for the exact variant (QS's pages disagree on voltage range, PCD, IP rating and peak torque); continuous torque and winding temperature at 75–85 rpm; allowable stall time; a rim that matches CB60 / 4 × 100 without re-drilling. Nothing gets machined before this arrives.</li>
+  <li>Spring choice for the crowded-rear corner load (D2600, or move the spring seat toward the axle) and the kneel that results.</li>
+  <li>Brake sizing and a matched rotor/caliper set for the hub (rotor diameter, thickness, offset, PCD and pad sweep must match the motor); a rack with ~5″ of travel.</li>
+  <li>Pivot and kingpin numbers in the models are moment-couple estimates for a first drawing, not bearing ratings; braking, drive torque and impact still need adding before bearings are chosen.</li>
+  <li>Rolling resistance on the playa and motor efficiency at 84 rpm have never been measured. One night with a coulomb counter on the current car and a crane scale on a tow rope settles both.</li>
+  <li>First physical prototype: one front corner plus a rack fixture, loaded to the corner reactions and cycled through travel and lock, before the chassis is frozen. Then the low-speed motor test.</li>
+</ol>
+
+<h2>How we got here</h2>
+<p>The chassis concept and corner module are sections 2 and 3 of the <a href="../notebook/art-car-design-notebook.html">design notebook</a>, which also has the honest low-speed torque discussion and why direct-drive hubs beat geared motors, AGV drive units and tractor motors. The 12 September <a href="../model/drivetrain-review.md">drivetrain review</a> found thirteen problems with the first version — mixed motor variants, an animated rather than solved steering linkage, an 8″ kneel that was really 5.6″, undercounted weights — and the <a href="../model/drivetrain-review-response.md">response</a> records what changed for each. The review also lays out the cheaper alternative, a rated utility-cart front axle and electric rear transaxle, which was not taken. Earlier alternatives (used Leaf modules, ATV 20 × 10-10 tires, a 10″ scrub radius) are on the <a href="../explorations.html">explorations page</a>.</p>
+
+<footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §1–3 · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> · <a href="../model/drivetrain-review-response.md">drivetrain-review-response.md</a> · <a href="../README.md">README key numbers</a> · <a href="../model/frame-3d.html#advanced">frame-3d readout</a></footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Construction — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a href="electrical.html">Electrical</a>
+    <a href="specification.html">Specification</a>
+    <a href="bom.html">BOM</a>
+    <a class="here" href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · construction · rev 13 September 2026</p>
+<h1>Construction</h1>
+<p class="lede">The order things get built and proven, what is made in the shop versus sent out, and how the car travels as modules and goes back together at camp. The rule throughout: prove one of everything on a jig before cutting the rest.</p>
+
+<h2>Build order</h2>
+<ol class="decisions">
+  <li><b>Measure the current car this year.</b> A coulomb counter on its pack and a phone GPS track for a night give Wh per mile all-in; a crane scale on a tow rope at walking pace gives rolling resistance on the playa. These two numbers size the motors and the pack and nobody has them.</li>
+  <li><b>Vendor data before any machining.</b> The QS205 car-motor drawing and wheel-end load rating for the exact variant; continuous torque and temperature at 75–85 rpm; the EVE cell revision's current rating; a rack with ~5″ of travel; brake rotors and calipers matched to the hub.</li>
+  <li><b>One front corner and a rack fixture.</b> Build a single front corner module — arm, knuckle on its inclined kingpin, torque block, D2500, damper — on a fixture with the rack, load it to the corner reactions and cycle it through travel and lock. This is where the sampled clearances in the model (tire vs rail, sleeves, arm legs, spring) get checked for real, before the chassis is frozen.</li>
+  <li><b>The low-speed motor test.</b> Run the corner at 75–85 rpm under load long enough to see the winding temperature settle.</li>
+  <li><b>One pod on a jig.</b> Bolt two receiver tubes to a straight bar at the real 28″ spacing, weld the arms with both inserted so they end up parallel, build the pod on it from the cut list, weigh it, and load-test the joint at the ×3 design moment (~37,500 in·lb). Then cut the other five.</li>
+  <li><b>The frame.</b> Ladder, cross members, receiver sleeves through the rails into the cross members, roof-post sockets, wheel wells in the deck. Stays in one piece: a split frame costs weight and stiffness. Line-ream the pivot bores after welding.</li>
+  <li><b>Corners, steering, brakes, sled.</b> Four corners plus the spare; rack, column and quick-disconnect; tandem master, pedal, calipers and the parking lever; the sled with its cart, contactors, precharge and plugs; controllers and the air system, calibrated at a known ride height.</li>
+  <li><b>Pods, stairs, roof, ottomans.</b> Five more passenger pods and the driver pod (sit in the cardboard mockup first); two stair modules with handrails; the roof halves; the aisle benches. Wire each module to one connector.</li>
+  <li><b>Assemble, load, drive.</b> Full assembly at home; the loading procedure written down for the DMV; a loaded drive with the corner-load and roll numbers checked against the model.</li>
+</ol>
+
+<h2>Shop, methods and materials</h2>
+<ul class="decisions">
+  <li><b>Steel for everything that carries people.</b> MIG-welded mild steel tube: cheapest, tolerant of abuse; watch fatigue at ungusseted welds and cap open tube ends. Galvanized (EMT) is out because it cannot be welded safely at home. <span class="tag decided">decided</span></li>
+  <li><b>Aluminium only where it is bolted.</b> The roof. It saves about half the weight but needs TIG and fatigues worse at welds. The aluminium pod frame in the model would use internal sleeves at every joint so only fastener heads show — kept as an option. <span class="tag decided">decided</span></li>
+  <li><b>Plywood as a stressed skin, not cladding.</b> Baltic birch, through-bolted or T-nutted (screws into end grain shake loose), every edge sealed. <span class="tag decided">decided</span></li>
+  <li><b>Laser-cut parts.</b> Every ply panel on a pod except the floor and seat pan is a laser part; the 19 × 11″ bed sets the module size (two per bay). Modules are bench-tested and identical, so a bad one gets swapped, not repaired on the playa. <span class="tag decided">decided</span></li>
+  <li><b>Playa materials.</b> Closed-cell or HR foam (never open-cell), solution-dyed acrylic or vinyl mesh fabric, polycarbonate over acrylic wherever there is a bolt hole and vibration, sealed bearings and connectors. <span class="tag decided">decided</span></li>
+  <li><b>Buy / fabricate / machine.</b> Buy the motors, controllers, springs, dampers, rack, brakes, cells and protection; weld and cut the frame, arms, towers, hangers, brackets, cradle and enclosure; send the concentrated set of precision parts — kingpin seats, thrust faces, torque blocks, pivot bores, rotor adapters — to a machine shop. No need to own a mill or lathe, but someone has to own those interfaces and tolerances. <span class="tag direction">direction</span></li>
+  <li><b>Pod build order</b> (from the notes): jig; floor frame flat on the table from the cut list's post coordinates with the arms underneath, slid into the chassis before anything goes up; posts plumb off the floor ring, top ring, back rail, seat chord, ribs, legs, tack, sit on it, weld out, paint; ply on T-nuts, LED rows, wiring down one post to a connector at the arm; diffuser last, then foam, then fabric. <span class="tag decided">decided</span></li>
+</ul>
+
+<h2>Transport and assembly at camp</h2>
+<figure>
+  <img src="../img/model-trailer.png" alt="Trailer view from the chassis model: the bare car inside the trailer outline with pods stacked two layers high on top, roof pieces flat above them and the stair modules alongside">
+  <figcaption>The trailer view in <a href="../model/frame-3d.html">frame-3d</a>: the bare car drives up the ramp, the pods stack four per layer on top, roof pieces go flat on the pods. The stack tops out ~104″ above the trailer floor (~128″ above the ground, 10.6 ft) and runs 138″ with the stairs against the 143″ deck; the readout checks it against the trailer, the ramp and the 13′ 6″ legal height.</figcaption>
+</figure>
+<p>The car travels as modules, each light enough to roll on and off the trailer by hand or winch, and is assembled at camp. The battery is its own rolling unit that goes under the car and bolts up.</p>
+<div class="scroll"><table>
+<tr><th>Module</th><th class="n">Weight</th><th>Moves how</th><th>Notes</th></tr>
+<tr><td>Chassis (frame, deck, four corners, steering, brakes, controllers)</td><td class="n">~1,050 lb; ~1,550 with the sled</td><td>Drives itself up the ramp, or winched</td><td>Fits 54 × 120″; 53″ over the tire faces through the 57″ ramp opening. With the sled fitted it is ~86 % of the ramp rating; rolling the sled off first makes the ramp comfortable.</td></tr>
+<tr><td>Battery sled</td><td class="n">~475 lb</td><td>Rolls on its own cart; rides in the RV</td><td>Car kneels onto it (or the cart lifts); four bolts, two SB350 plugs, one comms plug. Charges at home off the car.</td></tr>
+<tr><td>Pods (five passenger, one driver)</td><td class="n">~128 lb; ~200 driver</td><td>Dollies, two people; arms pulled and stowed</td><td>U pods stack 4 per layer, two layers on the trailer; a cradle at receiver height removes the lift. One connector per pod.</td></tr>
+<tr><td>Stairs and ottomans</td><td class="n">~35 and ~25 lb each</td><td>By hand; in the RV if the tow weight needs it</td><td>Stairs slide onto their receiver stubs at the walkway.</td></tr>
+<tr><td>Roof</td><td class="n">~30 lb per leaf piece with its panels</td><td>Six pieces flat on top of the pods</td><td>Same demount logic as the current hoops; panels (~54 lb) can ride in the RV.</td></tr>
+</table></div>
+<ul>
+  <li>Trailer + car ≈ 5,030 lb against the 5,000 lb tow target before cargo, so the sled, ottomans, stairs and panels ride in the RV (≈ 4,700 lb on the trailer with ~250 lb of cargo). Tongue weight 500–750 lb: check the hitch and place the car to suit.</li>
+  <li>The ramp is ~20° with the deck 24″ up; a ~$100 12 V winch on the tongue makes the cart and dollies a one-person job. Cart and dollies want 8–10″ wheels, and a couple of sheets of plywood to roll on at camp.</li>
+  <li>Assembly at camp: sled under, kneel, bolt up, plug in; pods slide in and pin (two pins each); stairs onto their stubs; roof halves onto the eight posts; one connector per module. Write the procedure down — the DMV reviews loading and unloading.</li>
+</ul>
+
+<h2>Models and drawings</h2>
+<ul class="models">
+  <li><span class="m">model/frame-3d.html</span> — the Trailer view stacks pods, stairs and roof on the bare car inside the trailer outline with a fit readout; the transport readout gives ramp, trailer and tow margins with a cargo slider. <a href="../model/frame-3d.html">simple</a> · <a href="../model/frame-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/loveseat-build.html</span> — "Cut list" prints every tube length, post coordinate and panel size for one pod; "Copy OBJ" exports the mesh for Blender or Fusion. <a href="../model/loveseat-build.html#advanced">advanced</a></li>
+  <li><span class="m">model/drivetrain-3d.html</span> — parts coloured buy / fabricate / machine, with a note on each; OBJ + MTL export in metres for CAD. <a href="../model/drivetrain-3d.html">simple</a> · <a href="../model/drivetrain-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/podcar_model.py</span> — the 1:12 cardboard model sheets for the Glowforge (score → inner cuts → outlines; 1/16″ cardboard, toothpick axles and pins).</li>
+</ul>
+
+<h2>Open items</h2>
+<ol>
+  <li>A schedule. Nothing here has a date yet; the long poles are the motor lead time (10–12 weeks direct) and the machining.</li>
+  <li>The jig for the receiver tubes and the fixture for the front corner and rack are the first things to build and are not designed.</li>
+  <li>Where the machining goes, and who checks the pivot and kingpin tolerances.</li>
+  <li>The loading/unloading procedure for the DMV, and the stair handrail.</li>
+</ol>
+
+<h2>How we got here</h2>
+<p>The transport and assembly plan is section 7 of the <a href="../notebook/art-car-design-notebook.html">notebook</a>, revised after the drivetrain review corrected the weights and the tow target. The pod build order, jig and materials reasoning are in <a href="../loveseat.md">loveseat.md</a>; the buy / fabricate / machine breakdown and the "prototype one corner first" recommendation come from the <a href="../model/drivetrain-review.md">drivetrain review</a> and its <a href="../model/drivetrain-review-response.md">response</a>.</p>
+
+<footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §1, §7, §8 · <a href="../loveseat.md">loveseat.md</a> · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> · <a href="../model/drivetrain-review-response.md">drivetrain-review-response.md</a></footer>
+</main>
+</body>
+</html>

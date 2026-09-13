@@ -42,6 +42,10 @@
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   #stage { position: relative; min-width: 0; }
   #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  .mode { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .mode button.on { border-color: var(--accent, #b78cff); color: var(--accent, #b78cff); }
+  #app.simple [data-adv] { display: none !important; }
+  #app.simple .readout .adv { display: none; }
   #hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
   #toast { position: absolute; top: 12px; right: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-size: 13px; opacity: 0; transition: opacity .2s; }
   #cutlist { position: absolute; inset: 12px 14px 40px 14px; background: rgba(16,18,22,.94); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; overflow: auto; display: none; }
@@ -59,8 +63,16 @@
     <h1>Pod loveseat · build<small>steel tube frame, ply shell, lit wall · U or D outline · inches · deck at 24" · rev 2026-09-13 after the drivetrain review</small></h1>
 
     <section>
+      <div class="views mode">
+        <button id="modeSimple" class="on">Simple</button>
+        <button id="modeAdv">Advanced</button>
+      </div>
+      <p class="note" style="margin-top:6px">Simple: the outline, wall, seat and rim heights, the driver pod and what is shown. Advanced: tube and ply sections, arms, modules, the chassis under the pod, the full readout and the cut list.</p>
+    </section>
+
+    <section>
       <h2>Structure</h2>
-      <div class="sel"><label for="tube">Frame tube</label><select id="tube">
+      <div class="sel" data-adv><label for="tube">Frame tube</label><select id="tube">
         <option value="1x1x0.065">1" sq × 0.065" wall</option>
         <option value="1x1x0.083">1" sq × 0.083" wall</option>
         <option value="0.75x0.75x0.065" selected>¾" sq × 0.065" wall</option>
@@ -68,16 +80,16 @@
         <option value="1x1x0.125 AL">1" sq × 0.125" aluminium (sleeved joints)</option>
         <option value="1.25x1.25x0.125 AL">1¼" sq × 0.125" aluminium (sleeved joints)</option>
       </select></div>
-      <div class="sel"><label for="wall">Wall structure</label><select id="wall">
+      <div class="sel" data-adv><label for="wall">Wall structure</label><select id="wall">
         <option value="steel" selected>Steel posts + rails, modules between</option>
         <option value="wood">Wood shell: ¼" module shells are the wall, ply rails</option>
       </select></div>
-      <div class="sel"><label for="postTube">Wall posts</label><select id="postTube">
+      <div class="sel" data-adv><label for="postTube">Wall posts</label><select id="postTube">
         <option value="1x1x0.065" selected>1" sq × 0.065" (flange landing)</option>
         <option value="0.75x0.75x0.065">¾" sq × 0.065"</option>
         <option value="1x1x0.125 AL">1" sq × 0.125" aluminium</option>
       </select></div>
-      <div class="sel"><label for="arm">Receiver arms</label><select id="arm">
+      <div class="sel" data-adv><label for="arm">Receiver arms</label><select id="arm">
         <option value="2x2x0.120">2" sq × 0.120" wall</option>
         <option value="2x2x0.188">2" sq × 0.188" wall</option>
         <option value="2x2x0.250">2" sq × 0.250" wall</option>
@@ -92,28 +104,28 @@
       <div class="ctl"><label for="wallSpan">D: wall span (U is always 180° + legs)</label><output for="wallSpan">210°</output><input type="range" id="wallSpan" min="180" max="230" step="5" value="210"></div>
       <div class="ctl"><label for="bandH">Fabric band height</label><output for="bandH">6</output><input type="range" id="bandH" min="3" max="10" step="0.5" value="6"></div>
       <div class="ctl"><label for="ledRows">LED rows on wall</label><output for="ledRows">4</output><input type="range" id="ledRows" min="0" max="8" step="1" value="4"></div>
-      <div class="sel"><label for="floorPly">Floor ply</label><select id="floorPly"><option value="0.25">¼" (add 2 joists)</option><option value="0.375" selected>⅜" Baltic birch</option><option value="0.5">½" Baltic birch</option><option value="0.75">¾" Baltic birch</option></select></div>
-      <div class="sel"><label for="innerPly">Wall inner ply</label><select id="innerPly"><option value="0.25" selected>¼" Baltic birch</option><option value="0.125">⅛" ply</option><option value="0.5">½" Baltic birch</option></select></div>
+      <div class="sel" data-adv><label for="floorPly">Floor ply</label><select id="floorPly"><option value="0.25">¼" (add 2 joists)</option><option value="0.375" selected>⅜" Baltic birch</option><option value="0.5">½" Baltic birch</option><option value="0.75">¾" Baltic birch</option></select></div>
+      <div class="sel" data-adv><label for="innerPly">Wall inner ply</label><select id="innerPly"><option value="0.25" selected>¼" Baltic birch</option><option value="0.125">⅛" ply</option><option value="0.5">½" Baltic birch</option></select></div>
       <div class="toggles">
         <label><input type="checkbox" id="smooth"> Smooth wall (one bent diffuser sheet)</label>
-        <label><input type="checkbox" id="openSeat" checked> Open under-seat (no legs)</label>
+        <label data-adv><input type="checkbox" id="openSeat" checked> Open under-seat (no legs)</label>
         <label><input type="checkbox" id="modules" checked> Light modules + end consoles</label>
       </div>
-      <div class="ctl" style="margin-top:8px"><label for="modDepth">Light module depth</label><output for="modDepth">2</output><input type="range" id="modDepth" min="1.5" max="3" step="0.25" value="2"></div>
-      <div class="ctl"><label for="consoleDepth">Console depth (cup holders)</label><output for="consoleDepth">4.5</output><input type="range" id="consoleDepth" min="3.5" max="6" step="0.25" value="4.5"></div>
+      <div class="ctl" data-adv style="margin-top:8px"><label for="modDepth">Light module depth</label><output for="modDepth">2</output><input type="range" id="modDepth" min="1.5" max="3" step="0.25" value="2"></div>
+      <div class="ctl" data-adv><label for="consoleDepth">Console depth (cup holders)</label><output for="consoleDepth">4.5</output><input type="range" id="consoleDepth" min="3.5" max="6" step="0.25" value="4.5"></div>
       <div class="ctl"><label for="backTilt">Backrest tilt</label><output for="backTilt">15°</output><input type="range" id="backTilt" min="5" max="25" step="1" value="15"></div>
-      <div class="sel" style="margin-top:8px"><label for="chordSec">Seat front chord</label><select id="chordSec">
+      <div class="sel" data-adv style="margin-top:8px"><label for="chordSec">Seat front chord</label><select id="chordSec">
         <option value="frame">same as frame</option>
         <option value="1x2x0.065" selected>1" × 2" × 0.065" on edge</option>
         <option value="1.5x1.5x0.065">1½" sq × 0.065"</option>
         <option value="1x2x0.125 AL">1" × 2" × 0.125" aluminium on edge</option>
         <option value="fir 1.5x3.5">1½" × 3½" fir on edge (wood)</option>
       </select></div>
-      <div class="sel"><label for="seatType">Seat</label><select id="seatType">
+      <div class="sel" data-adv><label for="seatType">Seat</label><select id="seatType">
         <option value="slats" selected>Wood slats (futon style)</option>
         <option value="pan">Steel ribs + ½" ply pan</option>
       </select></div>
-      <div class="sel"><label for="modPly">Module / console ply</label><select id="modPly">
+      <div class="sel" data-adv><label for="modPly">Module / console ply</label><select id="modPly">
         <option value="0.125" selected>⅛" ply</option>
         <option value="0.0625">1/16" ply</option>
         <option value="0.25">¼" ply</option>
@@ -125,14 +137,14 @@
       <div class="ctl"><label for="seatH">Seat height, uncompressed</label><output for="seatH">17</output><input type="range" id="seatH" min="13" max="21" step="0.5" value="17"></div>
       <div class="ctl"><label for="rimH">Rim / backrest top</label><output for="rimH">25</output><input type="range" id="rimH" min="20" max="34" step="0.5" value="25"></div>
       <div class="ctl"><label for="podR">Pod radius</label><output for="podR">24</output><input type="range" id="podR" min="21" max="30" step="0.5" value="24"></div>
-      <div class="ctl"><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
+      <div class="ctl" data-adv><label for="armGap">Receiver spacing</label><output for="armGap">28</output><input type="range" id="armGap" min="10" max="32" step="1" value="28"></div>
     </section>
 
     <section>
       <h2>Chassis under the pod</h2>
       <div class="ctl"><label for="kneel">Kneel (frame dropped, tire rises)</label><output for="kneel">0</output><input type="range" id="kneel" min="0" max="8" step="0.5" value="0"></div>
-      <div class="ctl"><label for="fenderH">Fender / footrest box over the well, above the deck</label><output for="fenderH">6</output><input type="range" id="fenderH" min="0" max="12" step="0.5" value="6"></div>
-      <div class="toggles"><label><input type="checkbox" id="wheelWell" checked> Wheel well in the deck</label></div>
+      <div class="ctl" data-adv><label for="fenderH">Fender / footrest box over the well, above the deck</label><output for="fenderH">6</output><input type="range" id="fenderH" min="0" max="12" step="0.5" value="6"></div>
+      <div class="toggles" data-adv><label><input type="checkbox" id="wheelWell" checked> Wheel well in the deck</label></div>
       <p class="note">The tire sits under the side pod at the real position from frame-3d: 22.5" OD × 10.2" (Carlstar 23×10.50-12 on a 12" rim), centred 5.5" inboard of the pod centre line, between the two receiver stubs. That is the riders' foot space, not the seat: only the outer 2–3" of tire is under the seat edge. The chassis rail is 12" inboard of the pod centre line, so the legs stop at the rail face. Use the kneel slider with the riders on to see what the fender does to shins; frame-3d puts the usable kneel at ~5.7" (air spring and receiver limits).</p>
     </section>
 
@@ -141,10 +153,10 @@
       <div class="toggles"><label><input type="checkbox" id="driver"> Driver pod (arc to the end rail, legs forward, front gate)</label></div>
       <div class="ctl" style="margin-top:8px"><label for="driverW">Driver pod width (two people, one facing forward)</label><output for="driverW">52</output><input type="range" id="driverW" min="48" max="58" step="1" value="52"></div>
       <div class="ctl"><label for="squareness">Back squareness (0 = half round, 1 = squircle; width stays put, the corners fill out)</label><output for="squareness">0.4</output><input type="range" id="squareness" min="0" max="1" step="0.05" value="0.4"></div>
-      <div class="ctl"><label for="driverLeg">Leg length (seat back to pedal ≈ 19" + this)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
+      <div class="ctl" data-adv><label for="driverLeg">Leg length (seat back to pedal ≈ 19" + this)</label><output for="driverLeg">16</output><input type="range" id="driverLeg" min="10" max="24" step="1" value="16"></div>
       <div class="ctl"><label for="gateH">Front gate height</label><output for="gateH">12</output><input type="range" id="gateH" min="0" max="24" step="1" value="12"></div>
       <div class="toggles" style="margin-top:6px"><label><input type="checkbox" id="driverStep" checked> Fold-down step under the gate</label></div>
-      <div class="ctl" style="margin-top:8px"><label for="wheelH">Wheel hub above the pod floor</label><output for="wheelH">27</output><input type="range" id="wheelH" min="22" max="34" step="0.5" value="27"></div>
+      <div class="ctl" data-adv style="margin-top:8px"><label for="wheelH">Wheel hub above the pod floor</label><output for="wheelH">27</output><input type="range" id="wheelH" min="22" max="34" step="0.5" value="27"></div>
       <p class="note">Same U module mounted the other way round: the half round faces the car and the driver looks forward through the open end. Right foot: spring-return throttle (regen on lift) and a hydraulic service-brake pedal (tandem master cylinder under the floor, four calipers); left foot: dead pedal. F / N / R switch and the mechanical parking-brake lever (cable to two rear calipers) on the left console, lighting panel on the right; the low gate hangs between the leg posts and is the way in. Arms run the full length under the floor.</p>
     </section>
 
@@ -185,7 +197,7 @@
       </div>
     </section>
 
-    <section>
+    <section data-adv>
       <div class="row2"><button id="showCut">Cut list</button><button id="copyCut">Copy cut list</button></div>
       <button id="copyObj" style="width:100%; margin-top:6px">Copy OBJ to clipboard</button>
       <p class="note">Weights are computed from the members drawn; costs are 2026 ballpark retail and live in the <code>COST</code> table. Riders are the same 50th-percentile adults as loveseat-3d. Receiver check: 400 lb of riders plus the computed pod mass with lever arms measured from the chassis rail face (not the pod centre), ×3 for playa, against tube yield; it also reports the sleeve reaction couple over the 13" engagement. Pin, weld and anti-rattle details are not checked.</p>
@@ -868,7 +880,13 @@
         ['Receiver arms', `${D.drv.armLen.toFixed(0)}" each, full length under the floor`, D.drv.armLen > 60 ? 'warn' : ''],
       ] : []),
     ];
-    $('readout').innerHTML = rows.filter(([k]) => k !== '').map(([k, v, w]) => k === 'sub' ? `<dt class="sub">${v}</dt>` : `<dt>${k}</dt><dd class="${w || ''}">${v}</dd>`).join('');
+    const ADV_GROUPS = ['Lift', 'Buy list, per pod', 'Receiver arms (moments about the rail face)', 'Seat front chord', 'Chassis under the pod'];   // hidden in simple mode
+    let advGrp = false;
+    $('readout').innerHTML = rows.filter(([k]) => k !== '').map(([k, v, w]) => {
+      if (k === 'sub') { advGrp = ADV_GROUPS.includes(v); return `<dt class="sub${advGrp ? ' adv' : ''}">${v}</dt>`; }
+      const a = advGrp ? ' adv' : '';
+      return `<dt class="${a}">${k}</dt><dd class="${w || ''}${a}">${v}</dd>`;
+    }).join('');
   }
 
   // ---------- cut list ----------
@@ -1023,6 +1041,17 @@
   $('copyCut').onclick = async () => { try { await navigator.clipboard.writeText(cutList()); toast('Cut list copied'); } catch (e) { toast('Clipboard blocked here'); } };
   $('showCut').onclick = () => { $('cutText').textContent = cutList(); $('cutlist').style.display = 'block'; };
   $('closeCut').onclick = () => $('cutlist').style.display = 'none';
+
+  // ---- simple / advanced mode: #advanced in the URL opens the full control set; controls tagged data-adv hide in simple ----
+  function setMode(adv, push) {
+    $('app').classList.toggle('simple', !adv);
+    $('modeSimple').classList.toggle('on', !adv); $('modeAdv').classList.toggle('on', adv);
+    if (push) history.replaceState(null, '', location.pathname + location.search + (adv ? '#advanced' : ''));
+  }
+  $('modeSimple').onclick = () => setMode(false, true);
+  $('modeAdv').onclick = () => setMode(true, true);
+  window.addEventListener('hashchange', () => setMode(location.hash === '#advanced', false));
+  setMode(location.hash === '#advanced', false);
 
   build(); resize(); place();
   (function loop() { renderer.render(scene, camera); requestAnimationFrame(loop); })();

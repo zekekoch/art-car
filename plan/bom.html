@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bill of materials — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a href="electrical.html">Electrical</a>
+    <a href="specification.html">Specification</a>
+    <a class="here" href="bom.html">BOM</a>
+    <a href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · bill of materials · rev 13 September 2026</p>
+<h1>Bill of materials</h1>
+<p class="lede">What gets bought, what gets welded and cut in the shop, and what needs a machine shop — by system, with the candidate part where one has been picked and a rough cost where one has been estimated. Prices are 2026 list or marketplace figures from the notebook and are ranges on purpose.</p>
+
+<div class="note">Priced so far: four corners with controllers, air and brakes <b>~$4,000–6,500</b> (before rims, tires and machining), the battery sled <b>~$3,600</b> DIY, six pods <b>~$5,300</b> in materials (the driver pod ~$200 more) — about <b>$13,000–15,500</b>. Not yet priced: frame steel and deck, rims and tires, the steering rack and column, the roof (tube, fascia, panels), the lighting controller and harness, machining, stairs and ottomans, the charger, and the transport cart and dollies.</div>
+
+<h2>Drivetrain</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Candidate / spec</th><th class="n">Qty</th><th class="n">Rough cost</th><th>Make / buy</th></tr>
+<tr><td>Hub motor</td><td>QS205 car variant (50H V3), 3 kW class, single stationary shaft, 4 × 100 flange, CB60, M24 × 1.5; 16 kg. Get the drawing and wheel-end load rating for the ordered variant first.</td><td class="n">4 (+1 spare)</td><td class="n">$300–600 each; $1,300–2,400 ×4</td><td>Buy (~$300 direct, 10–12 wk; $500–630 US stock)</td></tr>
+<tr><td>Rim</td><td>12 × 8.5″ matching the motor's PCD without re-drilling</td><td class="n">4 (+1)</td><td class="n">—</td><td>Buy, after the motor drawing</td></tr>
+<tr><td>Tire</td><td>Carlstar 23 × 10.50-12 turf, 22.5 × 10.2″ mounted, 798 kg rated</td><td class="n">4 (+1)</td><td class="n">—</td><td>Buy</td></tr>
+<tr><td>Motor controller</td><td>Kelly KLS4830S class: 48 V sine-wave FOC, 30–62 V, 120 A cont. / 300 A boost, CAN or serial out</td><td class="n">4</td><td class="n">$120–250 each; $500–1,000</td><td>Buy; tune</td></tr>
+<tr><td>Air spring</td><td>Air Lift Dominator D2500 (58343), 7″, 2.8–10.5″; D2600 if the crowded-rear load governs</td><td class="n">4</td><td class="n">$111 each</td><td>Buy</td></tr>
+<tr><td>Damper, bump stop, droop strap</td><td>per corner; stroke matched to 5.6″ of wheel travel</td><td class="n">4 sets</td><td class="n">~$60 per corner</td><td>Buy</td></tr>
+<tr><td>Air management</td><td>12 V compressor, 2 gal tank, 4 solenoid valves, 4 pressure sensors, 4 height sensors, lines</td><td class="n">1 set</td><td class="n">$400–600</td><td>Buy; calibrate</td></tr>
+<tr><td>Trailing arms, hangers, towers</td><td>welded steel arms (front two-leg, rear L-arm), pivot hangers, spring and damper towers, brackets</td><td class="n">4 + spares</td><td class="n">$300–500 steel + machining</td><td>Fabricate; line-ream pivots after welding</td></tr>
+<tr><td>Kingpins, knuckles, torque blocks</td><td>1¾″ kingpins; machined bearing seats, thrust faces, shaft torque blocks, pivot sleeves, brake offsets</td><td class="n">2 front, 2 rear blocks</td><td class="n">machining TBD</td><td>Machine (likely outsourced)</td></tr>
+<tr><td>Pivot bearings / bushings, rod ends, U-joints</td><td>10″ pivot span; sealed against dust</td><td class="n">per corner</td><td class="n">—</td><td>Buy</td></tr>
+<tr><td>Steering rack, column, tie rods</td><td>rack with ~5″ of travel at the ball-joint station; column with a quick-disconnect at the driver pod's rail; sealed joints</td><td class="n">1</td><td class="n">TBD</td><td>Buy; fabricate cradle and supports</td></tr>
+<tr><td>Brakes</td><td>tandem master cylinder + pedal, four hydraulic calipers on rotors matched to the QS hub, two rear mechanical parking calipers, hand lever, lines</td><td class="n">1 set</td><td class="n">$600–1,000</td><td>Buy; rotor hats/adapters may need machining</td></tr>
+<tr><td>Frame</td><td>2 × 4″ side rails, cross members, 2½ × 3½″ receiver sleeves (12: two per pod), roof-post sockets; ~365 lb of steel as drawn</td><td class="n">1</td><td class="n">TBD</td><td>Fabricate</td></tr>
+<tr><td>Deck</td><td>½″ ply (1.5 lb/ft², ~55 lb) with wheel-well cut-outs; 3/16″ steel is an option at ~280 lb</td><td class="n">1</td><td class="n">TBD</td><td>Cut</td></tr>
+</table></div>
+
+<h2>Battery and electrical</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Candidate / spec</th><th class="n">Qty</th><th class="n">Rough cost</th><th>Make / buy</th></tr>
+<tr><td>Cells</td><td>EVE LF280K, 3.2 V / 280 Ah (or 314 Ah at the same price); confirm the revision's current rating</td><td class="n">32</td><td class="n">$66–100 each; ~$2,600</td><td>Buy</td></tr>
+<tr><td>BMS, busbars, fusing, contactors, enclosure</td><td>two independent 16S strings, each able to drop out under load; precharge circuit; compression hardware</td><td class="n">2 strings</td><td class="n">~$1,000</td><td>Buy components; build the sled</td></tr>
+<tr><td>Sled cart</td><td>rolling frame 50 × 21 × 10.5″ envelope, 8–10″ wheels, four bolt-up points, 2 × Anderson SB350 + 1 comms plug</td><td class="n">1</td><td class="n">TBD</td><td>Fabricate</td></tr>
+<tr><td>DC-DC converters</td><td>48 → 12 V, one per lighting zone plus the air compressor</td><td class="n">several</td><td class="n">TBD</td><td>Buy</td></tr>
+<tr><td>Charger</td><td>48 V 40 A (~2.2 kW into the pack)</td><td class="n">1</td><td class="n">TBD</td><td>Buy</td></tr>
+<tr><td>Generator (camp)</td><td>Honda EU3200i, 2.6 kW rated; two in parallel halves the charge time</td><td class="n">1–2</td><td class="n">—</td><td>Camp gear</td></tr>
+<tr><td>Solar</td><td>100 W flexible panels, ~41 × 21″, ~4.5 lb</td><td class="n">12</td><td class="n">TBD</td><td>Buy</td></tr>
+<tr><td>Harness, connectors, driver controls</td><td>phase/hall connectors per corner, one connector per module, F/N/R lever, throttle and brake pedals, lighting panel, pack readout; ~170 lb of electrics allowed</td><td class="n">1</td><td class="n">TBD</td><td>Buy; assemble</td></tr>
+<tr><td>Lighting controller</td><td>starting point: the current car's Teensy 3.2 / FastLED board (QueenFX), 16 outputs</td><td class="n">1+</td><td class="n">TBD</td><td>Build</td></tr>
+<tr><td>Coulomb counter (measurement, this year)</td><td>Victron SmartShunt on the current car's pack</td><td class="n">1</td><td class="n">~$130</td><td>Buy</td></tr>
+</table></div>
+
+<h2>Pods (per pod, × 6)</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Candidate / spec</th><th class="n">Qty per pod</th><th class="n">Rough cost</th><th>Make / buy</th></tr>
+<tr><td>Receiver arms</td><td>2 × 3 × 0.188″ steel tube on edge, 28″ apart (driver pod: ~64″ long)</td><td class="n">2</td><td class="n" rowspan="8">~$885 per pod in materials; ~$5,300 for six</td><td>Cut, weld to the floor frame on the jig</td></tr>
+<tr><td>Frame tube</td><td>¾ × 0.065″ square steel, ~59 ft; 1″ for the nine posts; 1 × 2 × 0.065″ front chord</td><td class="n">~59 ft</td><td>Cut, weld from the cut list</td></tr>
+<tr><td>Plywood</td><td>Baltic birch 5 × 5 sheets: one each of ½″, ⅜″, ¼″ and ⅛″ (floor ⅜″, backrest ¼″, modules and consoles ⅛″)</td><td class="n">4 sheets</td><td>Laser / CNC cut</td></tr>
+<tr><td>Seat slats</td><td>½ × 2½″ birch, eleven, in laser-cut combs</td><td class="n">11</td><td>Cut</td></tr>
+<tr><td>Light modules</td><td>¼″ ply boxes ~12.3 × 9.25 × 2″, opal acrylic lids (two 24 × 48″ sheets), 4 LED rows, one connector each</td><td class="n">12</td><td>Laser cut, assemble, bench test</td></tr>
+<tr><td>LEDs</td><td>WS2812, ~530 per pod (8.8 m); ~160 W max, ~45 W typical</td><td class="n">9 m</td><td>Buy</td></tr>
+<tr><td>Foam and fabric</td><td>4″ HR or closed-cell seat foam, 2″ back foam; solution-dyed acrylic or vinyl mesh (never open-cell upholstery foam)</td><td class="n">—</td><td>Buy; sew</td></tr>
+<tr><td>Diffuser, skirt, hardware</td><td>opal acrylic lids (1/16″ opal polycarbonate if the smooth wall is ever used); mirror-acrylic skirt with one LED strip; T-nuts, hitch pins, anti-rattle wedges</td><td class="n">—</td><td>Buy</td></tr>
+<tr><td>Driver pod extras</td><td>throttle pedal, brake pedal, dead pedal, 13″ wheel and column, 12″ gate with hinges and latch, fold-down step, F/N/R lever, hand brake</td><td class="n">1 pod</td><td class="n">TBD</td><td>Buy; fabricate</td></tr>
+</table></div>
+
+<h2>Roof, stairs and aisle</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Candidate / spec</th><th class="n">Qty</th><th class="n">Rough cost</th><th>Make / buy</th></tr>
+<tr><td>Roof structure</td><td>aluminium tube, ~155 lb, six leaf pieces ≤ 64″ square as two halves; 8 posts; bolted joints (no welding)</td><td class="n">1</td><td class="n">TBD</td><td>Cut, bolt</td></tr>
+<tr><td>Rim fascia and lighting</td><td>3″ lit fascia, ~47 ft, two LED rows, ~1,700 LEDs</td><td class="n">~47 ft</td><td class="n">TBD</td><td>Fabricate</td></tr>
+<tr><td>Stair modules</td><td>two, 17″ wide, three 8″ risers on a receiver stub, ~35 lb each, with a handrail</td><td class="n">2</td><td class="n">TBD</td><td>Fabricate</td></tr>
+<tr><td>Ottoman benches</td><td>18 × 17″ padded storage benches, ~25 lb each</td><td class="n">2</td><td class="n">TBD</td><td>Build</td></tr>
+<tr><td>Boarding step</td><td>hitch-stub step on a spare receiver (option)</td><td class="n">1</td><td class="n">TBD</td><td>Fabricate</td></tr>
+</table></div>
+
+<h2>Transport and camp</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Candidate / spec</th><th class="n">Qty</th><th class="n">Rough cost</th><th>Make / buy</th></tr>
+<tr><td>Trailer</td><td>U-Haul 6 × 12 ramp trailer (rental)</td><td class="n">1</td><td class="n">rental</td><td>Rent</td></tr>
+<tr><td>Winch</td><td>12 V winch on the trailer tongue for the cart and dollies</td><td class="n">1</td><td class="n">~$100</td><td>Buy</td></tr>
+<tr><td>Dollies and cart wheels</td><td>8–10″ pneumatic or solid wheels (small casters sink in playa); plywood sheets to roll on at camp</td><td class="n">—</td><td class="n">TBD</td><td>Buy / build</td></tr>
+<tr><td>Spare corner</td><td>one complete corner module (motor, arm, spring, damper, brake)</td><td class="n">1</td><td class="n">see above</td><td>Build</td></tr>
+</table></div>
+
+<h2>Open items</h2>
+<ol>
+  <li>Price the unpriced rows once the motor drawing fixes the rim and brake interfaces; the roof once the leaf structure is drawn.</li>
+  <li>Decide what is machined in-house versus outsourced: the review's view is that a drill press, bandsaw, welder and jig cover the frame and brackets, and a machine shop should make the concentrated set of precision parts (kingpin seats, thrust faces, torque blocks, pivot bores).</li>
+  <li>Aluminium pod frames (~35 lb each) are the next 200 lb if the tow weight needs it; not priced.</li>
+</ol>
+
+<footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §3–4, §7 · <a href="../loveseat.md">loveseat.md</a> · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> (buy / fabricate / machine table) · <a href="../model/loveseat-build.html#advanced">loveseat-build buy list</a></footer>
+</main>
+</body>
+</html>
