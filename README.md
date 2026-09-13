@@ -6,6 +6,8 @@ Custom electric chassis (max 54" x 120") with a demountable body: six cantilever
 
 **B-248 donor study (13 September):** an additive concept study, not the plan of record — [retained donor body](model/b248-3d.html?layout=stock) · [running-gear transplant](model/b248-3d.html?layout=transplant) · [mechanical capacity and upgrade review](model/b248-review.md) · [dimensioned plan](model/b248/plan.svg). Compares a retained Taylor-Dunn B-248 donor body with a proposed 120 × 52 in frame reusing the donor's axles on a 72 in wheelbase. Six pods at 300 lb per occupied pod exceed the listing's 2,450 lb capacity at full occupancy under both scenarios modeled; the factory rating does not transfer to a custom frame. See [How we got here](explorations.html) for how it compares with the plan of record.
 
+**Identical drive-steer corner study (13 September):** another additive alternative, not the plan of record — [four identical drive-steer-coilover corners](plan/modular-corners.html). It asks whether one complete powered, steered and suspended cassette could fit any corner of the rigid chassis, eliminating the compressor and making one fifth cassette a universal spare. The study includes architecture, cassette and steering-mode diagrams, vendor precedents, mass and cost consequences, an RFQ brief, controls hazards and a prototype gate.
+
 If the B-248 3D view cannot render, it falls back to the dimensioned plan with working load controls. After a viewer update, reload the page to pick up the fix. Developer smoke checks: `node model/b248/verify-viewer.cjs` (stub renderer; does not verify WebGL pixels).
 
 ![B-248 concept with roof removed](model/b248/uncovered.png)
@@ -18,6 +20,7 @@ If the B-248 3D view cannot render, it falls back to the dimensioned plan with w
 | System pages | [`plan/drivetrain.html`](plan/drivetrain.html) · [`plan/pods.html`](plan/pods.html) · [`plan/roof.html`](plan/roof.html) · [`plan/lighting.html`](plan/lighting.html) · [`plan/electrical.html`](plan/electrical.html) · [`plan/specification.html`](plan/specification.html) · [`plan/bom.html`](plan/bom.html) · [`plan/construction.html`](plan/construction.html) |
 | How we got here (explorations, alternatives, decision log) | [`explorations.html`](explorations.html) |
 | Alternative: B-248 donor chassis study | [`model/b248-3d.html`](model/b248-3d.html), [`model/b248-review.md`](model/b248-review.md) |
+| Alternative: identical drive-steer-suspension corners | [`plan/modular-corners.html`](plan/modular-corners.html) and its three diagrams in [`img/`](img/) |
 | Interactive models | [`model/`](model/) — each opens in a **simple** mode (the controls a designer would move) and switches to **advanced** (every parameter and the full readout) with the toggle at the top of the panel or `#advanced` on the URL |
 | Working notes (the record) | [`notebook/art-car-design-notebook.html`](notebook/art-car-design-notebook.html), [`loveseat.md`](loveseat.md), [`model/drivetrain-review.md`](model/drivetrain-review.md), [`model/drivetrain-review-response.md`](model/drivetrain-review-response.md) |
 | Sketches and renderings | [`sketches/`](sketches/) (originals) · [`img/`](img/) (web-sized copies and model screenshots used by the pages) |
