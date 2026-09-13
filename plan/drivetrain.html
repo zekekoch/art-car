@@ -63,11 +63,20 @@
 <tr><td>Static roll threshold</td><td>~0.56 g lateral with 12 seated; six on one side leaves ~570 lb on each inside wheel</td><td>frame-3d</td></tr>
 </table></div>
 
+<h2>Alternative under study: one identical cassette at every corner</h2>
+<figure>
+  <img src="../img/modular-corner-layout.svg" alt="Rigid chassis with four identical removable drive-steer-suspension cassettes and one universal spare">
+  <figcaption>A separate study asks whether each corner could instead be one identical, reversible cassette containing its coilover, pneumatic wheel, geared traction drive, active steering, angle feedback and friction brake.</figcaption>
+</figure>
+<p>The attraction is straightforward: fabricate and validate one corner design four times, carry one complete universal spare, eliminate the compressor and gain four-wheel steering. The penalties are also substantial: likely higher mass and cost, loss of the 5.6″ kneel, a new wheel-clearance problem at large steering angles, and a steer-by-wire safety system whose failure handling is much more consequential than the present mechanical rack.</p>
+<div class="note"><b>This does not change the plan of record.</b> The <a href="modular-corners.html">identical drive-steer corner study</a> records the target specification, three diagrams, commercial reference units, an RFQ brief, preliminary cost and weight allowances, safety architecture and the prototype gate the option would need to pass.</div>
+
 <h2>Models and drawings</h2>
 <ul class="models">
   <li><span class="m">model/frame-3d.html</span> — the whole chassis with articulated arms, the steering solver, kneel, load cases and the trailer stack. <a href="../model/frame-3d.html">simple</a> · <a href="../model/frame-3d.html#advanced">advanced</a></li>
   <li><span class="m">model/drivetrain-3d.html</span> — the corners, knuckles, rack and sled as buy / fabricate / machine parts; rack and kneel motion; exploded front corner; torque and range calculators; OBJ export for Blender. <a href="../model/drivetrain-3d.html">simple</a> · <a href="../model/drivetrain-3d.html#advanced">advanced</a></li>
   <li><span class="m">model/drivetrain/</span> — saved diagrams (<a href="../model/drivetrain/drivetrain-front-corner.png">front corner</a>, <a href="../model/drivetrain/drivetrain-steering-plan.png">steering plan</a>), the OBJ/MTL export, and <code>verify.cjs</code>, which checks rod lengths, symmetry, toe, clashes and the kneel stops headlessly. <a href="../model/drivetrain/README.md">README</a></li>
+  <li><span class="m">plan/modular-corners.html</span> — the alternative four-cassette architecture, detailed corner diagram, steering modes, vendor screen and evaluation gate. <a href="modular-corners.html">open the study</a></li>
 </ul>
 
 <h2>Open items</h2>
@@ -82,7 +91,7 @@
 </ol>
 
 <h2>How we got here</h2>
-<p>The chassis concept and corner module are sections 2 and 3 of the <a href="../notebook/art-car-design-notebook.html">design notebook</a>, which also has the honest low-speed torque discussion and why direct-drive hubs beat geared motors, AGV drive units and tractor motors. The 12 September <a href="../model/drivetrain-review.md">drivetrain review</a> found thirteen problems with the first version — mixed motor variants, an animated rather than solved steering linkage, an 8″ kneel that was really 5.6″, undercounted weights — and the <a href="../model/drivetrain-review-response.md">response</a> records what changed for each. The review also lays out the cheaper alternative, a rated utility-cart front axle and electric rear transaxle, which was not taken. Earlier alternatives (used Leaf modules, ATV 20 × 10-10 tires, a 10″ scrub radius) are on the <a href="../explorations.html">explorations page</a>.</p>
+<p>The chassis concept and corner module are sections 2 and 3 of the <a href="../notebook/art-car-design-notebook.html">design notebook</a>, which also has the honest low-speed torque discussion and why direct-drive hubs beat geared motors, AGV drive units and tractor motors. The 12 September <a href="../model/drivetrain-review.md">drivetrain review</a> found thirteen problems with the first version — mixed motor variants, an animated rather than solved steering linkage, an 8″ kneel that was really 5.6″, undercounted weights — and the <a href="../model/drivetrain-review-response.md">response</a> records what changed for each. The review also lays out the cheaper alternative, a rated utility-cart front axle and electric rear transaxle, which was not taken. Earlier alternatives (used Leaf modules, ATV 20 × 10-10 tires, a 10″ scrub radius), the B-248 donor study and the <a href="modular-corners.html">identical drive-steer cassette study</a> remain documented rather than replacing the current direction silently.</p>
 
 <footer class="src">Sources: <a href="../notebook/art-car-design-notebook.html">notebook</a> §1–3 · <a href="../model/drivetrain-review.md">drivetrain-review.md</a> · <a href="../model/drivetrain-review-response.md">drivetrain-review-response.md</a> · <a href="../README.md">README key numbers</a> · <a href="../model/frame-3d.html#advanced">frame-3d readout</a></footer>
 </main>

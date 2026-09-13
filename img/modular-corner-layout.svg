@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Four identical drive-steer-suspension cassettes on a rigid chassis</title>
+  <desc id="desc">Conceptual top view of a 54 by 120 inch rigid primary chassis, central battery sled and four identical removable corner cassettes. A fifth spare cassette can replace any corner.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#2F5D8A"/></marker>
+    <marker id="arrowPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#B8348A"/></marker>
+    <style>
+      .bg{fill:#ECEFF3}.card{fill:#F7F8FA;stroke:#9DB3C9;stroke-width:2}.frame{fill:none;stroke:#1B2A41;stroke-width:12}.cross{stroke:#1B2A41;stroke-width:7}.cassette{fill:#DCE8F1;stroke:#2F5D8A;stroke-width:3}.mount{fill:none;stroke:#B8348A;stroke-width:3;stroke-dasharray:8 6}.wheel{fill:#303943;stroke:#1B2A41;stroke-width:3}.tread{stroke:#9DB3C9;stroke-width:2}.motor{fill:#F3E4EF;stroke:#B8348A;stroke-width:3}.steer{fill:#E3F0EA;stroke:#2E7D5B;stroke-width:3}.spring{fill:none;stroke:#C18435;stroke-width:4}.battery{fill:#E9E2F1;stroke:#745990;stroke-width:3}.label{font:600 18px system-ui,sans-serif;fill:#1B2A41}.small{font:14px system-ui,sans-serif;fill:#5F6E80}.tiny{font:12px system-ui,sans-serif;fill:#5F6E80}.title{font:700 28px system-ui,sans-serif;fill:#1B2A41}.sub{font:16px system-ui,sans-serif;fill:#5F6E80}.dim{stroke:#2F5D8A;stroke-width:2;marker-start:url(#arrow);marker-end:url(#arrow)}.swap{fill:none;stroke:#B8348A;stroke-width:3;stroke-dasharray:7 6;marker-end:url(#arrowPink)}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="720"/>
+  <text class="title" x="54" y="54">Rigid primary chassis + four copies of one corner</text>
+  <text class="sub" x="54" y="82">Conceptual packaging study · same hardware at front, rear, left and right · not manufacturing geometry</text>
+
+  <rect class="card" x="264" y="158" width="672" height="356" rx="10"/>
+  <rect class="frame" x="294" y="184" width="612" height="304" rx="2"/>
+  <line class="cross" x1="420" y1="184" x2="420" y2="488"/>
+  <line class="cross" x1="780" y1="184" x2="780" y2="488"/>
+  <line class="cross" x1="294" y1="336" x2="906" y2="336"/>
+  <text class="label" x="600" y="327" text-anchor="middle">WELDED RIGID PRIMARY FRAME</text>
+  <text class="small" x="600" y="352" text-anchor="middle">pod receivers, roof posts and battery loads stay in the chassis</text>
+
+  <rect class="battery" x="498" y="372" width="204" height="82" rx="8"/>
+  <text class="label" x="600" y="407" text-anchor="middle">48 V battery sled</text>
+  <text class="tiny" x="600" y="430" text-anchor="middle">removable; unchanged in concept</text>
+
+  <g transform="translate(270 174)">
+    <rect class="mount" x="-8" y="-8" width="150" height="138" rx="10"/><rect class="cassette" x="4" y="4" width="126" height="114" rx="9"/>
+    <rect class="wheel" x="-42" y="24" width="58" height="76" rx="20"/><line class="tread" x1="-34" y1="38" x2="8" y2="38"/><line class="tread" x1="-34" y1="55" x2="8" y2="55"/><line class="tread" x1="-34" y1="72" x2="8" y2="72"/><line class="tread" x1="-34" y1="89" x2="8" y2="89"/>
+    <circle class="motor" cx="31" cy="62" r="19"/><circle class="steer" cx="72" cy="37" r="15"/><path class="spring" d="M78 103l7-11-14-9 14-9-14-9 14-9-7-10"/><text class="label" x="103" y="91" text-anchor="middle">A</text>
+  </g>
+  <g transform="translate(800 174)">
+    <rect class="mount" x="-8" y="-8" width="150" height="138" rx="10"/><rect class="cassette" x="4" y="4" width="126" height="114" rx="9"/>
+    <rect class="wheel" x="118" y="24" width="58" height="76" rx="20"/><line class="tread" x1="126" y1="38" x2="168" y2="38"/><line class="tread" x1="126" y1="55" x2="168" y2="55"/><line class="tread" x1="126" y1="72" x2="168" y2="72"/><line class="tread" x1="126" y1="89" x2="168" y2="89"/>
+    <circle class="motor" cx="103" cy="62" r="19"/><circle class="steer" cx="62" cy="37" r="15"/><path class="spring" d="M56 103l7-11-14-9 14-9-14-9 14-9-7-10"/><text class="label" x="31" y="91" text-anchor="middle">A</text>
+  </g>
+  <g transform="translate(270 382)">
+    <rect class="mount" x="-8" y="-8" width="150" height="138" rx="10"/><rect class="cassette" x="4" y="4" width="126" height="114" rx="9"/>
+    <rect class="wheel" x="-42" y="24" width="58" height="76" rx="20"/><line class="tread" x1="-34" y1="38" x2="8" y2="38"/><line class="tread" x1="-34" y1="55" x2="8" y2="55"/><line class="tread" x1="-34" y1="72" x2="8" y2="72"/><line class="tread" x1="-34" y1="89" x2="8" y2="89"/>
+    <circle class="motor" cx="31" cy="62" r="19"/><circle class="steer" cx="72" cy="37" r="15"/><path class="spring" d="M78 103l7-11-14-9 14-9-14-9 14-9-7-10"/><text class="label" x="103" y="91" text-anchor="middle">A</text>
+  </g>
+  <g transform="translate(800 382)">
+    <rect class="mount" x="-8" y="-8" width="150" height="138" rx="10"/><rect class="cassette" x="4" y="4" width="126" height="114" rx="9"/>
+    <rect class="wheel" x="118" y="24" width="58" height="76" rx="20"/><line class="tread" x1="126" y1="38" x2="168" y2="38"/><line class="tread" x1="126" y1="55" x2="168" y2="55"/><line class="tread" x1="126" y1="72" x2="168" y2="72"/><line class="tread" x1="126" y1="89" x2="168" y2="89"/>
+    <circle class="motor" cx="103" cy="62" r="19"/><circle class="steer" cx="62" cy="37" r="15"/><path class="spring" d="M56 103l7-11-14-9 14-9-14-9 14-9-7-10"/><text class="label" x="31" y="91" text-anchor="middle">A</text>
+  </g>
+
+  <line class="dim" x1="294" y1="556" x2="906" y2="556"/><text class="label" x="600" y="584" text-anchor="middle">120″ maximum chassis length</text>
+  <line class="dim" x1="992" y1="184" x2="992" y2="488"/><text class="label" x="1018" y="340" transform="rotate(90 1018 340)" text-anchor="middle">54″ maximum chassis width</text>
+  <text class="small" x="952" y="136">FRONT →</text>
+
+  <g transform="translate(58 480)">
+    <rect class="card" x="0" y="0" width="174" height="176" rx="12"/><text class="label" x="87" y="28" text-anchor="middle">Complete spare A</text>
+    <rect class="mount" x="20" y="42" width="134" height="112" rx="10"/><rect class="cassette" x="31" y="52" width="112" height="92" rx="8"/><rect class="wheel" x="6" y="65" width="42" height="67" rx="17"/>
+    <circle class="motor" cx="58" cy="98" r="16"/><circle class="steer" cx="95" cy="76" r="13"/><path class="spring" d="M101 132l6-9-12-8 12-8-12-8 12-8-6-9"/><text class="label" x="128" y="126" text-anchor="middle">A</text>
+  </g>
+  <path class="swap" d="M220 502C245 453 236 363 272 315"/><path class="swap" d="M222 548C430 650 754 643 866 508"/>
+
+  <g transform="translate(360 622)">
+    <circle class="motor" cx="0" cy="0" r="12"/><text class="small" x="20" y="5">traction motor + reduction</text>
+    <circle class="steer" cx="240" cy="0" r="12"/><text class="small" x="260" y="5">steering servo + absolute angle</text>
+    <path class="spring" d="M510 12l6-8-12-8 12-8-6-8"/><text class="small" x="530" y="5">coilover suspension</text>
+  </g>
+  <text class="tiny" x="1146" y="690" text-anchor="end">Diagram purpose: architecture and service boundaries only</text>
+</svg>
