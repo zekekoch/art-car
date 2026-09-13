@@ -1,5 +1,11 @@
 # Art car v2
 
+**B-248 donor study (13 September):** [interactive redesign](model/b248-3d.html) · [mechanical capacity and upgrade review](model/b248-review.md) · [dimensioned plan](model/b248/plan.svg). Compare a retained B-248 body with a proposed 120 × 52 in frame using the donor's axles on a 72 in wheelbase. Six pods and 300 lb per occupied pod are modeled; the listing's 2,450 lb capacity is insufficient at full occupancy under both current and lighter mass scenarios. The factory rating does not transfer to the custom frame.
+
+![B-248 concept with roof removed](model/b248/uncovered.png)
+
+The original custom-chassis studies below remain available for comparison.
+
 - **Drivetrain review (2026-09-12):** [`model/drivetrain-review.md`](model/drivetrain-review.md) — errors, component sources, and the buy/fabricate/machine breakdown.
 - **Response (2026-09-13):** [`model/drivetrain-review-response.md`](model/drivetrain-review-response.md) — what changed for each of the 13 findings, the four geometry changes they forced (steering layout, kingpin, kneel, pod receivers), and what is still open.
 - **Detailed drivetrain study:** [`model/drivetrain-3d.html`](model/drivetrain-3d.html) — offline interactive component model, fixed-length steering linkage, suspension motion, exploded front corner and Blender-compatible OBJ export. Candidate geometry; unresolved interfaces and detected clashes are called out. See [`model/drivetrain/README.md`](model/drivetrain/README.md) for saved diagrams, exports and the verification script.
