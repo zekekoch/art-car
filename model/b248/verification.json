@@ -1,0 +1,467 @@
+{
+  "date": "2026-09-13",
+  "checks": [
+    "six pods and one driver",
+    "complete mass accounting",
+    "all 64 occupancy combinations in both architectures and mass profiles",
+    "force and moment balance",
+    "symmetric full-load lateral CG",
+    "adverse axle-lift detection",
+    "eight roof posts per architecture",
+    "finite mesh coordinates",
+    "twelve panels fit leaves without rectangle overlap",
+    "separate trailer and ramp limits",
+    "gear-ratio arithmetic"
+  ],
+  "meshes": 981,
+  "cases": [
+    {
+      "layout": "stock",
+      "profile": "existing",
+      "full": {
+        "gross": 4815,
+        "cg": {
+          "x": -1.1254946750645962,
+          "z": 1.5514736188574986e-16,
+          "y": 42.05815160955348
+        },
+        "front": 2308.968057082981,
+        "rear": 2506.031942917019,
+        "added": 1465,
+        "occupantLoad": 1800,
+        "payload": 3265,
+        "headroom": -815,
+        "lateralEdgeMargin": 19
+      },
+      "sweep": {
+        "count": 64,
+        "minFront": {
+          "mask": 7,
+          "gross": 3915,
+          "cg": {
+            "x": -10.630252497657738,
+            "z": 5.0049422187375866e-17,
+            "y": 38.16347381864623
+          },
+          "front": 1200.8192994849085,
+          "rear": 2714.1807005150913,
+          "added": 1465,
+          "occupantLoad": 900,
+          "payload": 2365,
+          "headroom": 85,
+          "lateralEdgeMargin": 19
+        },
+        "maxFront": {
+          "mask": 56,
+          "gross": 3915,
+          "cg": {
+            "x": 9.947736333901,
+            "z": 1.908134220893705e-16,
+            "y": 38.16347381864623
+          },
+          "front": 2665.5979590404077,
+          "rear": 1249.4020409595923,
+          "added": 1465,
+          "occupantLoad": 900,
+          "payload": 2365,
+          "headroom": 85,
+          "lateralEdgeMargin": 19
+        },
+        "minRear": {
+          "mask": 56,
+          "gross": 3915,
+          "cg": {
+            "x": 9.947736333901,
+            "z": 1.908134220893705e-16,
+            "y": 38.16347381864623
+          },
+          "front": 2665.5979590404077,
+          "rear": 1249.4020409595923,
+          "added": 1465,
+          "occupantLoad": 900,
+          "payload": 2365,
+          "headroom": 85,
+          "lateralEdgeMargin": 19
+        },
+        "maxRear": {
+          "mask": 7,
+          "gross": 3915,
+          "cg": {
+            "x": -10.630252497657738,
+            "z": 5.0049422187375866e-17,
+            "y": 38.16347381864623
+          },
+          "front": 1200.8192994849085,
+          "rear": 2714.1807005150913,
+          "added": 1465,
+          "occupantLoad": 900,
+          "payload": 2365,
+          "headroom": 85,
+          "lateralEdgeMargin": 19
+        },
+        "minLateralMargin": {
+          "mask": 10,
+          "gross": 3615,
+          "cg": {
+            "x": 0.7599463566606921,
+            "z": -8.132780082987551,
+            "y": 36.43430152143845
+          },
+          "front": 1857.4492014423347,
+          "rear": 1757.5507985576653,
+          "added": 1465,
+          "occupantLoad": 600,
+          "payload": 2065,
+          "headroom": 385,
+          "lateralEdgeMargin": 10.867219917012449
+        }
+      },
+      "transport": {
+        "dry": 3015,
+        "rolling": 1710,
+        "cargo": 3090,
+        "towed": 5380,
+        "widthMargin": 5,
+        "lengthMargin": 22,
+        "cargoMargin": 620,
+        "rampMargin": 100
+      }
+    },
+    {
+      "layout": "stock",
+      "profile": "target",
+      "full": {
+        "gross": 4400,
+        "cg": {
+          "x": -1.8461794796592808,
+          "z": 1.4974090407756274e-16,
+          "y": 40.84090909090909
+        },
+        "front": 2052.3056416272575,
+        "rear": 2347.6943583727425,
+        "added": 1050,
+        "occupantLoad": 1800,
+        "payload": 2850,
+        "headroom": -400,
+        "lateralEdgeMargin": 19
+      },
+      "sweep": {
+        "count": 64,
+        "minFront": {
+          "mask": 7,
+          "gross": 3500,
+          "cg": {
+            "x": -12.66324896525567,
+            "z": 3.0791119521419165e-17,
+            "y": 36.17142857142857
+          },
+          "front": 944.1568840291845,
+          "rear": 2555.8431159708152,
+          "added": 1050,
+          "occupantLoad": 900,
+          "payload": 1950,
+          "headroom": 500,
+          "lateralEdgeMargin": 19
+        },
+        "maxFront": {
+          "mask": 56,
+          "gross": 3500,
+          "cg": {
+            "x": 10.35470139918789,
+            "z": 1.8824570798322171e-16,
+            "y": 36.17142857142857
+          },
+          "front": 2408.9355435846837,
+          "rear": 1091.0644564153163,
+          "added": 1050,
+          "occupantLoad": 900,
+          "payload": 1950,
+          "headroom": 500,
+          "lateralEdgeMargin": 19
+        },
+        "minRear": {
+          "mask": 56,
+          "gross": 3500,
+          "cg": {
+            "x": 10.35470139918789,
+            "z": 1.8824570798322171e-16,
+            "y": 36.17142857142857
+          },
+          "front": 2408.9355435846837,
+          "rear": 1091.0644564153163,
+          "added": 1050,
+          "occupantLoad": 900,
+          "payload": 1950,
+          "headroom": 500,
+          "lateralEdgeMargin": 19
+        },
+        "maxRear": {
+          "mask": 7,
+          "gross": 3500,
+          "cg": {
+            "x": -12.66324896525567,
+            "z": 3.0791119521419165e-17,
+            "y": 36.17142857142857
+          },
+          "front": 944.1568840291845,
+          "rear": 2555.8431159708152,
+          "added": 1050,
+          "occupantLoad": 900,
+          "payload": 1950,
+          "headroom": 500,
+          "lateralEdgeMargin": 19
+        },
+        "minLateralMargin": {
+          "mask": 10,
+          "gross": 3200,
+          "cg": {
+            "x": 0.013522884144876172,
+            "z": -9.1875,
+            "y": 34.03125
+          },
+          "front": 1600.786785986611,
+          "rear": 1599.213214013389,
+          "added": 1050,
+          "occupantLoad": 600,
+          "payload": 1650,
+          "headroom": 800,
+          "lateralEdgeMargin": 9.8125
+        }
+      },
+      "transport": {
+        "dry": 2600,
+        "rolling": 1700,
+        "cargo": 2675,
+        "towed": 4965,
+        "widthMargin": 5,
+        "lengthMargin": 22,
+        "cargoMargin": 1035,
+        "rampMargin": 110
+      }
+    },
+    {
+      "layout": "transplant",
+      "profile": "existing",
+      "full": {
+        "gross": 4815,
+        "cg": {
+          "x": -1.1254946750645962,
+          "z": 1.5514736188574986e-16,
+          "y": 42.05815160955348
+        },
+        "front": 2332.232543605055,
+        "rear": 2482.767456394945,
+        "added": 1465,
+        "occupantLoad": 1800,
+        "payload": 3265,
+        "headroom": -815,
+        "lateralEdgeMargin": 19
+      },
+      "sweep": {
+        "count": 64,
+        "minFront": {
+          "mask": 1,
+          "gross": 3315,
+          "cg": {
+            "x": -6.581429420310722,
+            "z": 3.33465517235748e-16,
+            "y": 34.3921568627451
+          },
+          "front": 1354.4800204398605,
+          "rear": 1960.5199795601395,
+          "added": 1465,
+          "occupantLoad": 300,
+          "payload": 1765,
+          "headroom": 685,
+          "lateralEdgeMargin": 19
+        },
+        "maxFront": {
+          "mask": 62,
+          "gross": 4515,
+          "cg": {
+            "x": 4.24039595730286,
+            "z": 1.6545615669543421e-16,
+            "y": 40.93244739756368
+          },
+          "front": 2523.408163155867,
+          "rear": 1991.591836844133,
+          "added": 1465,
+          "occupantLoad": 1500,
+          "payload": 2965,
+          "headroom": -515,
+          "lateralEdgeMargin": 19
+        },
+        "minRear": {
+          "mask": 32,
+          "gross": 3315,
+          "cg": {
+            "x": 5.775380919222447,
+            "z": 2.2534978807839685e-16,
+            "y": 34.3921568627451
+          },
+          "front": 1923.4081631558668,
+          "rear": 1391.5918368441332,
+          "added": 1465,
+          "occupantLoad": 300,
+          "payload": 1765,
+          "headroom": 685,
+          "lateralEdgeMargin": 19
+        },
+        "maxRear": {
+          "mask": 31,
+          "gross": 4515,
+          "cg": {
+            "x": -4.832212298633454,
+            "z": 4.339833618240897e-17,
+            "y": 40.93244739756368
+          },
+          "front": 1954.4800204398607,
+          "rear": 2560.5199795601393,
+          "added": 1465,
+          "occupantLoad": 1500,
+          "payload": 2965,
+          "headroom": -515,
+          "lateralEdgeMargin": 19
+        },
+        "minLateralMargin": {
+          "mask": 10,
+          "gross": 3615,
+          "cg": {
+            "x": 0.7599463566606921,
+            "z": -8.132780082987551,
+            "y": 36.43430152143845
+          },
+          "front": 1845.6556399906722,
+          "rear": 1769.3443600093278,
+          "added": 1465,
+          "occupantLoad": 600,
+          "payload": 2065,
+          "headroom": 385,
+          "lateralEdgeMargin": 10.867219917012449
+        }
+      },
+      "transport": {
+        "dry": 3015,
+        "rolling": 1710,
+        "cargo": 3090,
+        "towed": 5380,
+        "widthMargin": 5,
+        "lengthMargin": 23,
+        "cargoMargin": 620,
+        "rampMargin": 100
+      }
+    },
+    {
+      "layout": "transplant",
+      "profile": "target",
+      "full": {
+        "gross": 4400,
+        "cg": {
+          "x": -1.8461794796592808,
+          "z": 1.4974090407756274e-16,
+          "y": 40.84090909090909
+        },
+        "front": 2087.177920687488,
+        "rear": 2312.822079312512,
+        "added": 1050,
+        "occupantLoad": 1800,
+        "payload": 2850,
+        "headroom": -400,
+        "lateralEdgeMargin": 19
+      },
+      "sweep": {
+        "count": 64,
+        "minFront": {
+          "mask": 1,
+          "gross": 2900,
+          "cg": {
+            "x": -8.455645302894775,
+            "z": 1.9397112731428663e-16,
+            "y": 31.448275862068964
+          },
+          "front": 1109.4253975222937,
+          "rear": 1790.5746024777063,
+          "added": 1050,
+          "occupantLoad": 300,
+          "payload": 1350,
+          "headroom": 1100,
+          "lateralEdgeMargin": 19
+        },
+        "maxFront": {
+          "mask": 62,
+          "gross": 4100,
+          "cg": {
+            "x": 4.010110950526248,
+            "z": 1.6069755559543317e-16,
+            "y": 39.51219512195122
+          },
+          "front": 2278.3535402383004,
+          "rear": 1821.6464597616996,
+          "added": 1050,
+          "occupantLoad": 1500,
+          "payload": 2550,
+          "headroom": -100,
+          "lateralEdgeMargin": 19
+        },
+        "minRear": {
+          "mask": 32,
+          "gross": 2900,
+          "cg": {
+            "x": 5.669467205916419,
+            "z": 2.271930958418193e-16,
+            "y": 31.448275862068964
+          },
+          "front": 1678.3535402383002,
+          "rear": 1221.6464597616998,
+          "added": 1050,
+          "occupantLoad": 300,
+          "payload": 1350,
+          "headroom": 1100,
+          "lateralEdgeMargin": 19
+        },
+        "maxRear": {
+          "mask": 31,
+          "gross": 4100,
+          "cg": {
+            "x": -5.980822287413377,
+            "z": 2.6285102030479778e-17,
+            "y": 39.51219512195122
+          },
+          "front": 1709.4253975222937,
+          "rear": 2390.5746024777063,
+          "added": 1050,
+          "occupantLoad": 1500,
+          "payload": 2550,
+          "headroom": -100,
+          "lateralEdgeMargin": 19
+        },
+        "minLateralMargin": {
+          "mask": 10,
+          "gross": 3200,
+          "cg": {
+            "x": 0.013522884144876172,
+            "z": -9.1875,
+            "y": 34.03125
+          },
+          "front": 1600.6010170731056,
+          "rear": 1599.3989829268944,
+          "added": 1050,
+          "occupantLoad": 600,
+          "payload": 1650,
+          "headroom": 800,
+          "lateralEdgeMargin": 9.8125
+        }
+      },
+      "transport": {
+        "dry": 2600,
+        "rolling": 1700,
+        "cargo": 2675,
+        "towed": 4965,
+        "widthMargin": 5,
+        "lengthMargin": 23,
+        "cargoMargin": 1035,
+        "rampMargin": 110
+      }
+    }
+  ]
+}
