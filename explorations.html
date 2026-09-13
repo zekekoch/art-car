@@ -72,6 +72,14 @@
 </figure>
 <p>Set aside: the <a href="model/b248-review.md">mechanical capacity and upgrade review</a> found that six pods at 300 lb per occupied pod exceed the donor listing's 2,450 lb payload at full occupancy under both body-weight scenarios modelled, and that a factory rating does not transfer to a new custom frame. Confirming a higher-capacity donor configuration would need the complete axle part numbers and serial-specific build record, which the listing does not establish.</p>
 
+<h2 id="modular-corners">Drive-steer corners considered: four identical cassettes</h2>
+<p>A second additive drivetrain study asks whether all four corners can be the same complete module: coilover suspension, geared traction motor, active steering, angle feedback, pneumatic tire and friction brake on one removable cassette. A square/indexable flange and common electrical interfaces would let one fifth cassette replace any failed front, rear, left or right corner.</p>
+<figure>
+  <img src="img/modular-corner-layout.svg" alt="Rigid primary chassis with four identical drive-steer-suspension corner cassettes and one complete spare">
+  <figcaption>The serviceability attraction is real: one corner design, one jig and one complete spare. The trade is a likely 235–395 lb increase over the current four-corner allowance, loss of the air-suspension kneel and a safety-critical four-wheel steer-by-wire system.</figcaption>
+</figure>
+<p><a href="plan/modular-corners.html">The full identical-corner study</a> carries the cassette and steering-mode diagrams, the preliminary 2–3 kW / 48 V specification, current corner-load screen, industrial and outdoor pneumatic vendor precedents, cost and mass allowances, an RFQ brief, fault handling and the physical prototype gate. It remains under study and does not change the plan of record.</p>
+
 <h2>Alternatives modelled and set aside</h2>
 <p>Most of these are still selectable in the models so they can be compared against the plan of record.</p>
 <div class="scroll"><table>
@@ -111,6 +119,7 @@
 <tr><td class="n">2026-09-13</td><td>Roof: cloverleaf (six leaves as two halves on eight posts, lit rim, two flex panels per leaf) added as a third roof style beside the rectangle and petals; ottoman benches in the aisle.</td><td><a href="model/frame-3d.html">frame-3d</a></td></tr>
 <tr><td class="n">2026-09-13</td><td>Plan of record settled: cantilevered pods with the cloverleaf roof. Site restructured into this plan and the system pages; models given a simple / advanced mode.</td><td><a href="index.html">home</a></td></tr>
 <tr><td class="n">2026-09-13</td><td>Taylor-Dunn B-248 donor chassis studied as an alternative to the custom frame: retained-body and running-gear-transplant layouts modelled, then a mechanical capacity review found six occupied pods exceed the donor's listed payload. Set aside; did not change the plan of record.</td><td><a href="#b248">B-248 donor study</a>, <a href="model/b248-review.md">review</a></td></tr>
+<tr><td class="n">2026-09-13</td><td>Four identical drive-steer-coilover corner cassettes documented as an additive alternative. The attraction is one complete universal spare plus normal, crab and spin steering modes; the likely penalties are 235–395 lb, roughly $12,000–20,000 for four corners, loss of kneel and a safety-critical steer-by-wire system. Kept under study pending vendor CAD and a one-corner prototype; the QS205/air-spring drivetrain remains the plan of record.</td><td><a href="#modular-corners">summary</a>, <a href="plan/modular-corners.html">full study</a></td></tr>
 <tr><td class="n">2026-09-13</td><td>Lighting given its own system page. The power budget was rebuilt from the current car's measured behaviour — ~3,300 WS2815 through most of a night on one 100 Ah 12 V LiFePO4, ≈ 140 W, ~42 mW per LED, a 10 % average power fraction — instead of the notebook's 0.3–1 kW: ~4,700 LEDs proposed (rim and skirts at 30/m, no addressable underside wash), ~200 W average, ~2.2 kWh a night. The models' 0.08 W per LED "typical" is to be halved once a SmartShunt night confirms it.</td><td><a href="plan/lighting.html">lighting</a></td></tr>
 </table></div>
 
@@ -119,6 +128,7 @@
   <li><a href="notebook/art-car-design-notebook.html">Design notebook</a> — constraints, chassis concept, corner module and torque, battery, core shapes, the volumetric study (editable <code>DESIGNS</code> array), transport, open questions. Revised 13 September after the review.</li>
   <li><a href="loveseat.md">loveseat.md</a> — the pod design notes: mounting, load case, ergonomics, structure, weight, U outline, driver pod, kneel, open items. (Markdown; opens as text.)</li>
   <li><a href="model/drivetrain-review.md">drivetrain-review.md</a> and <a href="model/drivetrain-review-response.md">drivetrain-review-response.md</a> — the 12 September review and the item-by-item response.</li>
+  <li><a href="plan/modular-corners.html">plan/modular-corners.html</a> — the identical drive-steer-suspension corner alternative, its three diagrams, vendor screen, controls hazards and prototype gate.</li>
   <li><a href="model/drivetrain/README.md">model/drivetrain/README.md</a> — the drivetrain study's files, exports and verification script.</li>
   <li><a href="sketches/">sketches/</a> — Selina's nine renderings, the core-shape and pod-layout sketches, the pod-mount sketch, the pod-vs-loveseat plan, and photos of the current car.</li>
   <li><a href="https://github.com/zekekoch/art-car/commits/">Git history</a> — every revision of every file above.</li>

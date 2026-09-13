@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Identical modular corners — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a class="here" href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a href="lighting.html">Lighting</a>
+    <a href="electrical.html">Electrical</a>
+    <a href="specification.html">Specification</a>
+    <a href="bom.html">BOM</a>
+    <a href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Alternative under study · drivetrain architecture · 13 September 2026</p>
+<h1>Four identical drive-steer-coilover corners</h1>
+<p class="lede">A rigid 54 × 120″ primary chassis carries four copies of one field-replaceable cassette. Each cassette contains the suspension, pneumatic tire, traction motor and reduction, active steering, angle feedback and friction brake. The same physical spare can replace front, rear, left or right; the harness and controller tell it which corner it has become.</p>
+
+<div class="flag"><b>Status: not the plan of record.</b> The current build direction remains four QS205 direct-drive hubs on trailing arms, front rack steering and air springs. This page records a more expensive alternative whose main attractions are one genuinely interchangeable corner design, no compressor and four-wheel steering. Nothing on the <a href="specification.html">specification</a> or <a href="bom.html">BOM</a> changes until a vendor drawing and a physical corner prototype pass the gate below.</div>
+
+<figure>
+  <img src="../img/modular-corner-layout.svg" alt="Top-view diagram of a rigid 120 by 54 inch chassis with a central battery and four identical bolt-on drive-steer-suspension corner cassettes">
+  <figcaption>System layout. The cassette flange, connectors and software interface are identical at all four corners. A complete spare replaces any one of them; it is not a box of parts that still needs a corner-specific arm or knuckle.</figcaption>
+</figure>
+
+<h2>Why consider it</h2>
+<p>The plan of record already calls each corner removable, but the front and rear assemblies are not the same: the front has a knuckle, kingpin, steering arm and tie rod, while the rear has a different carrier and parking-brake connection. A single spare therefore cannot be a complete drop-in replacement everywhere. Active steering at all four corners can make the mechanical cassette common; a square or indexable mounting flange and common connectors make its location an electrical identity rather than a fabrication difference.</p>
+<p>The second attraction is simplification of the suspension system. A coilover at each corner removes the compressor, tank, four valves, pressure sensors, height sensors and air lines. That trades away the present car's ~5.6″ kneel and automatic levelling. The choice is therefore not “air is necessary” versus “air is unnecessary”; it is whether adjustable ride height is worth the extra system when large pneumatic tires and 3–4″ of independent travel can handle the expected low-speed 1–2″ surface irregularities.</p>
+
+<h2>What changes — and what stays</h2>
+<div class="two">
+  <div>
+    <h3>Kept from the current car</h3>
+    <ul>
+      <li>54 × 120″ transport envelope and a rigid welded primary frame.</li>
+      <li>Low, removable 48 V battery sled and one traction controller per wheel.</li>
+      <li>The current 12 × 8.5 rim / 23 × 10.50-12 turf-tire target, if a vendor can supply a properly rated hub flange and bearing package.</li>
+      <li>Hydraulic service brakes on all four wheels and a mechanically held parking brake on at least two.</li>
+      <li>The six demountable passenger pods, roof, load cases and 5 mph playa operating limit.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Changed by this option</h3>
+    <ul>
+      <li>A geared industrial traction unit replaces each direct-drive hub.</li>
+      <li>Every wheel steers electrically; the rack, column, tie rods and front-only knuckles disappear.</li>
+      <li>A coilover and locating links replace the air spring, separate damper, compressor, tank, valves, pressure sensors, height sensors and air lines.</li>
+      <li>The frame receives four identical cassette interfaces rather than different front and rear arms.</li>
+      <li>Steering becomes a safety-critical distributed control system, not a mechanical linkage.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Preliminary design envelope</h2>
+<p>These are screening numbers for an RFQ and a one-corner prototype, not final component ratings.</p>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Preliminary target</th><th>Why</th></tr>
+<tr><td>Vehicle basis</td><td>≈2,740 lb empty; ≈5,140 lb with 12 seated</td><td>Same mass model as the plan of record.</td></tr>
+<tr><td>Worst static corner in the current model</td><td>≈1,830 lb / 830 kg in the rear-crowded load case</td><td>This is higher than the evenly divided 1,285 lb corner load and must govern the first screen.</td></tr>
+<tr><td>Vendor load screen</td><td>Do not pursue a unit below ≈1,250 kg / 2,750 lb quoted vertical capacity; a 2,000 kg class unit is preferable while impact duty is unknown</td><td>1.5 × the modelled 1,830 lb static corner is 2,745 lb. This is a prototype proof-load starting point, not a substitute for combined-load engineering.</td></tr>
+<tr><td>Traction</td><td>2–3 kW per corner, 48 V, geared for 5 mph continuous operation and a controlled 10 mph capability</td><td>Matches the existing bus and leaves torque reserve for soft patches, starting and the trailer ramp. The vendor still has to supply continuous low-speed thermal data.</td></tr>
+<tr><td>Steering</td><td>At least ±60° for normal, crab and spin; ±90° only if lateral travel is worth a new frame layout</td><td>At the current 66 × 43″ wheel centres a spin tangent is about 57°. True sideways motion needs 90° and substantially more tire-sweep clearance.</td></tr>
+<tr><td>Suspension</td><td>3–4″ wheel travel; coilover with adjustable preload and likely a progressive or dual-rate spring</td><td>The sprung mass varies enormously between empty and occupied. A single fixed linear spring may be unacceptable at one end of the range.</td></tr>
+<tr><td>Wheel end</td><td>Standard replaceable 12″ wheel flange for the 23 × 10.50-12 turf tire; rated bearings, brake interface and dust seals</td><td>The small polyurethane or solid-rubber wheel supplied on a warehouse AGV unit is not suitable merely because the gearbox is.</td></tr>
+<tr><td>Complete cassette mass</td><td>Preferably ≤200 lb including tire, suspension, brake, motors and steering electronics</td><td>The current four corners total ≈485 lb. Four 180–220 lb cassettes would add roughly 235–395 lb before the spare and directly worsen the ramp and tow budgets.</td></tr>
+<tr><td>Field interface</td><td>One six-bolt structural flange, one keyed high-voltage connector, one keyed low-voltage/CAN connector and one defined service-brake interface</td><td>The module is only a useful spare if it can be exchanged with ordinary hand tools and a rated jack.</td></tr>
+</table></div>
+
+<h2>A complete corner, not just an AGV wheel</h2>
+<figure>
+  <img src="../img/modular-corner-cassette.svg" alt="Conceptual side and front diagrams of one bolt-on corner cassette with suspension links, coilover, steering bearing and servo, geared traction motor, brake and pneumatic tire">
+  <figcaption>One possible package. A compact parallel-link cassette keeps the steering axis roughly upright through travel; a short trailing arm is another possibility. The important boundary is the same: the chassis sees one tested removable assembly, while the precision steering and wheel-end parts remain with that assembly.</figcaption>
+</figure>
+<ul class="decisions">
+  <li><b>Identical means reversible, not merely similar.</b> The chassis flange should be square or otherwise indexable, and the brake, connectors and load path must work when the same cassette is rotated into any corner. A left- and right-handed pair defeats the one-spare goal. <span class="tag direction">design requirement</span></li>
+  <li><b>The suspension stays on the cassette.</b> Leaving the coilover or locating arm on the car would make a swap slower and corner-specific. The cassette therefore includes its pivots, links, bump stop and droop limit as well as the drive-steer unit. <span class="tag direction">direction</span></li>
+  <li><b>Corner identity is electrical.</b> A keyed harness, resistor ID or commissioning step tells the local node whether it is front-left, front-right, rear-left or rear-right and assigns steering sign, zero, speed command and brake diagnostics. <span class="tag open">implementation open</span></li>
+  <li><b>The brake remains independently useful.</b> A motor holding brake may help park an AGV, but it does not replace the car's hydraulic service brake or the mechanically held parking brake. The swap procedure must include a defined way to open, cap, bleed and verify the hydraulic circuit. <span class="tag decided">same brake requirement</span></li>
+</ul>
+
+<h2>Steering modes — and the packaging limit</h2>
+<figure>
+  <img src="../img/modular-steering-modes.svg" alt="Four diagrams showing normal four-wheel steering, crab steering, spin in place and true lateral movement">
+  <figcaption>Four independent steer axes create useful low-speed modes, but they do not make every mode free. The present wheel wells and pod receiver sleeves were arranged around about 22° of front lock, not a 90° wheel sweep.</figcaption>
+</figure>
+<p><b>Normal steering should be the power-up mode</b> and should feel conventional at the steering wheel. Rear countersteer can reduce the turning circle without changing the driver's mental model. Crab and spin should require the vehicle to be stopped, a deliberate mode enable and a walking-speed limit. A steering-angle mismatch, lost communications or implausible sensor signal should remove traction torque and command independent friction braking.</p>
+<p><b>Spin is plausible without full lateral travel.</b> At the current 66 × 43″ wheel centres, each wheel needs to sit tangent to the circle around the vehicle center, about 57° from straight ahead. A ±60° mechanical target can therefore support a center spin. True lateral motion needs ±90° and likely conflicts with the 54″ transport envelope, the wheel wells and the side-pod receiver sleeves; it should not be promised unless a full sweep model says it fits.</p>
+
+<h2>What the market proves — and what it does not</h2>
+<p>Industrial drive-steer units demonstrate that integrated traction, reduction, active steering, braking and absolute angle feedback are purchasable. Their catalog ratings are for AGV duty and usually small hard wheels on prepared floors; none of the figures below establishes an outdoor passenger-vehicle wheel end.</p>
+<div class="scroll"><table>
+<tr><th>Reference product</th><th>Published configuration</th><th>Use in this study</th></tr>
+<tr><td><a href="https://www.jy-robots.com/en/sys-pd/202.html">JY Robot HW220, single-sided</a></td><td>2.5 kW / 48 V traction; 0.4 kW steering; 40:1 planetary; ±110°; 2,000 kg listed load; 65 kg net; 220 × 80 mm wheel</td><td>The closest catalog starting point by power, voltage, steering range and mass. Its supplied wheel is far too small; ask for a standard pneumatic-wheel hub and the resulting radial, axial, overturning and impact ratings.</td></tr>
+<tr><td><a href="https://www.jy-robots.com/en/sys-pd/218.html">JY Robot HW400, double-sided</a></td><td>4 kW / 48 V traction; 1 kW steering; 40:1; ±110°; 4,000 kg listed load; 120 kg net; 400 × 120 mm wheel</td><td>Confirms a heavier supported-wheel architecture, but 265 lb before suspension, vehicle brake and a pneumatic tire makes it a poor fit for the tow budget.</td></tr>
+<tr><td><a href="https://www.zhlun.cn/Products_details/730duolunnongyongchongqixiangjiaoluntaichengzai500KGqudongzongcheng.html">ZHLUN ZL-N730 outdoor pneumatic unit</a></td><td>1.5 kW / 48 V traction; 0.75 kW steering; 580 mm pneumatic tire; 500 kg listed load; 730 mm installation height</td><td>Important precedent: a manufacturer already integrates active steering and reduction with a roughly 23″ pneumatic outdoor tire. Its listed load is much too low for this car.</td></tr>
+<tr><td><a href="https://www.zhlun.cn/Products_details/1050duolunnongyongchongqixiangjiaoluntaichengzai800KGqudongzongcheng.html">ZHLUN ZL-N1050 outdoor pneumatic unit</a></td><td>2.5 kW / 48 V traction; 0.75 kW steering; 805 mm pneumatic tire; 800 kg listed load; 1,050 mm installation height</td><td>Closer in power and load, but its 31.7″ wheel and 41″ installation height are too large, and 800 kg is still below the current 830 kg worst static corner.</td></tr>
+</table></div>
+<div class="note"><b>The useful request is a hybrid, not an off-the-shelf part:</b> the load and steering mechanism of an HW220-class unit, a flange for the existing 23 × 10.50-12 pneumatic tire, an outdoor/dust wheel-end rating, a vehicle brake interface and a much lower installed height than the agricultural modules. Both manufacturers advertise application-specific configuration, but that needs a drawing, an application review and a quote.</div>
+
+<h2>Cost and weight consequence</h2>
+<div class="scroll"><table>
+<tr><th></th><th>Plan of record</th><th>Identical modular option</th></tr>
+<tr><td>Four-corner hardware allowance</td><td>≈$4,000–6,500 for motors, controllers, air and brakes, before rims, tires and machining</td><td>Internal planning allowance ≈$12,000–20,000 for four completed cassettes, before central safety controls and development</td></tr>
+<tr><td>Complete spare</td><td>Front and rear designs differ; one spare cannot replace every complete corner</td><td>Planning allowance ≈$3,000–5,000 for one complete fifth cassette, if the manufacturer and suspension design are genuinely common</td></tr>
+<tr><td>Four-corner mass</td><td>≈485 lb in the current model</td><td>Likely ≈720–880 lb at 180–220 lb complete per cassette; the 65 kg HW220 is already 143 lb without the larger tire, suspension or vehicle brake</td></tr>
+<tr><td>Air system</td><td>Compressor, tank, four valves, height/pressure sensing and lines; enables kneel and levelling</td><td>None; coilovers are simpler but give up kneel and automatic levelling</td></tr>
+<tr><td>Steering</td><td>Mechanical front rack; modest software burden and a physical path from wheel to tires</td><td>Four servos, absolute angle sensing, local nodes, mode logic and an independent fault supervisor</td></tr>
+<tr><td>Fabrication</td><td>Different front/rear arms and front knuckles; significant machining</td><td>One repeated cassette and one jig, but a more demanding structural flange and much more controls integration</td></tr>
+</table></div>
+<p>The cost numbers are budgeting allowances, not vendor quotes. The likely mass penalty is at least as important as the price: the current trailer-and-car estimate is already approximately at the used RV's 5,000 lb tow target before cargo. This option has to earn back weight elsewhere or move more modules into the RV.</p>
+
+<h2>RFQ brief</h2>
+<p>A useful first vendor request should include the actual application rather than asking only for a “2,000 kg steering wheel.”</p>
+<div class="note">
+  <b>Quantity:</b> four identical production modules plus one complete spare.<br>
+  <b>Vehicle:</b> low-speed outdoor passenger platform; ≈2,740 lb empty, ≈5,140 lb normally loaded; current worst modelled static corner ≈1,830 lb.<br>
+  <b>Surface:</b> hard-packed dry lakebed, loose dust, ruts and occasional 1–2″ irregularities; possible wet patches; ambient heat and pervasive alkaline dust.<br>
+  <b>Wheel:</b> replaceable 23 × 10.50-12 pneumatic turf tire on a standard 12 × 8.5 rim, or a vendor-proposed equivalent with published load capacity.<br>
+  <b>Electrical:</b> 48 V traction and steering; ≈2.5 kW traction per corner; absolute steering feedback; CAN interface preferred.<br>
+  <b>Steering:</b> continuous commanded range of at least ±60°; hard limits and a defined power-off state; ask for ±90° only if the envelope can support lateral travel.<br>
+  <b>Braking:</b> interface for a hydraulic service rotor/caliper and a mechanically held parking brake; do not count regen or a servo holding brake as the whole brake system.<br>
+  <b>Data required before purchase:</b> CAD and dimensioned drawing, mass and rotating envelope, radial/axial/overturning and impact ratings at the proposed wheel offset, traction and thermal curves at the proposed tire radius, ingress/dust rating, brake torque, steering backlash and duty, encoder protocol, bearing-life assumptions and lead time.
+</div>
+
+<h2>Safety architecture</h2>
+<ul>
+  <li><b>Independent supervisory layer.</b> A separate safety process watches commanded and measured angle, steering-node health, wheel speed, brake state, throttle plausibility and mode state. It can remove traction enable independently of the motion controller.</li>
+  <li><b>Angle plausibility.</b> Use an absolute encoder plus an independent limit/reference channel or another monitored angle signal; do not let one silent encoder error steer a loaded passenger vehicle.</li>
+  <li><b>Defined fault response.</b> On angle disagreement, lost CAN, steering over-current or a node reset: ramp traction torque to zero as quickly as stability permits, apply the friction service brake and latch the fault. Recovery is manual.</li>
+  <li><b>Power-off steering state.</b> Specify whether the steering axis is mechanically braked, self-locking or freely back-drivable. “Whatever the servo does when power disappears” is not a design.</li>
+  <li><b>Mode interlocks.</b> Normal mode on startup. Crab/spin only from a stop and only below a fixed low speed. True lateral remains disabled unless the mechanical sweep, visibility and inspection plan are all resolved.</li>
+  <li><b>Conventional inspection behavior.</b> The default controls should present as a steering wheel, throttle, service brake, F/N/R and held parking brake. Special modes are an additional maneuvering feature, not the only way to drive.</li>
+</ul>
+
+<h2>Gate before this can replace the current drivetrain</h2>
+<ol>
+  <li><b>Get two application-reviewed proposals.</b> Each must include a dimensioned assembly for the pneumatic wheel end, environmental limits, combined-load assumptions, brake interface, controls and a firm mass/price — not only an AGV catalog page.</li>
+  <li><b>Model the full sweep.</b> Put the exact vendor CAD into the 54 × 120″ chassis with the current 28″ pod-receiver spacing, wheel wells and 23″ tires. Check normal lock, ≈57° spin position, full bump/droop and service access. Treat 90° lateral as a separate optional layout.</li>
+  <li><b>Build one complete cassette and fixture.</b> Include its real flange, suspension, brake, harness and controller. Weigh it before any frame change.</li>
+  <li><b>Proof-load the assembly.</b> A preliminary vertical fixture target is 1.5 × the current 1,830 lb static corner, or ≈2,745 lb, while cycling suspension and steering. A qualified mechanical engineer must set the final proof factor and combined side, braking, drive and impact cases.</li>
+  <li><b>Run the duty test.</b> Reproduce the 5 mph low-speed/high-torque duty, repeated steering at rated corner load, braking with a full battery, dust exposure and thermal soak. Verify fault shutdown by disconnecting each sensor and communications link in turn.</li>
+  <li><b>Re-run transport and energy.</b> Put the measured cassette mass, geared-drive efficiency and steering draw into the frame and range models. This option advances only if the tow/ramp plan still works.</li>
+</ol>
+
+<h2>Open questions</h2>
+<ul>
+  <li>Can a manufacturer supply a 23″ pneumatic flange and outdoor wheel-end rating without turning the module into a 250 lb custom part?</li>
+  <li>Can one coilover tune cover the empty-to-full load range, or does the cassette need a dual-rate spring, tender spring or mechanically adjustable preload?</li>
+  <li>Is losing the 5.6″ air-suspension kneel acceptable for boarding, trailer loading and levelling, or does the body need a different stair strategy?</li>
+  <li>Does a truly reversible cassette fit around the pod receivers and brake plumbing, or do packaging compromises reintroduce left/right parts?</li>
+  <li>Are crab and spin worth the steer-by-wire safety burden if normal four-wheel steering is the only mode used most of the time?</li>
+  <li>Can the brake connection be made field-serviceable without turning a corner swap into a long bleed and inspection procedure?</li>
+</ul>
+
+<footer class="src">Internal basis: <a href="drivetrain.html">plan-of-record drivetrain</a> · <a href="../model/frame-3d.html#advanced">frame-3d load cases and mass model</a> · <a href="bom.html">plan-of-record BOM</a> · <a href="../model/drivetrain-review.md">drivetrain review</a>. Manufacturer references: <a href="https://www.jy-robots.com/en/sys-pd/202.html">JY single-sided drive-steer units</a> · <a href="https://www.jy-robots.com/en/sys-pd/218.html">JY double-sided units</a> · <a href="https://www.zhlun.cn/Products_details/730duolunnongyongchongqixiangjiaoluntaichengzai500KGqudongzongcheng.html">ZHLUN N730</a> · <a href="https://www.zhlun.cn/Products_details/1050duolunnongyongchongqixiangjiaoluntaichengzai800KGqudongzongcheng.html">ZHLUN N1050</a>. Catalog capacities are screening references, not approval for this vehicle.</footer>
+</main>
+</body>
+</html>

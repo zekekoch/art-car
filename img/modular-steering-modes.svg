@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Potential steering modes for four independent drive-steer corners</title>
+  <desc id="desc">Four conceptual plan views show normal four-wheel countersteer, crab steering, spin in place and full lateral translation. Normal is the default; special modes require low-speed interlocks.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#B8348A"/></marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2F5D8A"/></marker>
+    <style>
+      .bg{fill:#ECEFF3}.panel{fill:#F7F8FA;stroke:#D5DCE4;stroke-width:2}.car{fill:#DCE8F1;stroke:#1B2A41;stroke-width:4}.center{fill:#B8348A}.wheel{fill:#303943;stroke:#1B2A41;stroke-width:2}.hub{fill:#9DB3C9}.path{fill:none;stroke:#B8348A;stroke-width:5;marker-end:url(#arrow)}.guide{fill:none;stroke:#9DB3C9;stroke-width:2;stroke-dasharray:7 6}.radius{fill:none;stroke:#2F5D8A;stroke-width:3;marker-end:url(#arrowBlue)}.title{font:700 28px system-ui,sans-serif;fill:#1B2A41}.sub{font:16px system-ui,sans-serif;fill:#5F6E80}.head{font:700 20px system-ui,sans-serif;fill:#1B2A41}.label{font:600 15px system-ui,sans-serif;fill:#1B2A41}.small{font:14px system-ui,sans-serif;fill:#5F6E80}.tiny{font:12px system-ui,sans-serif;fill:#5F6E80}.warn{fill:#9A641E}.ok{fill:#2E7D5B}.mode{fill:#B8348A}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="52" y="50">What four independently steered corners make possible</text>
+  <text class="sub" x="52" y="78">Normal driving remains the power-up mode. Crab, spin and lateral modes are low-speed maneuvering features with deliberate interlocks.</text>
+
+  <!-- panels -->
+  <rect class="panel" x="42" y="112" width="548" height="276" rx="12"/>
+  <rect class="panel" x="610" y="112" width="548" height="276" rx="12"/>
+  <rect class="panel" x="42" y="408" width="548" height="276" rx="12"/>
+  <rect class="panel" x="610" y="408" width="548" height="276" rx="12"/>
+
+  <!-- NORMAL -->
+  <text class="head" x="70" y="148">1 · Normal four-wheel steering</text>
+  <text class="small" x="70" y="171">Front and rear countersteer; steering wheel feels conventional.</text>
+  <g transform="translate(250 190)">
+    <rect class="car" x="0" y="0" width="142" height="150" rx="10"/>
+    <circle class="center" cx="71" cy="75" r="5"/>
+    <g transform="translate(16 21) rotate(-20 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 21) rotate(-20 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(16 129) rotate(12 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 129) rotate(12 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <text class="tiny" x="71" y="81" text-anchor="middle">CHASSIS</text>
+  </g>
+  <path class="path" d="M437 335Q510 278 472 207"/>
+  <text class="label ok" x="70" y="354">DEFAULT</text>
+  <text class="small" x="144" y="354">Rear steer can shrink the turning circle without changing the driver's mental model.</text>
+
+  <!-- CRAB -->
+  <text class="head" x="638" y="148">2 · Crab</text>
+  <text class="small" x="638" y="171">All four wheels point the same way; the car moves diagonally.</text>
+  <g transform="translate(817 190)">
+    <rect class="car" x="0" y="0" width="142" height="150" rx="10"/>
+    <circle class="center" cx="71" cy="75" r="5"/>
+    <g transform="translate(16 21) rotate(-28 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 21) rotate(-28 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(16 129) rotate(-28 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 129) rotate(-28 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <text class="tiny" x="71" y="81" text-anchor="middle">CHASSIS</text>
+  </g>
+  <path class="path" d="M992 326L1080 218"/>
+  <text class="label mode" x="638" y="354">SPECIAL MODE</text>
+  <text class="small" x="755" y="354">Enable only from a stop and limit to walking speed.</text>
+
+  <!-- SPIN -->
+  <text class="head" x="70" y="444">3 · Spin about the vehicle center</text>
+  <text class="small" x="70" y="467">Each wheel points tangent to its circle around the center.</text>
+  <g transform="translate(250 486)">
+    <rect class="car" x="0" y="0" width="142" height="150" rx="10"/>
+    <circle class="center" cx="71" cy="75" r="7"/>
+    <circle class="guide" cx="71" cy="75" r="78"/>
+    <g transform="translate(16 21) rotate(46 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 21) rotate(-46 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(16 129) rotate(-46 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 129) rotate(46 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <text class="tiny" x="71" y="81" text-anchor="middle">CENTER</text>
+  </g>
+  <path class="path" d="M434 625Q492 565 438 510"/>
+  <text class="label mode" x="70" y="650">SPECIAL MODE</text>
+  <text class="small" x="187" y="650">The current 66 × 43″ wheel-center layout needs about 57° of steering, not 90°.</text>
+
+  <!-- LATERAL -->
+  <text class="head" x="638" y="444">4 · True lateral translation</text>
+  <text class="small" x="638" y="467">All wheels rotate 90°; spectacular, but not free.</text>
+  <g transform="translate(817 486)">
+    <rect class="car" x="0" y="0" width="142" height="150" rx="10"/>
+    <circle class="center" cx="71" cy="75" r="5"/>
+    <g transform="translate(16 21) rotate(90 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 21) rotate(90 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(16 129) rotate(90 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <g transform="translate(126 129) rotate(90 0 0)"><rect class="wheel" x="-11" y="-25" width="22" height="50" rx="7"/><circle class="hub" cx="0" cy="0" r="4"/></g>
+    <text class="tiny" x="71" y="81" text-anchor="middle">CHASSIS</text>
+  </g>
+  <path class="path" d="M988 561L1090 561"/>
+  <text class="label warn" x="638" y="650">PACKAGING GATE</text>
+  <text class="small" x="770" y="650">A 90° tire sweep may collide with wheel wells, pod receivers and the 54″ envelope.</text>
+
+  <line x1="52" y1="710" x2="1148" y2="710" stroke="#D5DCE4" stroke-width="2"/>
+  <text class="tiny" x="52" y="735">Every special mode requires measured steering-angle agreement, healthy communications, independent friction brakes and a defined response to power loss.</text>
+  <text class="tiny" x="1148" y="735" text-anchor="end">Conceptual kinematics only</text>
+</svg>
