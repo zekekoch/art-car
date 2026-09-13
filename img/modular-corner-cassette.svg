@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual identical drive-steer-coilover corner cassette</title>
+  <desc id="desc">Side and front views showing a removable chassis flange, suspension links, coilover, steering bearing and servo, traction motor and reduction, hydraulic brake and pneumatic tire.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2F5D8A"/></marker>
+    <marker id="arrPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#B8348A"/></marker>
+    <style>
+      .bg{fill:#ECEFF3}.panel{fill:#F7F8FA;stroke:#D5DCE4;stroke-width:2}.ink{stroke:#1B2A41;stroke-width:4;fill:none}.frame{fill:#1B2A41}.cass{fill:#DCE8F1;stroke:#2F5D8A;stroke-width:3}.flange{fill:#F3E4EF;stroke:#B8348A;stroke-width:3}.arm{fill:#DDE5EC;stroke:#1B2A41;stroke-width:3}.hub{fill:#E3F0EA;stroke:#2E7D5B;stroke-width:3}.motor{fill:#F3E4EF;stroke:#B8348A;stroke-width:3}.brake{fill:#F2E8D9;stroke:#A66C27;stroke-width:3}.tire{fill:#303943;stroke:#1B2A41;stroke-width:4}.rim{fill:#9DB3C9;stroke:#1B2A41;stroke-width:3}.coil{fill:none;stroke:#C18435;stroke-width:6}.damper{stroke:#745990;stroke-width:8}.bolt{fill:#F7F8FA;stroke:#1B2A41;stroke-width:2}.wire{fill:none;stroke:#745990;stroke-width:3;stroke-dasharray:7 5}.hyd{fill:none;stroke:#B8348A;stroke-width:3;stroke-dasharray:7 5}.leader{fill:none;stroke:#2F5D8A;stroke-width:2;marker-end:url(#arr)}.leader2{fill:none;stroke:#B8348A;stroke-width:2;marker-end:url(#arrPink)}.title{font:700 28px system-ui,sans-serif;fill:#1B2A41}.sub{font:16px system-ui,sans-serif;fill:#5F6E80}.head{font:700 20px system-ui,sans-serif;fill:#1B2A41}.label{font:600 15px system-ui,sans-serif;fill:#1B2A41}.small{font:13px system-ui,sans-serif;fill:#5F6E80}.tiny{font:12px system-ui,sans-serif;fill:#5F6E80}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="52" y="52">One tested cassette becomes any corner</text>
+  <text class="sub" x="52" y="80">Conceptual arrangement only. Final suspension geometry, bearings, brake interfaces and combined-load ratings require engineering and prototype tests.</text>
+
+  <rect class="panel" x="38" y="112" width="724" height="584" rx="12"/>
+  <text class="head" x="68" y="148">SIDE VIEW · wheel travel stays inside the removable assembly</text>
+
+  <!-- rigid chassis rail and cassette flange -->
+  <rect class="frame" x="92" y="200" width="238" height="86" rx="4"/>
+  <text class="label" x="211" y="247" text-anchor="middle" fill="#F7F8FA">RIGID PRIMARY CHASSIS</text>
+  <rect class="flange" x="306" y="174" width="54" height="154" rx="5"/>
+  <circle class="bolt" cx="321" cy="194" r="6"/><circle class="bolt" cx="345" cy="194" r="6"/><circle class="bolt" cx="321" cy="308" r="6"/><circle class="bolt" cx="345" cy="308" r="6"/><circle class="bolt" cx="333" cy="220" r="6"/><circle class="bolt" cx="333" cy="282" r="6"/>
+  <text class="small" x="333" y="348" text-anchor="middle">indexed six-bolt</text><text class="small" x="333" y="366" text-anchor="middle">structural flange</text>
+
+  <!-- cassette spine -->
+  <path class="cass" d="M360 192H538L574 232V334H508L472 297H360Z"/>
+  <text class="label" x="452" y="218" text-anchor="middle">CASSETTE SPINE</text>
+
+  <!-- suspension links -->
+  <path class="arm" d="M393 303L432 322L614 476L588 506L413 354L375 344Z"/>
+  <path class="arm" d="M430 257L470 270L620 414L592 445L447 307L412 296Z"/>
+  <circle class="hub" cx="615" cy="462" r="54"/>
+  <circle class="bolt" cx="393" cy="323" r="12"/><circle class="bolt" cx="431" cy="278" r="12"/>
+  <circle class="bolt" cx="598" cy="488" r="10"/><circle class="bolt" cx="602" cy="431" r="10"/>
+
+  <!-- coilover -->
+  <line class="damper" x1="492" y1="233" x2="538" y2="397"/>
+  <path class="coil" d="M482 253l27 12-18 21 29 13-18 22 29 13-18 22 28 13-13 18"/>
+  <circle class="bolt" cx="492" cy="235" r="9"/><circle class="bolt" cx="538" cy="397" r="9"/>
+
+  <!-- wheel, motor, brake -->
+  <circle class="tire" cx="634" cy="489" r="135"/>
+  <circle class="rim" cx="634" cy="489" r="78"/>
+  <circle class="motor" cx="614" cy="462" r="47"/>
+  <rect class="brake" x="666" y="421" width="34" height="74" rx="8"/>
+  <circle class="hub" cx="614" cy="462" r="15"/>
+  <path class="wire" d="M561 253C634 260 660 324 626 407"/>
+  <path class="hyd" d="M350 318C455 382 611 335 685 421"/>
+
+  <!-- connectors -->
+  <rect class="flange" x="270" y="388" width="126" height="42" rx="7"/>
+  <text class="small" x="333" y="406" text-anchor="middle">keyed HV + CAN</text><text class="tiny" x="333" y="422" text-anchor="middle">single service loop</text>
+  <rect class="brake" x="270" y="448" width="126" height="42" rx="7"/>
+  <text class="small" x="333" y="466" text-anchor="middle">service-brake line</text><text class="tiny" x="333" y="482" text-anchor="middle">defined bleed / dry-break</text>
+
+  <!-- labels -->
+  <path class="leader" d="M122 428C194 401 257 407 302 409"/><text class="label" x="72" y="424">Field connectors</text>
+  <path class="leader" d="M83 544C184 547 292 526 404 344"/><text class="label" x="68" y="536">Parallel links or a</text><text class="label" x="68" y="556">short trailing arm</text>
+  <path class="leader" d="M426 574C476 557 529 533 588 498"/><text class="label" x="330" y="578">steer bearing / kingpin</text>
+  <path class="leader" d="M463 160C480 179 488 204 492 226"/><text class="label" x="419" y="151">adjustable coilover</text>
+  <path class="leader2" d="M667 184C650 238 627 330 616 409"/><text class="label" x="616" y="158">traction motor + reduction</text>
+  <path class="leader" d="M735 347C720 375 705 400 695 421"/><text class="label" x="668" y="334">hydraulic caliper</text>
+  <text class="small" x="634" y="651" text-anchor="middle">23 × 10.50-12 pneumatic turf tire shown as the current target</text>
+
+  <!-- front view panel -->
+  <rect class="panel" x="786" y="112" width="376" height="584" rx="12"/>
+  <text class="head" x="816" y="148">FRONT VIEW · entire wheel end steers</text>
+  <rect class="frame" x="840" y="199" width="268" height="64" rx="4"/>
+  <rect class="flange" x="943" y="252" width="62" height="64" rx="5"/>
+  <path class="cass" d="M888 304H1060V388H888Z"/>
+  <circle class="steer" cx="974" cy="358" r="49"/>
+  <rect class="motor" x="942" y="335" width="64" height="70" rx="12"/>
+  <circle class="tire" cx="974" cy="532" r="120"/>
+  <circle class="rim" cx="974" cy="532" r="65"/>
+  <path class="coil" d="M880 283l23 12-18 19 25 12-18 19 25 12-18 19"/>
+  <line class="damper" x1="890" y1="278" x2="904" y2="394"/>
+  <path class="ink" d="M913 385L947 449M1035 385L1001 449"/>
+  <path class="leader" d="M827 441C858 421 908 393 937 371"/><text class="label" x="816" y="455">steering servo</text><text class="small" x="816" y="475">absolute angle feedback</text>
+  <path class="leader2" d="M1099 334C1064 340 1031 349 1019 356"/><text class="label" x="1023" y="318">large steering</text><text class="label" x="1023" y="337">bearing</text>
+  <path class="leader" d="M1094 624C1063 594 1030 564 1021 549"/><text class="label" x="1020" y="646">standard wheel flange</text>
+  <text class="small" x="974" y="674" text-anchor="middle">The module must be reversible or indexable, not left- or right-handed.</text>
+</svg>
