@@ -6,6 +6,8 @@ Custom electric chassis (max 54" x 120") with a demountable body: six cantilever
 
 **B-248 donor study (13 September):** an additive concept study, not the plan of record — [retained donor body](model/b248-3d.html?layout=stock) · [running-gear transplant](model/b248-3d.html?layout=transplant) · [mechanical capacity and upgrade review](model/b248-review.md) · [dimensioned plan](model/b248/plan.svg). Compares a retained Taylor-Dunn B-248 donor body with a proposed 120 × 52 in frame reusing the donor's axles on a 72 in wheelbase. Six pods at 300 lb per occupied pod exceed the listing's 2,450 lb capacity at full occupancy under both scenarios modeled; the factory rating does not transfer to a custom frame. See [How we got here](explorations.html) for how it compares with the plan of record.
 
+If the B-248 3D view cannot render, it falls back to the dimensioned plan with working load controls. After a viewer update, reload the page to pick up the fix. Developer smoke checks: `node model/b248/verify-viewer.cjs` (stub renderer; does not verify WebGL pixels).
+
 ![B-248 concept with roof removed](model/b248/uncovered.png)
 
 ## How the repo is organised
