@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lighting — Art car v2</title>
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site"><div class="in">
+  <a class="brand" href="../index.html">Art car v2</a>
+  <nav>
+    <a href="drivetrain.html">Drivetrain</a>
+    <a href="pods.html">Pods</a>
+    <a href="roof.html">Roof</a>
+    <a class="here" href="lighting.html">Lighting</a>
+    <a href="electrical.html">Electrical</a>
+    <a href="specification.html">Specification</a>
+    <a href="bom.html">BOM</a>
+    <a href="construction.html">Construction</a>
+    <span class="sep">|</span>
+    <a href="../explorations.html">How we got here</a>
+    <a href="../notebook/art-car-design-notebook.html">Notebook</a>
+  </nav>
+</div></header>
+
+<main>
+<p class="eyebrow">Plan of record · lighting · rev 13 September 2026</p>
+<h1>Lighting</h1>
+<p class="lede">The lights are the art: a lit wall on every pod, a mirror skirt under each floor, and the roof rim you see from across the playa — all addressable, all on from sunset to sunrise. This page sets the power budget: the assumptions first, then how many LEDs each zone gets and how bright they actually run, calibrated against what the current car draws tonight rather than what a data sheet says it could.</p>
+
+<div class="flag"><b>Where this lands.</b> The plan pages have carried lighting at 0.3–1 kW (2.4–8 kWh a night). Calibrated against the current car — ~3,300 LEDs through most of a night on one 100 Ah 12 V LiFePO4 — the same style of art on the new car is ~200–300 W: 2–3 kWh a night, about an hour of generator, under 10 % of the pack. The lever that matters is the number of LEDs, not the brightness slider, because a dark addressable LED still draws power.</div>
+
+<figure>
+  <img src="../img/current-car.jpg" alt="The current car by day: a Taylor-Dunn cart with a mirrored plywood body, pink cushions and a row of PVC hoops wrapped with LED strip">
+  <figcaption>The calibration point. The current car carries ~3,300 WS2815 LEDs in fifteen strips on its hoops, driven by a Teensy running FastLED, and gets through most of a night on a single 100 Ah 12 V LiFePO4 battery. Everything below is scaled from that.</figcaption>
+</figure>
+
+<h2>What has been decided</h2>
+<ul class="decisions">
+  <li><b>Zones and modules.</b> Every lit element is a module with one connector: twelve light boxes per pod (four rows at 60/m, ~530 LEDs a pod, from the <a href="pods.html">pods page</a>), a strip washing the mirror skirt under each pod floor, the 3″ roof-rim fascia lit from inside (<a href="roof.html">roof page</a>), plus the stairs, the driver's console and the ottomans. Controller, power distribution and harness terminals live in each pod's end consoles; every zone has its own 12 V rail off the sled through a DC-DC converter (<a href="electrical.html">electrical page</a>). <span class="tag decided">decided</span></li>
+  <li><b>The budget.</b> Design to <b>~2.2 kWh a night</b> (2.5 with the 12 V WS2815 option): about 4,700 LEDs running at a 10 % average power fraction, ~200 W average, ~1.6 kW if everything went full white (it never does; see the limiter below). That is the current car's real consumption scaled up ~40 % for ~40 % more LEDs — the same ~42 mW per LED — and it is ~9 % of the usable pack, or an hour of generator. <span class="tag direction">direction</span></li>
+  <li><b>Calibrate, don't assume.</b> The budget's two soft numbers — the art's average power fraction and the LEDs' standing draw — are both measurable on the current car this year with the SmartShunt already on the BOM and a five-minute bench test. They get measured before the LED count is frozen. <span class="tag decided">decided</span></li>
+  <li><b>A firmware power limiter is part of the design.</b> FastLED's <code>setMaxPowerInVoltsAndMilliamps()</code> caps each controller's output whatever a pattern asks for; set it at ~30 % of the zone's full-white figure, fuse each zone a little above the cap, and size the wiring to the fuse rather than to full white. <span class="tag direction">direction</span></li>
+  <li><b>Controller.</b> The current car's custom Teensy 3.2 / FastLED board (<a href="https://github.com/zekekoch/queenfx">QueenFX</a>, 16 parallel outputs at ~273 LEDs each) is the starting point; whether the new car gets one board per pod in the console or one central board is open. <span class="tag direction">direction</span></li>
+  <li><b>LED type.</b> WS2812B (5 V) is what the pod modules were drawn with; WS2815 (12 V) is what the current car runs — half the current for the same light and a backup data line so one dead pixel does not black out the chain, at the cost of roughly three times the standing draw (~40 W across the car). Decide per zone after the standing-draw measurement. <span class="tag open">open</span></li>
+</ul>
+
+<h2>Assumptions behind the power budget</h2>
+<p>The budget is one line of arithmetic per zone: <b>average watts = N × (standing draw + power fraction × 0.3 W) ÷ efficiency</b>, plus the controllers, times the hours lit. Every input is listed here with where it comes from and how to check it. The two that move the answer most are the power fraction (row 5) and the standing draw (row 4); everything else is either known or a choice.</p>
+<div class="scroll"><table>
+<tr><th class="n">#</th><th>Assumption</th><th>Value used</th><th>Basis</th><th>How to check</th></tr>
+<tr><td class="n">1</td><td>Hours lit per night</td><td><b>11 h</b>, sunset to sunrise: ~19:30 to ~06:25 at Black Rock City in the first week of September, ~10 h of it fully dark (civil dusk ~20:00, dawn ~05:55)</td><td>Solar geometry at 40.8° N, 119.2° W. The DMV wants the perimeter lit after dark and in practice the lights go on at sunset.</td><td>None needed. Whether brightness is flat all night or dims after 2 am is a choice (row 6).</td></tr>
+<tr><td class="n">2</td><td>Nights</td><td>7 (Sunday to Sunday)</td><td>Sizes the week's fuel, not the battery.</td><td>—</td></tr>
+<tr><td class="n">3</td><td>Full-white draw per LED</td><td><b>0.3 W</b> (60 mA at 5 V; 25 mA at 12 V), i.e. 18 W per metre at 60/m</td><td>Vendor figure, and what the models already use. Most strips measure 0.2–0.25 W; 0.3 is kept for wiring and fusing.</td><td>One strip on a bench supply, all pixels white at 255, read the meter.</td></tr>
+<tr><td class="n">4</td><td>Standing (dark) draw per LED</td><td><b>0.5–1 mA</b> whatever the pattern: ~3.5 mW for a WS2812B at 5 V, ~12 mW for a WS2815 at 12 V</td><td>Data sheets and bench reports. The least certain number here and the one that decides how many LEDs to buy: at a 10 % power fraction it is 10–30 % of the total.</td><td>Power a reel of each type, send all black, read the meter. Five minutes. Do it on the current car too — if the WS2815 figure holds, ~40 W of its ~140 W is LEDs that are off.</td></tr>
+<tr><td class="n">5</td><td>Average power fraction of the art (what "duty" and "brightness" add up to)</td><td><b>10 %</b> of full white, flat across the night (6–20 % bracketed below)</td><td>Calibrated from the current car (next section); the lantern checks at 7 %. It is the product of three things: the fraction of pixels lit at a moment × colour (a saturated hue lights one channel, ≤ ⅓ of white; a pastel ⅔; white 1) × the global brightness setting. 40 % of pixels lit, saturated, at <code>setBrightness(200)</code> is 40 % × ⅓ × 0.8 ≈ 10 %. 30 % lit at brightness 128 is 5 %. Half the pixels in pastels at 60 % is 20 %.</td><td>One night of a Victron SmartShunt on the current car's lighting battery gives Wh per night and therefore the fraction directly.</td></tr>
+<tr><td class="n">6</td><td>Time-of-night profile</td><td>Flat. A late-night dim (60 % after 2 am) is an option worth ~0.25 kWh</td><td>Choice. Eyes are adapted and the playa is emptier after 2 am.</td><td>—</td></tr>
+<tr><td class="n">7</td><td>Palette</td><td>Saturated colours; whites and pastels cost 2–3×</td><td>Follows from row 5 — white lights all three channels.</td><td>—</td></tr>
+<tr><td class="n">8</td><td>Conversion and wiring losses</td><td>48→12 V DC-DC ~92 %, 12→5 V ~92 %, wiring and injection drops 3–5 %: <b>85 % end to end for 5 V zones, 90 % for 12 V zones</b></td><td>Converter sheets. The lantern measured 4.5 V at the start of a 5 V strip and 3.7 V at its end, which is why 5 V zones get an injection point per module.</td><td>Clamp meter at the sled against a meter at the strip.</td></tr>
+<tr><td class="n">9</td><td>Controllers and sensors</td><td>~6 W across the car (Teensy-class boards, level shifters, a light sensor)</td><td>Negligible next to the LEDs; listed so it is not forgotten.</td><td>—</td></tr>
+<tr><td class="n">10</td><td>LED count</td><td><b>~7,000 as drawn; ~4,700 proposed</b> (zone table below)</td><td>Pods and roof pages, frame-3d. The "~5,000" on the electrical page left out the six mirror skirts, the roof's underside wash row and the odds and ends.</td><td>Count the reels in the BOM.</td></tr>
+<tr><td class="n">11</td><td>The current car</td><td>3,306 WS2815 in fifteen strips; one 100 Ah 12.8 V LiFePO4 = 1,280 Wh nominal, ~92 % usable; "most of the night" = ~8.5 of 11 h (it quits around 4 am)</td><td>Arch notes; Zeke, 13 September.</td><td>The SmartShunt night. If a second battery is actually swapped in during the night the calibration doubles and every number below scales ×2.</td></tr>
+<tr><td class="n">12</td><td>Not counted here</td><td>Air compressor, motor-controller logic supplies, sound, phone charging</td><td>They share the 12 V rail but are not lighting; the compressor is on the electrical page.</td><td>—</td></tr>
+</table></div>
+
+<h2>Calibration: the current car</h2>
+<p>1,280 Wh at 92 % usable is ~1,180 Wh. Over ~8.5 hours that is <b>~140 W average</b> for 3,306 LEDs: <b>~42 mW per LED all-in</b>, 3.5 mA at 12 V — about 14 % of the 0.3 W full-white figure, standing draw included. Take off ~10 mW of standing draw and the art itself runs at ~30 mW, a 10 % power fraction. The lantern is a second point in the same code style: 347 WS2812 all lit at 1.5 A and 5 V is 22 mW per LED, 7 %.</p>
+<p>That is half of what the models assume. loveseat-build and frame-3d both carry 0.08 W per LED as "typical" (27 % of full white), and the notebook's 0.3–1 kW for the current car's LED count works out at 90–300 mW per LED — the top of that range is every LED at full white, which no pattern ever does. Those figures are two to seven times the measured baseline; the drivetrain review had already corrected the lighting line once, by 2.5×, in the other direction. The sensitivity is simple: if "most of the night" is 9.5 hours the baseline is 37 mW, if it is 8 hours 45 mW, and if two batteries are used in a night 85 mW. The SmartShunt settles it.</p>
+<p>The strips are comparable across the two cars: the current car's LEDs sit inside translucent PEX, the new car's inside opal-lidded ply boxes and a 3″ fascia — diffused in both cases, so the fraction transfers without a correction for the diffuser.</p>
+
+<h2>The budget</h2>
+<p>Per zone at the calibrated 10 % fraction, 11 hours a night. "As drawn" is what the pods, roof and frame-3d pages add up to today; "proposed" halves the LED density on the two things seen from a distance and drops the addressable underside wash, and is the plan of record. Full-white watts are for wiring and fuses only.</p>
+<div class="scroll"><table>
+<tr><th>Zone</th><th class="n">LEDs as drawn</th><th class="n">LEDs proposed</th><th class="n">V</th><th class="n">Average W</th><th class="n">Full white W</th><th>Notes</th></tr>
+<tr><td>Pod light boxes, 6 × 12 modules × 4 rows × 11</td><td class="n">3,168</td><td class="n">3,168</td><td class="n">5</td><td class="n">125</td><td class="n">1,120</td><td>Unchanged: the main art surface. ~21 W average, ~190 W full white per pod at its DC-DC. Edge-lit modules (below) would take this to ~2,100 LEDs and ~80 W.</td></tr>
+<tr><td>Pod mirror skirts, 6 × 8.3 ft under the floor edge</td><td class="n">909</td><td class="n">454</td><td class="n">12</td><td class="n">21</td><td class="n">150</td><td>30/m instead of 60/m; the skirt is a wash on a mirror, not a display.</td></tr>
+<tr><td>Roof rim fascia, 47 ft, two rows</td><td class="n">1,719</td><td class="n">860</td><td class="n">12</td><td class="n">40</td><td class="n">290</td><td>30/m behind a 3″ diffuser reads continuous from 100 ft; mock a 4 ft section at both pitches to confirm.</td></tr>
+<tr><td>Roof underside wash, one row</td><td class="n">860</td><td class="n">0</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>If faces and the deck want light, use warm-white COB strip on a dimmer (~20–30 W at 20 %) rather than 860 pixels.</td></tr>
+<tr><td>Stairs, driver console, ottomans, odds and ends</td><td class="n">300</td><td class="n">200</td><td class="n">5</td><td class="n">8</td><td class="n">70</td><td>Perimeter and step marking; the DMV cares about these.</td></tr>
+<tr><td>Controllers and sensors</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">6</td><td class="n">6</td><td></td></tr>
+<tr><td><b>Total</b></td><td class="n"><b>6,956</b></td><td class="n"><b>4,682</b></td><td class="n"></td><td class="n"><b>~200</b></td><td class="n"><b>~1,630</b></td><td><b>~2.2 kWh a night</b>; limiter at ~500 W across the car</td></tr>
+</table></div>
+
+<p>The same arithmetic under the other assumptions, so the range is visible:</p>
+<div class="scroll"><table>
+<tr><th>Case</th><th class="n">LEDs</th><th class="n">Power fraction</th><th class="n">Average W</th><th class="n">kWh / 11 h night</th></tr>
+<tr><td>As drawn at the models' 0.08 W "typical" — what the pages said until today</td><td class="n">6,956</td><td class="n">27 %</td><td class="n">~710</td><td class="n">7.8</td></tr>
+<tr><td>As drawn, calibrated</td><td class="n">6,956</td><td class="n">10 %</td><td class="n">~305</td><td class="n">3.4</td></tr>
+<tr><td><b>Proposed, calibrated (the budget)</b></td><td class="n"><b>4,682</b></td><td class="n"><b>10 %</b></td><td class="n"><b>~200</b></td><td class="n"><b>2.2</b></td></tr>
+<tr><td>Proposed, everything WS2815 12 V (higher standing draw)</td><td class="n">4,682</td><td class="n">10 %</td><td class="n">~225</td><td class="n">2.5</td></tr>
+<tr><td>Proposed, a bright night (pastels, more pixels lit)</td><td class="n">4,682</td><td class="n">20 %</td><td class="n">~365</td><td class="n">4.0</td></tr>
+<tr><td>Proposed, dim art all night</td><td class="n">4,682</td><td class="n">6 %</td><td class="n">~135</td><td class="n">1.5</td></tr>
+</table></div>
+<p>What it means for the rest of the car: 2.2 kWh is ~9 % of the 23–26 kWh usable pack, or one hour of the camp generator through the 48 V charger, against three to five hours for the driving. On its own bank, a 200 Ah 12 V LiFePO4 (2.4 kWh usable, ~45 lb) runs the budget for a full night with a little margin; the current 100 Ah battery would run it for about six hours, and the as-drawn count for four.</p>
+
+<h2>Spending fewer watts, artistically</h2>
+<p>The current car's patterns already sit at a 10 % fraction, so the art does not have to change to hit the budget; these are the places the watts hide and the ways to keep them low without making the car dimmer.</p>
+<ul class="decisions">
+  <li><b>Count, not brightness.</b> At a 10 % fraction every LED costs 3–12 mW just to be present, so a dark pixel is not free. Halving the rim and skirt density and dropping the underside wash row removes ~2,300 LEDs and ~100 W, and nothing visible from 100 ft changes.</li>
+  <li><b>Dark between the light.</b> Sparse patterns — comets, breathing, slow gradients with black between them — read as contrast, which the eye takes for brightness. Keeping the fraction of pixels lit low is a better dial than turning the global brightness down, because it keeps the peaks.</li>
+  <li><b>Saturated palettes.</b> A hue lights one channel; white lights three. A pastel-and-white night is the 20 % case in the table.</li>
+  <li><b>Big soft surfaces.</b> A large diffused glow at low brightness reads brighter at night than points of light — the pod light boxes and the PEX hoops are already this. Edge-lit light-guide panels take it further: a laser-etched dot gradient on clear acrylic lights a 12 × 9″ module evenly from one 12″ edge, 29 LEDs instead of 44, no scallops, and a thinner module. Worth building one beside a back-lit one; the pods page already wants a first module to check for scalloping.</li>
+  <li><b>Not everything needs pixels.</b> Where nothing moves — the underside wash, the deck, the stair treads — a warm-white strip on a dimmer does the job at a fraction of the standing draw and none of the data wiring.</li>
+  <li><b>A late-night mode.</b> 60 % after 2 am, from the clock or a photodiode, saves ~0.25 kWh and nobody notices.</li>
+  <li><b>The limiter as the safety net.</b> With <code>setMaxPowerInVoltsAndMilliamps()</code> at ~30 % of full white per zone, a runaway pattern or a full-white test cannot flatten the battery or the wiring; the budget is enforced, not hoped for.</li>
+</ul>
+
+<h2>Key numbers</h2>
+<div class="scroll"><table>
+<tr><th>Item</th><th>Value</th><th>Where it comes from</th></tr>
+<tr><td>Hours lit</td><td>11 per night (~19:30–06:25), ~10 fully dark; 7 nights</td><td>solar geometry, BRC first week of September</td></tr>
+<tr><td>LEDs</td><td>~4,700 proposed (pods 3,168 · skirts 454 · rim 860 · misc 200); ~7,000 as drawn</td><td>zone table above; pods, roof pages</td></tr>
+<tr><td>Power fraction</td><td>10 % of full white (bracket 6–20 %)</td><td>calibrated from the current car</td></tr>
+<tr><td>Average / full white / limiter</td><td>~200 W / ~1.6 kW / ~500 W</td><td>zone table</td></tr>
+<tr><td>Energy</td><td>~2.2 kWh a night (1.5–4.0); ~15 kWh a week; ~9 % of the usable pack; ~1 h of generator</td><td>zone table, electrical page</td></tr>
+<tr><td>Per pod</td><td>528 LEDs, ~21 W average, ~190 W full white at the pod's DC-DC</td><td>pods page, zone table</td></tr>
+<tr><td>Current car baseline</td><td>3,306 WS2815, ~1,180 Wh usable over ~8.5 h: ~140 W, ~42 mW per LED all-in</td><td>arch notes; Zeke, 13 Sep</td></tr>
+<tr><td>Standing draw</td><td>~3.5 mW (WS2812B) / ~12 mW (WS2815) per LED — to be measured</td><td>data sheets</td></tr>
+<tr><td>Standalone bank option</td><td>200 Ah 12 V LiFePO4: ~2.4 kWh usable, ~45 lb, one full night</td><td>arithmetic</td></tr>
+</table></div>
+
+<h2>Models and calculators</h2>
+<ul class="models">
+  <li><span class="m">model/loveseat-build.html</span> — LED rows per module, the LED count per pod and its watt figures in the readout; the <code>COST.led</code> table holds 0.3 W max and 0.08 W typical per LED — the typical figure is due to become the calibrated 0.04. <a href="../model/loveseat-build.html#advanced">advanced</a></li>
+  <li><span class="m">model/frame-3d.html</span> — the roof readout's rim LED count and "fascia + underside wash" watts at the same 0.08 W typical, and the rim length the count comes from. <a href="../model/frame-3d.html#advanced">advanced</a></li>
+  <li><span class="m">model/drivetrain-3d.html</span> — the range calculator's "lights per night" input, which should be fed 2–3 kWh rather than 6. <a href="../model/drivetrain-3d.html#advanced">advanced</a></li>
+</ul>
+
+<h2>Open items</h2>
+<ol>
+  <li>The SmartShunt night on the current car (already on the BOM): Wh per night from the lighting battery alone gives the real power fraction. Note whether more than one battery is used in the night.</li>
+  <li>Standing-draw measurement: one reel each of WS2812B and WS2815, all black, on a meter; then the same on the current car.</li>
+  <li>LED type per zone — WS2815's backup data line and half the current against ~40 W of standing draw across the car.</li>
+  <li>Rim density: mock a 4 ft section of the 3″ fascia at 30/m and 60/m and look at it from 100 ft at night.</li>
+  <li>Pod module: back-lit four rows versus an edge-lit light guide — build one of each (the pods page's scalloping check).</li>
+  <li>Controller architecture: one board per pod (528 LEDs on a few outputs, in the console) versus one central 16-output board; the connector standard for modules and pods; whether zones can be switched off at the rail so a dark zone draws nothing.</li>
+  <li>Update the models' 0.08 W typical to the calibrated 0.04 once the shunt data is in, then the watt figures on the pods, roof and electrical pages.</li>
+  <li>Whether lighting gets its own 12 V bank so the lit perimeter survives a drive-pack BMS trip, or the sled's DC-DC with a low-voltage cutoff that spares the lights.</li>
+</ol>
+
+<h2>How we got here</h2>
+<p>Lighting lived on the <a href="electrical.html">electrical page</a> as one bullet and one line of the energy budget, carrying the notebook's 0.3–1 kW estimate for the current car's LED count — a figure the drivetrain review had already corrected once. The models carried 0.08 W per LED as typical. On 13 September the current car's actual battery behaviour (one 100 Ah 12 V LiFePO4, most of a night) was used to calibrate the per-LED figure, and the count of what the pages actually draw was added up; the result was this page, the proposed count, and the brief to keep the art sparse and saturated rather than dim. The hoop lighting on the current car (WS2815 in PEX on steel, one outward-facing strip per hoop to conserve battery) is the direct ancestor of the light boxes and the rim; Selina's sketches 3, 5, 7 and 9 are the references for the lit rim and for small lampshades on the pods.</p>
+
+<footer class="src">Sources: current-car arch notes (LED counts, WS2815, QueenFX) · lantern measurements (WS2812 at 1.5 A / 5 V) · <a href="pods.html">pods</a> and <a href="roof.html">roof</a> pages (zone counts) · <a href="../model/loveseat-build.html#advanced">loveseat-build</a> <code>COST.led</code> and <a href="../model/frame-3d.html#advanced">frame-3d</a> roof readout (0.3 / 0.08 W per LED) · <a href="electrical.html">electrical page</a> (pack, DC-DC, charging) · <a href="https://github.com/zekekoch/queenfx">QueenFX</a></footer>
+</main>
+</body>
+</html>

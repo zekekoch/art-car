@@ -13,6 +13,7 @@
     <a href="drivetrain.html">Drivetrain</a>
     <a href="pods.html">Pods</a>
     <a href="roof.html">Roof</a>
+    <a href="lighting.html">Lighting</a>
     <a class="here" href="electrical.html">Electrical</a>
     <a href="specification.html">Specification</a>
     <a href="bom.html">BOM</a>
@@ -26,7 +27,7 @@
 <main>
 <p class="eyebrow">Plan of record · electrical · rev 13 September 2026</p>
 <h1>Electrical</h1>
-<p class="lede">One 48 V bus for everything on the drive side, fed by a LiFePO4 battery sled that rolls under the car; 12 V rails per lighting zone through DC-DC converters. Four motor controllers, one per corner; roughly 5,000 addressable LEDs across the pods and the roof rim; 1.2 kW of solar on the roof; a generator at camp for the nightly recharge.</p>
+<p class="lede">One 48 V bus for everything on the drive side, fed by a LiFePO4 battery sled that rolls under the car; 12 V rails per lighting zone through DC-DC converters. Four motor controllers, one per corner; roughly 4,700 addressable LEDs across the pods, the skirts and the roof rim (the <a href="lighting.html">lighting page</a> carries the count and the power budget); 1.2 kW of solar on the roof; a generator at camp for the nightly recharge.</p>
 
 <h2>What has been decided</h2>
 <ul class="decisions">
@@ -35,7 +36,7 @@
   <li><b>Controllers.</b> Four 48 V sine-wave FOC controllers, one per motor, for torque split; the candidate is the Kelly KLS4830S (30–62 V, 120 A continuous, 300 A one-minute boost), with CAN or serial out so a small board can read speed and current per corner. Regen into a full pack needs a firmware ceiling because 58.4 V leaves little margin under 62 V. <span class="tag direction">direction</span></li>
   <li><b>Redundancy is a feature to build, not a free consequence of two strings.</b> Each string's protection, contactor and current sharing must be designed for one string dropping out under load, and the controllers told about it. <span class="tag direction">direction</span></li>
   <li><b>Driver interface.</b> F / N / R lever wired to the controllers' direction and enable lines; neutral disables the controllers so the motors freewheel. Lighting panel and pack readout on the driver's right console. <span class="tag decided">decided</span></li>
-  <li><b>Lighting.</b> Every module is its own zone with one connector: twelve light boxes per pod (4 LED rows each, ~530 WS2812 per pod, ~45 W typical, ~160 W at full white), a mirror-skirt strip under each pod floor, and two rows in the roof rim (~1,700 LEDs). Controller, power distribution and harness terminals live inside each pod's end consoles. The current car's driver is a custom Teensy 3.2 board running FastLED (<a href="https://github.com/zekekoch/queenfx">QueenFX</a>), 16 parallel outputs at ~273 LEDs each; that code base is the starting point. <span class="tag direction">direction</span></li>
+  <li><b>Lighting.</b> Has its own page — <a href="lighting.html">lighting</a> — with the zones, the power budget and every assumption behind it. Every module is its own zone with one connector and a 12 V rail through a DC-DC converter; controller, power distribution and harness terminals live in each pod's end consoles; the current car's Teensy 3.2 / FastLED board (<a href="https://github.com/zekekoch/queenfx">QueenFX</a>) is the starting point. Budget: ~4,700 LEDs, ~200 W average, ~2.2 kWh a night, calibrated against the current car's one 100 Ah 12 V battery lasting most of a night. <span class="tag direction">direction</span></li>
   <li><b>Air management.</b> 12 V compressor, 2 gal tank, four solenoid valves, four pressure and four height sensors. Pressure tracks corner load only after calibration at a known height — a tip warning needs that plus the CG estimate the chassis model makes; it is not a load cell. <span class="tag direction">direction</span></li>
   <li><b>Solar.</b> Twelve 100 W flex panels on the roof leaves, ~1.2 kW nominal, worth 4–6 kWh on a good day. Treated as a bonus until measured. <span class="tag direction">direction</span></li>
   <li><b>Charging.</b> Nightly at camp from a Honda EU3200i (2.6 kW rated) through a 48 V 40 A charger (~2.2 kW into the pack): 9–11 hours and 3–4 gallons to replace 19–25 kWh, so the generator runs essentially all day. Two in parallel, or a larger camp generator, halves it. <span class="tag direction">direction</span></li>
@@ -44,11 +45,11 @@
 <h2>Energy budget</h2>
 <div class="scroll"><table>
 <tr><th>Load</th><th class="n">Draw</th><th class="n">Hours / night</th><th class="n">kWh / night</th></tr>
-<tr><td>Lighting (notebook estimate for ~3,300 WS2815 at typical brightness; the new car's ~5,000 LEDs run ~270 W typical across the pods plus ~210 W in the rim)</td><td class="n">0.3–1 kW</td><td class="n">8</td><td class="n">~2.4–8</td></tr>
+<tr><td>Lighting: ~4,700 LEDs at the calibrated 10 % average power fraction (~7,000 as drawn is the top of the range); sunset to sunrise — see the <a href="lighting.html">lighting page</a></td><td class="n">0.2–0.3 kW</td><td class="n">11</td><td class="n">~2.2–3.4</td></tr>
 <tr><td>Drive, 1,500–2,000 kg loaded at 5 mph</td><td class="n">2–4 kW</td><td class="n">3</td><td class="n">~6–12</td></tr>
 <tr><td>Roof solar, ~1.2 kW nominal</td><td class="n"></td><td class="n">6 (sun)</td><td class="n">≈ −4, clear, clean, unshaded</td></tr>
 </table></div>
-<p>Net 4.4–16 kWh per day before conversion losses and reserve. With 23–26 kWh usable that is nightly charging at the top of the range and every other day at the bottom: plan the camp shore cord for nightly. Range per charge with 12 aboard and 6 kWh of lights: <b>40 / 21 / 12 miles</b> at C<sub>rr</sub> 0.03 / 0.06 / 0.10 (0.46 / 0.90 / 1.49 kWh per mile). A night of cruising is 10–20 miles, so the middle case works with nightly charging and the soft-playa case does not. The two unmeasured numbers are rolling resistance on the playa and motor efficiency at 84 rpm; one night with a Victron SmartShunt on the current car's pack and a phone GPS track gives Wh per mile all-in.</p>
+<p>Net ~4–12 kWh per day before conversion losses and reserve (until 13 September this said 4.4–16, with lighting at 0.3–1 kW; the <a href="lighting.html">lighting page</a> explains the calibration). With 23–26 kWh usable that is nightly charging at the top of the range and every other day at the bottom: plan the camp shore cord for nightly. Range per charge with 12 aboard and 2.5 kWh of lights: <b>48 / 24 / 15 miles</b> at C<sub>rr</sub> 0.03 / 0.06 / 0.10 (0.46 / 0.90 / 1.49 kWh per mile). A night of cruising is 10–20 miles, so the middle case works with nightly charging and the soft-playa case does not. The two unmeasured numbers are rolling resistance on the playa and motor efficiency at 84 rpm; one night with a Victron SmartShunt on the current car's pack and a phone GPS track gives Wh per mile all-in.</p>
 
 <h2>Key numbers</h2>
 <div class="scroll"><table>
@@ -57,7 +58,7 @@
 <tr><td>Raw cells / sled</td><td>45.4 × 13.7 × 8.2″ in two rows of 16 / 50 × 21 × 10.5″ reserved, ~475 lb</td><td>notebook §4, frame-3d</td></tr>
 <tr><td>Cost</td><td>~$2,600 cells + ~$1,000 BMS, busbars, fusing, contactors, enclosure ≈ $3,600 DIY (turnkey 48 V packs $6–9k)</td><td>notebook §4</td></tr>
 <tr><td>Controllers</td><td>4 × KLS4830S class, $120–250 each</td><td>notebook §3</td></tr>
-<tr><td>LEDs</td><td>pods ~3,200 (6 × 530) + roof rim ~1,740 ≈ 4,900; ~270 W typical across the pods, ~210 W in the rim</td><td>loveseat.md, README</td></tr>
+<tr><td>LEDs</td><td>~4,700 proposed (pods 3,168, skirts 454, rim 860, misc 200; ~7,000 as drawn); ~200 W average at the calibrated 10 % power fraction, ~1.6 kW full white, firmware limiter ~500 W; ~2.2 kWh over an 11 h night</td><td><a href="lighting.html">lighting page</a></td></tr>
 <tr><td>Per-mile energy, 12 aboard, 70 % efficiency</td><td>0.46 / 0.90 / 1.49 kWh at C<sub>rr</sub> 0.03 / 0.06 / 0.10 → 2.3 / 4.5 / 7.4 kW from the pack while moving</td><td>notebook §4</td></tr>
 <tr><td>Recharge</td><td>19–25 kWh a night at ~2.2 kW: 9–11 h, 3–4 gal on an EU3200i</td><td>notebook §4</td></tr>
 <tr><td>Solar</td><td>12 × 100 W, ~1.2 kW nominal, 4–6 kWh on a good day, ~54 lb</td><td>frame-3d</td></tr>
@@ -74,7 +75,7 @@
   <li>EVE has shipped several LF280K revisions with different current ratings; confirm the purchased revision before sizing fusing and contactors. The 50 × 21 × 10.5″ sled is a packaging allowance, not an enclosure design.</li>
   <li>Peak power: a single 16S string tops out around 7 kW continuous, tight for four motors in soft playa with ten aboard; the two-string design has to actually deliver that and the limp-home behaviour.</li>
   <li>Controller tuning, BMS/regen coordination (the 62 V ceiling), and the per-corner torque split logic.</li>
-  <li>Lighting controller for the new car: how many outputs, where it lives, and the connector standard for pods and modules.</li>
+  <li>Lighting controller for the new car: how many outputs, where it lives, and the connector standard for pods and modules — with the measurements that pin the budget, on the <a href="lighting.html">lighting page</a>.</li>
   <li>Measure C<sub>rr</sub> and Wh per mile on the current car this year (SmartShunt + GPS; crane scale on a tow rope).</li>
 </ol>
 
