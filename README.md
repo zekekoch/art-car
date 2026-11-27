@@ -2,6 +2,8 @@
 
 Custom electric chassis (max 54" x 120") with a demountable body: six cantilevered two-seat pods under a cloverleaf roof.
 
+**Live site: <https://zekekoch.github.io/art-car/>**
+
 **Start at [`index.html`](index.html)** — the plan of record: goal and constraints, the reference rendering, and one page per system. Open it in a browser; everything is static and works offline.
 
 **B-248 donor study (13 September):** an additive concept study, not the plan of record — [retained donor body](model/b248-3d.html?layout=stock) · [running-gear transplant](model/b248-3d.html?layout=transplant) · [mechanical capacity and upgrade review](model/b248-review.md) · [dimensioned plan](model/b248/plan.svg). Compares a retained Taylor-Dunn B-248 donor body with a proposed 120 × 52 in frame reusing the donor's axles on a 72 in wheelbase. Six pods at 300 lb per occupied pod exceed the listing's 2,450 lb capacity at full occupancy under both scenarios modeled; the factory rating does not transfer to a custom frame. See [How we got here](explorations.html) for how it compares with the plan of record.
